@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Registrazione</title>
+  <link rel="stylesheet" type="text/css" href="/style/bootstrap.min.css">
+  <link rel="stylesheet" type="text/css" href="/style/style.css">
+  <link rel="stylesheet" type="text/css" href="/style/style.responsive.css">
+</head>
+
+<body>
+
+  <nav id="header"></nav>
+
+  <section class="top-sec" id="registrazione">
+    <div class="container">
+      <div class="title-big">
+        <h1>Registrati su CASAFIX</h1>
+        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pretium, consequat, ac adipiscing vitae rutrum.</p>
+      </div>
+      <div class="row">
+        <div class="registration-box">
+          <img class="registr-icon" src="/images/home-icon.svg" />
+          <h2>Ho bisogno di <br>aiuto in casa</h2>
+          <p>Cerca e trova un <br>professionista adatto a te</p>
+          <button class="def-btn" type="button" onclick="document.location='/registrazione-utente'">Continua</button>
+        </div>
+        <div class="registration-box">
+          <img class="registr-icon" src="/images/worker-icon.svg" />
+          <h2>Sono un <br>professionista</h2>
+          <p>Cerca lavoro nella tua <br>professione
+          </p>
+          <button class="def-btn" type="button" onclick="document.location='/registrazione-professionista'">Continua</button>
+        </div>
+      </div>
+    </div>
+  </section>
+
+
+
+</body>
+
+<!--scripts/vendor-->
+<script type="text/javascript" src="/scripts/vendor/jquery.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/oj.mustache/0.7.2/oj.mustache.min.js" integrity="sha512-+KQDdWwfzb3UZ0sEt1Op66MoQ9NKs6bE02+NpPnsQxZ6ylUP3Fd8L3yf1CsYPD2vndRIbOCzWk2RUfOJ9bsOcA==" crossorigin="anonymous"></script>
+
+<!--scripts/main.js-->
+<script type="text/javascript" src="/scripts/parts/header/header.js"></script>
+<script>
+  header.getHeader('def');
+</script>
+
+</html>
