@@ -44,6 +44,7 @@ var header = (function() {
         </div>
         <div id="header-access">
             {{{access}}}
+            {{{profileMenu}}}
         </div>
       </div>
     </div>
@@ -58,13 +59,12 @@ var header = (function() {
         <div id="mobile-header-access">
             {{{access}}}
             <div id="menu-icon"><img src="/images/menu.svg"/></div>
+            {{{profileMenu}}}
         </div>
         <div id="mobile-header-navigation">
             {{{access}}}
             {{{navigation}}}
         </div>
-        
-        
       </div>
     </div>
   `;
@@ -72,7 +72,8 @@ var header = (function() {
   var headerContent = {
     logo: logoLink,
     navigation: '',
-    access: ''
+    access: '',
+    profileMenu: ''
   };
 
   //cache dom
@@ -82,6 +83,13 @@ var header = (function() {
   //bind events
   $(window).on('resize', _render);
   $(document).on('click', '#menu-icon', _openCloseMenu);
+  $(document).on('click', '.h-prof-img, #header-access', _openProfileMenu);
+  $(document).on('click', '.logout', _logout);
+  document.onclick = function(e) {
+    if (!e.target.matches('.profileMenu, .profileMenu *, .header-prof-info, .header-prof-info *, .h-prof-img')) {
+      _closeProfileMenu();
+    }
+  }
 
 
   function _render() {
@@ -96,6 +104,7 @@ var header = (function() {
   /**
    * render the nav menu based on role
    * @param {string} role - can be 'def', 'user', 'prof'
+   * @param {obj} userInfo - object with 'name' and 'imgLink' of user
    */
   function getHeader(role, userInfo) {
     switch (role) {
@@ -116,18 +125,20 @@ var header = (function() {
 
   function _createDefaultHeader() {
     createNavigation(defaultNavMenu, true);
-    createAccess(defAccessMenu);
+    createAccess(true);
   }
 
 
   function _createUsertHeader(userInfo) {
     createNavigation(userNavMenu, false);
-    createAccess(0, userInfo);
+    createAccess(false, userInfo);
+    createProfileMenu();
   }
 
   function _createProfHeader(userInfo) {
-    createNavigation(userNavMenu, true);
-    createAccess(0, userInfo);
+    createNavigation(professionalNavMenu, true);
+    createAccess(false, userInfo);
+    createProfileMenu();
   }
 
 
@@ -157,23 +168,47 @@ var header = (function() {
   }
 
 
-  function createAccess(accessMenu, objUserInfo) {
-    if (accessMenu) {
+  /**
+   * 
+   * @param {bool} hasAccessMenu - true for login/signup, false for profile menu
+   * @param {obj} objUserInfo - object with 'name' and 'imgLink' of user
+   */
+  function createAccess(hasAccessMenu, objUserInfo) {
+    if (hasAccessMenu) {
       var acc = `<ul class="access">
                   <li><a href="${defAccessMenu.register_link}">${defAccessMenu.register}</a></li>
                   <li><a href="${defAccessMenu.login_link}">${defAccessMenu.login}</a></li>
                 </ul>`;
       headerContent['access'] = acc;
     } else {
-      var acc = `<a href="${objUserInfo.name}">
+      var acc = `<a href="#">
                   <div class="header-prof-info">
-                    <span class="header-prof-img"><div style="background-image:url('${objUserInfo.imgLink}')"></div></span>
+                    <span class="header-prof-img"><div class="h-prof-img" style="background-image:url('${objUserInfo.imgLink}')"></div></span>
                     <span class="header-prof-name">${objUserInfo.name}</span>                 
                   </div>
                 </a>`;
 
       headerContent['access'] = acc;
     }
+  }
+
+  function createProfileMenu() {
+    var acc = `<ul class="profileMenu">
+                <li>
+                  <a href="${profileLink}">
+                    <img src="/images/profile-icon.svg">
+                    <span>Profilo</span>
+                  </a>
+                </li>
+                <li>
+                  <a class="logout" href="#">
+                    <img src="/images/logout-icon.svg">
+                    <span>Esci</span>
+                  </a>
+                </li>
+              </ul>`;
+
+    headerContent['profileMenu'] = acc;
   }
 
   function _openCloseMenu() {
@@ -186,7 +221,19 @@ var header = (function() {
       $el.find('#menu-icon').html('<img src="/images/close-menu.svg" />');
       $el.find('#menu-icon').addClass('menu-opened');
     }
+  }
 
+  function _openProfileMenu() {
+    $('.profileMenu').css('display', 'block');
+  }
+
+  function _closeProfileMenu() {
+    $('.profileMenu').css('display', 'none');
+
+  }
+
+  function _logout() {
+    firebaseAuth.signOut();
   }
 
 

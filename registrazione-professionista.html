@@ -14,32 +14,38 @@
 
   <nav id="header"></nav>
 
-  <section class="top-sec" id="registrazione">
+  <section class="top-sec" id="registration-prof">
     <div class="container">
       <div class="title-big">
-        <h1>Registrati com professionista</h1>
+        <h1>Registrati come professionista</h1>
         <img class="registr-icon" src="/images/worker-icon.svg" />
       </div>
       <div class="row">
         <div class="registration-box">
-          <h5>Come vuoi registrarti?</h5>
+          <h5>Registrarti tramite</h5>
           <div id="email-registration" class="reg-type-btn">
             <div class="reg-type-img">
-              <img src="" />
+              <img src="/images/mail-icon.svg" />
             </div>
-            <span>Registrati con Email</span>
+            <div class="reg-type-label">
+              <span>Email</span>
+            </div>
           </div>
           <div id="google-registration" class="reg-type-btn">
             <div class="reg-type-img">
-              <img src="" />
+              <img src="/images/google-icon.svg" />
             </div>
-            <span>Registrati con Google</span>
+            <div class="reg-type-label">
+              <span>Google</span>
+            </div>
           </div>
           <div id="facebook-registration" class="reg-type-btn">
             <div class="reg-type-img">
-              <img src="" />
+              <img src="/images/fb-icon.svg" />
             </div>
-            <span>Registrati con Facebook</span>
+            <div class="reg-type-label">
+              <span>Facebook</span>
+            </div>
           </div>
         </div>
       </div>
@@ -47,16 +53,52 @@
   </section>
 
 
+  <div class="popup" id="email-reg-popup">
+    <div class="popup-overlay"></div>
+    <div class="row popup-container">
+      <div class="popup-box">
+        <h2>Registrati con Email</h2>
+        <div class="input-with-label">
+          <label>Email</label><br>
+          <input id="email" type="text" placeholder="email" />
+        </div>
+        <div class="input-with-label">
+          <label>Password</label><br>
+          <input id="password" type="password" placeholder="Password" />
+        </div>
+        <div class="input-with-label">
+          <label>Conferma Password</label><br>
+          <input id="re-password" type="password" placeholder="Conferma Password" />
+        </div>
+        <div class="form-error">
+          <span></span>
+        </div>
+        <button id="emailRegisterBtn" class="def-btn" type="button">Registrati</button>
+      </div>
+    </div>
+  </div>
+
+
 
 </body>
+
+<!--firebase-->
+<script src="https://www.gstatic.com/firebasejs/8.5.0/firebase-app.js"></script>
+<script src="https://www.gstatic.com/firebasejs/8.5.0/firebase-auth.js"></script>
+<script src="https://www.gstatic.com/firebasejs/8.5.0/firebase-database.js"></script>
+<script src="scripts/_firebaseConn.js"></script>
 
 <!--scripts/vendor-->
 <script type="text/javascript" src="/scripts/vendor/jquery.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/oj.mustache/0.7.2/oj.mustache.min.js" integrity="sha512-+KQDdWwfzb3UZ0sEt1Op66MoQ9NKs6bE02+NpPnsQxZ6ylUP3Fd8L3yf1CsYPD2vndRIbOCzWk2RUfOJ9bsOcA==" crossorigin="anonymous"></script>
 
 <!--scripts/main.js-->
-<script type="text/javascript" src="/scripts/parts/header/header.js"></script>
+<script type="text/javascript" src="/scripts/_firebaseAuth.js"></script>
+<script type="text/javascript" src="/scripts/parts/header.js"></script>
 <script type="text/javascript" src="/scripts/registration.js"></script>
+<script type="text/javascript" src="/scripts/parts/popup.js"></script>
+
+
 
 
 </html>

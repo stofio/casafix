@@ -19,6 +19,11 @@
   /* Chrome 4+, Firefox 3.5, Opera 10+, Safari 3—5 */
 }
 
+#registration-prof,
+#registration {
+  display: none;
+}
+
 body * {
   font-family: 'Yantramanav';
   font-size: 19px;
@@ -75,8 +80,8 @@ body {
 }
 
 #header #header-access {
-  display: flex;
-  align-items: center;
+  position: relative;
+  display: inline-block;
 }
 
 #header #header-access .access {
@@ -85,6 +90,51 @@ body {
   padding-left: 0;
   margin-bottom: 0;
   list-style: none;
+  height: 100%;
+  align-items: center;
+}
+
+#header #mobile-header-access {
+  position: relative;
+}
+
+#header #header-access .profileMenu,
+#header #mobile-header-access .profileMenu {
+  display: none;
+}
+
+#header #header-access .profileMenu,
+#header #mobile-header-access .profileMenu {
+  position: absolute;
+  list-style: none;
+  right: 40%;
+  margin: 0;
+  padding: 10px;
+  border-radius: 6px;
+  background-color: #fff;
+  box-shadow: 1px 1px 2px 0px rgb(0 0 0 / 13%);
+  margin-top: 12px;
+}
+
+#header #mobile-header-access .profileMenu {
+  top: 30px;
+}
+
+#header #header-access .profileMenu li,
+#header #mobile-header-access .profileMenu li {
+  padding: 6px 0;
+}
+
+#header #header-access .profileMenu li a,
+#header #mobile-header-access .profileMenu li a {
+  color: #3c4858;
+  display: flex;
+}
+
+#header #header-access .profileMenu li img,
+#header #mobile-header-access .profileMenu li img {
+  width: 18px;
+  margin-right: 15px;
 }
 
 #header #header-access li {
@@ -161,7 +211,7 @@ button.def-btn {
   background: #FFFFFF;
   box-shadow: 0px 2px 2px rgb(0 0 0 / 8%);
   border-radius: 6px;
-  min-width: 310px;
+  min-width: 320px;
 }
 
 .registration-box h2 {
@@ -174,6 +224,121 @@ button.def-btn {
   margin: 25px 0;
 }
 
-#registrazione .row {
+.registration-box h5 {
+  font-size: 21px;
+  font-size: 21px;
+  margin-bottom: 20px;
+  font-family: 'Yantramanav-medium';
+}
+
+#registration .row,
+#registration-prof .row {
   justify-content: space-around;
+}
+
+.reg-type-btn {
+  display: flex;
+  background-color: #FB743E;
+  width: 100%;
+  border-radius: 6px;
+  padding: 6px;
+  margin-bottom: 15px;
+  cursor: pointer;
+}
+
+.reg-type-img {
+  width: 45px;
+}
+
+.reg-type-img img {
+  max-width: 25px;
+}
+
+.reg-type-label {
+  padding-left: 15px;
+  border-left: solid 1px #ffffff73;
+}
+
+.reg-type-label span {
+  color: white;
+}
+
+.popup {
+  display: none;
+}
+
+.popup-overlay {
+  display: none;
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: #3c4858;
+  opacity: 0.8;
+  z-index: 1;
+}
+
+.popup-container.row {
+  position: absolute;
+  margin: 0;
+  top: 20vh;
+  justify-content: center;
+  width: 100%;
+}
+
+.popup-box {
+  padding: 48px;
+  background: #FFFFFF;
+  box-shadow: 0px 2px 2px rgb(0 0 0 / 8%);
+  border-radius: 6px;
+  min-width: 320px;
+  z-index: 2;
+}
+
+.popup-box h2 {
+  font-size: 26px;
+  line-height: 32px;
+  margin-bottom: 20px;
+}
+
+.popup-box p {
+  line-height: 23px;
+  margin: 25px 0;
+}
+
+.popup-box h5 {
+  font-size: 21px;
+  font-size: 21px;
+  margin-bottom: 20px;
+  font-family: 'Yantramanav-medium';
+}
+
+.popup-box button {
+  margin-top: 15px;
+}
+
+.input-with-label {
+  margin-bottom: 15px;
+}
+
+.input-with-label label {
+  margin-bottom: 0px;
+  font-family: Yantramanav-medium;
+  font-size: 16px;
+}
+
+.input-with-label input {
+  width: 100%;
+  font-size: 17px;
+  border: 1px solid #C4C4C4;
+  border-radius: 6px;
+  height: 36px;
+  padding: 0 15px;
+}
+
+.form-error span {
+  margin: 0;
+  color: #e80e0e;
+  font-size: 17px;
 }
