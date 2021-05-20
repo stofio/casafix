@@ -14,23 +14,19 @@
 
   <nav id="header"></nav>
 
-  <section class="top-sec" id="registration-prof">
+  <section class="top-sec registration-sec" id="registration-prof">
+    <input type="hidden" id="userRole" name="userRole" value="professional">
     <div class="container">
+      <div class="back-btn" id=""><img title="Indietro" src="/images/back-arrow-icon-btn.svg" /></div>
       <div class="title-big">
         <h1>Registrati come professionista</h1>
         <img class="registr-icon" src="/images/worker-icon.svg" />
+        <p>Da professionista potrai cercare lavoro nelle tue professioni,
+          <br>oppure renderti visibile per chi cerca lavoro in casa, giardino o altro.</p>
       </div>
       <div class="row">
         <div class="registration-box">
-          <h5>Registrarti tramite</h5>
-          <div id="email-registration" class="reg-type-btn">
-            <div class="reg-type-img">
-              <img src="/images/mail-icon.svg" />
-            </div>
-            <div class="reg-type-label">
-              <span>Email</span>
-            </div>
-          </div>
+          <h4>Registrati con un clic</h4>
           <div id="google-registration" class="reg-type-btn">
             <div class="reg-type-img">
               <img src="/images/google-icon.svg" />
@@ -47,6 +43,19 @@
               <span>Facebook</span>
             </div>
           </div>
+          <div class="box-error">
+            <span></span>
+          </div>
+          <h5 class="side-line-text"><span>O registrarti con</span></h5>
+          <div id="email-registration" class="reg-type-btn">
+            <div class="reg-type-img">
+              <img src="/images/mail-icon.svg" />
+            </div>
+            <div class="reg-type-label">
+              <span>Email</span>
+            </div>
+          </div>
+
         </div>
       </div>
     </div>
@@ -93,10 +102,15 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/oj.mustache/0.7.2/oj.mustache.min.js" integrity="sha512-+KQDdWwfzb3UZ0sEt1Op66MoQ9NKs6bE02+NpPnsQxZ6ylUP3Fd8L3yf1CsYPD2vndRIbOCzWk2RUfOJ9bsOcA==" crossorigin="anonymous"></script>
 
 <!--scripts/main.js-->
-<script type="text/javascript" src="/scripts/_firebaseAuth.js"></script>
+<script type="text/javascript" src="/scripts/parts/links.js"></script>
+<script type="text/javascript" src="/scripts/parts/auth/firebaseAuth.js"></script>
+<script type="text/javascript" src="/scripts/parts/auth/dbAuth.js"></script>
 <script type="text/javascript" src="/scripts/parts/header.js"></script>
-<script type="text/javascript" src="/scripts/registration.js"></script>
 <script type="text/javascript" src="/scripts/parts/popup.js"></script>
+<script type="text/javascript" src="/scripts/parts/auth/registration.js"></script>
+
+<script type="text/javascript" src="/scripts/parts/loadPage.js"></script>
+<script type="text/javascript" src="/scripts/page-registration-prof.js"></script>
 
 
 

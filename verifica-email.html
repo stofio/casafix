@@ -14,14 +14,22 @@
 
   <nav id="header"></nav>
 
-  <section class="top-sec" id="welcome">
+  <section class="top-sec registration-sec" id="verification-email">
     <div class="container">
       <div class="title-big">
-        <h1>Benvenuto!</h1>
-        <img class="registr-icon" src="/images/worker-icon.svg" />
-      </div>
-      <div class="row">
-        <h4>Benvenuto blabla</h4>
+        <a href="/">
+          <img class="mb-5" src="/images/casafix_logo.svg" width="175">
+        </a>
+        <h1>Verifica Email</h1>
+        <p>Per procedere dovrai prima verificare il tuo profilo,
+          <br>tramite il link che ti abbiamo inviato all'email: '<span id="user-email"></span>'.</p>
+        <p>Ricordati di controllare nella cartella spam.</p>
+        <button class="def-btn mt-3 mb-3 resend" type="button">Reinvia Email</button>
+        <p><b>Oppure</b></p>
+        <a class="logout mt-3" href="#">
+          <img width="25" src="/images/logout-icon.svg">
+          <span>Esci</span>
+        </a>
       </div>
     </div>
   </section>
@@ -41,26 +49,15 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/oj.mustache/0.7.2/oj.mustache.min.js" integrity="sha512-+KQDdWwfzb3UZ0sEt1Op66MoQ9NKs6bE02+NpPnsQxZ6ylUP3Fd8L3yf1CsYPD2vndRIbOCzWk2RUfOJ9bsOcA==" crossorigin="anonymous"></script>
 
 <!--scripts/main.js-->
-<script type="text/javascript" src="/scripts/_firebaseAuth.js"></script>
+<script type="text/javascript" src="/scripts/parts/links.js"></script>
+<script type="text/javascript" src="/scripts/parts/auth/firebaseAuth.js"></script>
+<script type="text/javascript" src="/scripts/parts/auth/dbAuth.js"></script>
 <script type="text/javascript" src="/scripts/parts/header.js"></script>
-<script>
-  firebase.auth().onAuthStateChanged((user) => {
-    if (user) {
-      console.log(user);
-      var userHeader = {
-        name: 'dejan',
-        imgLink: '/images/placeholder-prof-img.png'
-      }
-      header.getHeader('prof', userHeader);
-      $('#registration').fadeIn(500);
-      var uid = user.uid;
-      // ...
-    } else {
-      header.getHeader('def');
-      $('#registration').fadeIn(500);
-    }
-  });
-</script>
+
+<script type="text/javascript" src="/scripts/parts/loadPage.js"></script>
+<script type="text/javascript" src="/scripts/page-verification-email.js"></script>
+
+
 
 
 </html>

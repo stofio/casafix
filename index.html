@@ -16,7 +16,9 @@
   <section id="home">
     <div class="container">
       <div class="row">
-
+        <div class="title-big">
+          <h1>Home</h1>
+        </div>
 
 
 
@@ -30,16 +32,20 @@
   <script type="text/javascript" src="scripts/vendor/jquery.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/oj.mustache/0.7.2/oj.mustache.min.js" integrity="sha512-+KQDdWwfzb3UZ0sEt1Op66MoQ9NKs6bE02+NpPnsQxZ6ylUP3Fd8L3yf1CsYPD2vndRIbOCzWk2RUfOJ9bsOcA==" crossorigin="anonymous"></script>
 
-
+  <!--scripts/vendor-->
   <script src="https://www.gstatic.com/firebasejs/8.5.0/firebase-app.js"></script>
   <script src="https://www.gstatic.com/firebasejs/8.5.0/firebase-auth.js"></script>
   <script src="https://www.gstatic.com/firebasejs/8.5.0/firebase-database.js"></script>
   <script src="scripts/_firebaseConn.js"></script>
 
+  <!--scripts/main.js-->
+  <script type="text/javascript" src="/scripts/parts/links.js"></script>
+  <script type="text/javascript" src="/scripts/parts/auth/firebaseAuth.js"></script>
+  <script type="text/javascript" src="/scripts/parts/auth/dbAuth.js"></script>
   <script type="text/javascript" src="scripts/parts/header.js"></script>
-  <script>
-    header.getHeader('def');
-  </script>
+
+  <script type="text/javascript" src="/scripts/parts/loadPage.js"></script>
+  <script type="text/javascript" src="scripts/page-home.js"></script>
 
 
 </body>

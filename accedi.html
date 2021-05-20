@@ -4,7 +4,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Registrazione</title>
+  <title>Accedi</title>
   <link rel="stylesheet" type="text/css" href="/style/bootstrap.min.css">
   <link rel="stylesheet" type="text/css" href="/style/style.css">
   <link rel="stylesheet" type="text/css" href="/style/style.responsive.css">
@@ -14,25 +14,45 @@
 
   <nav id="header"></nav>
 
-  <section class="top-sec" id="registration">
+  <section class="top-sec" id="login">
     <div class="container">
-      <div class="title-big">
-        <h1>Registrati su CASAFIX</h1>
-        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pretium, consequat, ac adipiscing vitae rutrum.</p>
-      </div>
       <div class="row">
         <div class="registration-box">
-          <img class="registr-icon" src="/images/home-icon.svg" />
-          <h2>Ho bisogno di <br>aiuto in casa</h2>
-          <p>Cerca e trova un <br>professionista adatto a te</p>
-          <button class="def-btn" type="button" onclick="document.location='/registrazione-utente'">Continua</button>
-        </div>
-        <div class="registration-box">
-          <img class="registr-icon" src="/images/worker-icon.svg" />
-          <h2>Sono un <br>professionista</h2>
-          <p>Cerca lavoro nella tua <br>professione
-          </p>
-          <button class="def-btn" type="button" onclick="document.location='/registrazione-professionista'">Continua</button>
+          <h4>Accedi a CASAFIX</h4>
+          <div id="googleLogin" class="reg-type-btn">
+            <div class="reg-type-img">
+              <img src="/images/google-icon.svg" />
+            </div>
+            <div class="reg-type-label">
+              <span>Continua con Google</span>
+            </div>
+          </div>
+          <div id="facebookLogin" class="reg-type-btn">
+            <div class="reg-type-img">
+              <img src="/images/fb-icon.svg" />
+            </div>
+            <div class="reg-type-label">
+              <span>Continua con Facebook</span>
+            </div>
+          </div>
+          <div class="box-error">
+            <span></span>
+          </div>
+          <h5 class="side-line-text"><span>Oppure</span></h5>
+          <div id="email-login">
+            <div class="input-with-label">
+              <label>Email</label><br>
+              <input id="email" type="text" placeholder="email" />
+            </div>
+            <div class="input-with-label">
+              <label>Password</label><br>
+              <input id="password" type="password" placeholder="Password" />
+            </div>
+            <div class="form-error">
+              <span></span>
+            </div>
+            <button id="emailLoginBtn" class="def-btn" type="button">Accedi</button>
+          </div>
         </div>
       </div>
     </div>
@@ -59,8 +79,8 @@
 <script type="text/javascript" src="/scripts/parts/header.js"></script>
 
 <script type="text/javascript" src="/scripts/parts/loadPage.js"></script>
-<script type="text/javascript" src="/scripts/parts/auth/registration.js"></script>
-<script type="text/javascript" src="/scripts/page-registration.js"></script>
+<script type="text/javascript" src="/scripts/parts/auth/login.js"></script>
+<script type="text/javascript" src="/scripts/page-login.js"></script>
 
 
 </html>

@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Registrazione Utente</title>
+  <link rel="stylesheet" type="text/css" href="/style/bootstrap.min.css">
+  <link rel="stylesheet" type="text/css" href="/style/style.css">
+  <link rel="stylesheet" type="text/css" href="/style/style.responsive.css">
+</head>
+
+<body>
+
+  <nav id="header"></nav>
+
+  <section class="top-sec registration-sec" id="registration-user">
+    <input type="hidden" id="userRole" name="userRole" value="user">
+    <div class="container">
+      <div class="back-btn" id=""><img title="Indietro" src="/images/back-arrow-icon-btn.svg" /></div>
+      <div class="title-big">
+        <h1>Registrati come utente</h1>
+        <img class="registr-icon" src="/images/home-icon.svg" />
+        <p>Da utente potrai cercare professionisti nella tua zona per lavori in casa, giardino o altro.</p>
+      </div>
+      <div class="row">
+        <div class="registration-box">
+          <h4>Registrati con un clic</h4>
+          <div id="google-registration" class="reg-type-btn">
+            <div class="reg-type-img">
+              <img src="/images/google-icon.svg" />
+            </div>
+            <div class="reg-type-label">
+              <span>Google</span>
+            </div>
+          </div>
+          <div id="facebook-registration" class="reg-type-btn">
+            <div class="reg-type-img">
+              <img src="/images/fb-icon.svg" />
+            </div>
+            <div class="reg-type-label">
+              <span>Facebook</span>
+            </div>
+          </div>
+          <div class="box-error">
+            <span></span>
+          </div>
+          <h5 class="side-line-text"><span>O registrarti con</span></h5>
+          <div id="email-registration" class="reg-type-btn">
+            <div class="reg-type-img">
+              <img src="/images/mail-icon.svg" />
+            </div>
+            <div class="reg-type-label">
+              <span>Email</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+
+  <div class="popup" id="email-reg-popup">
+    <div class="popup-overlay"></div>
+    <div class="row popup-container">
+      <div class="popup-box">
+        <h2>Registrati con Email</h2>
+        <div class="input-with-label">
+          <label>Email</label><br>
+          <input id="email" type="text" placeholder="email" />
+        </div>
+        <div class="input-with-label">
+          <label>Password</label><br>
+          <input id="password" type="password" placeholder="Password" />
+        </div>
+        <div class="input-with-label">
+          <label>Conferma Password</label><br>
+          <input id="re-password" type="password" placeholder="Conferma Password" />
+        </div>
+        <div class="form-error">
+          <span></span>
+        </div>
+        <button id="emailRegisterBtn" class="def-btn" type="button">Registrati</button>
+      </div>
+    </div>
+  </div>
+
+
+
+</body>
+
+<!--firebase-->
+<script src="https://www.gstatic.com/firebasejs/8.5.0/firebase-app.js"></script>
+<script src="https://www.gstatic.com/firebasejs/8.5.0/firebase-auth.js"></script>
+<script src="https://www.gstatic.com/firebasejs/8.5.0/firebase-database.js"></script>
+<script src="scripts/_firebaseConn.js"></script>
+
+<!--scripts/vendor-->
+<script type="text/javascript" src="/scripts/vendor/jquery.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/oj.mustache/0.7.2/oj.mustache.min.js" integrity="sha512-+KQDdWwfzb3UZ0sEt1Op66MoQ9NKs6bE02+NpPnsQxZ6ylUP3Fd8L3yf1CsYPD2vndRIbOCzWk2RUfOJ9bsOcA==" crossorigin="anonymous"></script>
+
+<!--scripts/main.js-->
+<script type="text/javascript" src="/scripts/parts/links.js"></script>
+<script type="text/javascript" src="/scripts/parts/auth/firebaseAuth.js"></script>
+<script type="text/javascript" src="/scripts/parts/auth/dbAuth.js"></script>
+<script type="text/javascript" src="/scripts/parts/header.js"></script>
+<script type="text/javascript" src="/scripts/parts/popup.js"></script>
+<script type="text/javascript" src="/scripts/parts/auth/registration.js"></script>
+
+<script type="text/javascript" src="/scripts/parts/loadPage.js"></script>
+<script type="text/javascript" src="/scripts/page-registration-user.js"></script>
+
+
+
+
+
+
+</html>

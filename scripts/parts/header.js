@@ -1,6 +1,6 @@
 var header = (function() {
 
-  var logoLink = "/images/casafix_logo.png";
+  var logoLink = "/images/casafix_logo.svg";
 
   var defaultNavMenu = {
     "Cos'è Casafix": "link",
@@ -21,14 +21,14 @@ var header = (function() {
 
   var announc = {
     label: "Annunci",
-    link: "link"
+    link: lnk.pgAnnounce
   }
 
   var defAccessMenu = {
     login: "Accedi",
-    login_link: "link",
+    login_link: lnk.pgLogin,
     register: "Registrati",
-    register_link: "link"
+    register_link: lnk.pgRegistration
   };
 
   var profileLink = 'link';
@@ -124,21 +124,21 @@ var header = (function() {
   }
 
   function _createDefaultHeader() {
-    createNavigation(defaultNavMenu, true);
-    createAccess(true);
+    _createNavigation(defaultNavMenu, true);
+    _createAccess(true);
   }
 
 
   function _createUsertHeader(userInfo) {
-    createNavigation(userNavMenu, false);
-    createAccess(false, userInfo);
-    createProfileMenu();
+    _createNavigation(userNavMenu, false);
+    _createAccess(false, userInfo);
+    _createProfileMenu();
   }
 
   function _createProfHeader(userInfo) {
-    createNavigation(professionalNavMenu, true);
-    createAccess(false, userInfo);
-    createProfileMenu();
+    _createNavigation(professionalNavMenu, true);
+    _createAccess(false, userInfo);
+    _createProfileMenu();
   }
 
 
@@ -147,7 +147,7 @@ var header = (function() {
    * @param {obj} navMenu - object of nav items
    * @param {bool} hasAnnunci - true if has btn annunci
    */
-  function createNavigation(navMenu, hasAnnunci) {
+  function _createNavigation(navMenu, hasAnnunci) {
     var nav = `<ul class="nav">
                 {{#navig}}
                   {{{.}}}
@@ -173,7 +173,7 @@ var header = (function() {
    * @param {bool} hasAccessMenu - true for login/signup, false for profile menu
    * @param {obj} objUserInfo - object with 'name' and 'imgLink' of user
    */
-  function createAccess(hasAccessMenu, objUserInfo) {
+  function _createAccess(hasAccessMenu, objUserInfo) {
     if (hasAccessMenu) {
       var acc = `<ul class="access">
                   <li><a href="${defAccessMenu.register_link}">${defAccessMenu.register}</a></li>
@@ -192,10 +192,10 @@ var header = (function() {
     }
   }
 
-  function createProfileMenu() {
+  function _createProfileMenu() {
     var acc = `<ul class="profileMenu">
                 <li>
-                  <a href="${profileLink}">
+                  <a href="${lnk.pgHome}">
                     <img src="/images/profile-icon.svg">
                     <span>Profilo</span>
                   </a>
