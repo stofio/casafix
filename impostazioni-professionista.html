@@ -16,13 +16,185 @@
 
   <section class="top-sec" id="settings-prof">
     <div class="container">
-      <div class="title-big">
-        <h1>Imporstazioni professionista</h1>
-      </div>
-      <div class="row">
+      <div class="container-inner">
+        <div class="title-small">
+          <h1>Profilo</h1>
+        </div>
+        <div class="row">
+          <div class="profile-box" id="mainInfo">
+            <div class="profile-box-head">
+              <h2>Informazioni principali</h2>
+              <div class="modifyContainer">
+                <!--render modify btn-->
+              </div>
+            </div>
+            <div class="profile-box-body">
+              <div class="prof-box-body-inputs">
+                <div class="row m-0">
+                  <div class="input-with-label mr-20">
+                    <label>Nome</label><br>
+                    <span class="inp-text"></span>
+                    <input id="name" type="text" placeholder="Nome" />
+                  </div>
+                  <div class="input-with-label">
+                    <label>Cognome</label><br>
+                    <span class="inp-text"></span>
+                    <input id="surname" type="text" placeholder="Cognome" />
+                  </div>
+                </div>
+                <div class="row m-0">
+                  <div class="input-with-label mr-20">
+                    <label>Contatto Email</label><br>
+                    <span class="inp-text"></span>
+                    <input id="email" type="text" placeholder="Contatto Email" />
+                  </div>
+                  <div class="input-with-label">
+                    <label>Telefono</label> <span class="opt">(opzionale)</span><br>
+                    <span class="inp-text"></span>
+                    <input id="phone" type="text" placeholder="Telefono" />
+                  </div>
+                </div>
+                <div class="row m-0">
+                  <div class="input-with-label mr-20">
+                    <label>Località</label><br>
+                    <span class="inp-text"></span>
+                    <input id="location" type="text" placeholder="Località" />
+                  </div>
+                  <!--<div id="changePassword" class="input-with-label"><span> Cambia Password</span></div>-->
+                </div>
+                <div class="row m-0 mt-2 saveContainer">
+                  <!--render save btn-->
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="profile-box" id="descriptionInfo">
+            <div class="profile-box-head">
+              <h2>Informazioni personali</h2>
+              <div class="edit-pen">Modifica</div>
+            </div>
+            <div class="profile-box-body">
+              <div class="prof-box-body-img">
+                <div class="col-md-6 p-0 ">
+                  <div class="prof-my-img" style="background-image:url(/images/placeholder-prof-img.png)"></div>
+                  <div class="edit-pen">Cambia</div>
+                </div>
+                <div class="input-with-label col-md-6 p-0">
+                  <label>Anno di nascita</label><br>
+                  <span class="inp-text"></span>
+                  <select id="birthYear">
+                    <option>Anno</option>
+                    <option>Anno</option>
+                  </select>
+                </div>
+              </div>
+              <div class="prof-box-body-info">
+                <div class="row m-0">
+                  <div class="input-with-label">
+                    <label>Descrivi in poche parole il tuo profilo professionale</label><br>
+                    <textarea id="description" type="text" placeholder="Descrizione"></textarea>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
 
+
+          <div class="profile-box" id="professionsAndServices">
+            <div class="profile-box-head">
+              <h2>Professione e servizi</h2>
+              <div class="edit-pen">Modifica</div>
+            </div>
+            <div class="profile-box-body">
+              <label>Scegli la tua professione e fai un elenco di tutti i servizi che offri.<br>
+                     Puoi scegliere al massimo 3 professioni con 12 servizi ciascuna (di cui 8 devono essere predefiniti e 4 possono essere a scelta libera).
+              </label>
+
+              <div class="prof-box-body-profession">
+                <div class="input-with-label">
+                  <label>Professione</label><br>
+                  <input type="text" placeholder="es. Elettricista" />
+                </div>
+                <div class="input-with-label">
+                  <label>Servizi</label><br>
+                  <div class="my-services row">
+                    <div class="col-md-4 col-6">
+                      <input type="text" class="mb-3" placeholder="predefinito" />
+                    </div>
+                    <div class="col-md-4 col-6">
+                      <input type="text" class="mb-3" placeholder="predefinito" />
+                    </div>
+                    <div class="col-md-4 col-6">
+                      <input type="text" class="mb-3" placeholder="predefinito" />
+                    </div>
+                    <div class="col-md-4 col-6">
+                      <input type="text" class="mb-3" placeholder="predefinito" />
+                    </div>
+                    <div class="col-md-4 col-6">
+                      <input type="text" class="mb-3" placeholder="predefinito" />
+                    </div>
+                    <div class="col-md-4 col-6">
+                      <input type="text" class="mb-3" placeholder="predefinito" />
+                    </div>
+                    <div class="col-md-4 col-6">
+                      <input type="text" class="mb-3" placeholder="predefinito" />
+                    </div>
+                    <div class="col-md-4 col-6">
+                      <input type="text" class="mb-3" placeholder="predefinito" />
+                    </div>
+                    <div class="col-md-4 col-6">
+                      <input type="text" class="mb-3" placeholder="libero" />
+                    </div>
+                    <div class="col-md-4 col-6">
+                      <input type="text" class="mb-3" placeholder="libero" />
+                    </div>
+                    <div class="col-md-4 col-6">
+                      <input type="text" class="mb-3" placeholder="libero" />
+                    </div>
+                    <div class="col-md-4 col-6">
+                      <input type="text" class="mb-3" placeholder="libero" />
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <div id="addProf" class="add-prof-box">Aggiungi professione</div>
+
+            </div>
+          </div>
+
+
+          <div class="profile-box" id="portfolio">
+            <div class="profile-box-head">
+              <h2>Portfolio</h2>
+              <div class="add-plus">Aggiungi</div>
+            </div>
+            <div class="profile-box-body my-portfolio">
+              <div class="row">
+                <div class="col-md-4 col-6  portfolio-item">
+                  <div class="portfolio-front-img" style="background-image:url(/images/placeholder-prof-img.png)"></div>
+                  <strong>Impianti elettrici</strong>
+                </div>
+                <div class="col-md-4 col-6  portfolio-item">
+                  <div class="portfolio-front-img" style="background-image:url(/images/placeholder-prof-img.png)"></div>
+                  <strong>Impianti elettrici</strong>
+                </div>
+                <div class="col-md-4 col-6  portfolio-item">
+                  <div class="portfolio-front-img" style="background-image:url(/images/placeholder-prof-img.png)"></div>
+                  <strong>Impianti elettrici</strong>
+                </div>
+                <div class="col-md-4 col-6  portfolio-item">
+                  <div class="portfolio-front-img" style="background-image:url(/images/placeholder-prof-img.png)"></div>
+                  <strong>Impianti elettrici</strong>
+                </div>
+              </div>
+            </div>
+          </div>
+
+
+
+        </div>
       </div>
-    </div>
   </section>
 
 
@@ -44,9 +216,15 @@
 <script type="text/javascript" src="/scripts/parts/auth/firebaseAuth.js"></script>
 <script type="text/javascript" src="/scripts/parts/auth/dbAuth.js"></script>
 <script type="text/javascript" src="/scripts/parts/header.js"></script>
-
 <script type="text/javascript" src="/scripts/parts/loadPage.js"></script>
+
 <script type="text/javascript" src="/scripts/page-settings-professional.js"></script>
+
+<script type="text/javascript" src="/scripts/parts/settings/settings-prof/dbSett.js"></script>
+<script type="text/javascript" src="/scripts/parts/settings/settings-prof/main-info-card.js"></script>
+<script type="text/javascript" src="/scripts/parts/settings/settings-prof/personal-info-card.js"></script>
+<script type="text/javascript" src="/scripts/parts/settings/settings-prof/services-card.js"></script>
+<script type="text/javascript" src="/scripts/parts/settings/settings-prof/portfolio-card.js"></script>
 
 
 </html>

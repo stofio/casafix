@@ -37,7 +37,9 @@ var header = (function() {
     <div class="container">
       <div class="row">
         <header id="header-logo">
-          <img src="{{logo}}"/>    
+          <a href="${lnk.pgHome}">
+            <img src="{{logo}}"/>    
+          </a>
         </header>
         <div id="header-navigation">
             {{{navigation}}}
@@ -54,7 +56,9 @@ var header = (function() {
     <div class="container">
       <div class="row">
         <header id="mobile-header-logo">
-          <img src="{{logo}}"/> 
+          <a href="${lnk.pgHome}">
+            <img src="{{logo}}"/> 
+          </a>
         </header>
         <div id="mobile-header-access">
             {{{access}}}
@@ -132,13 +136,13 @@ var header = (function() {
   function _createUsertHeader(userInfo) {
     _createNavigation(userNavMenu, false);
     _createAccess(false, userInfo);
-    _createProfileMenu();
+    _createProfileMenu(lnk.pgSettUser);
   }
 
   function _createProfHeader(userInfo) {
     _createNavigation(professionalNavMenu, true);
     _createAccess(false, userInfo);
-    _createProfileMenu();
+    _createProfileMenu(lnk.pgSettProf);
   }
 
 
@@ -192,16 +196,16 @@ var header = (function() {
     }
   }
 
-  function _createProfileMenu() {
+  function _createProfileMenu(linkProfile) {
     var acc = `<ul class="profileMenu">
                 <li>
-                  <a href="${lnk.pgHome}">
+                  <a href="${linkProfile}">
                     <img src="/images/profile-icon.svg">
                     <span>Profilo</span>
                   </a>
                 </li>
                 <li>
-                  <a class="logout" href="#">
+                  <a class="logout" href="">
                     <img src="/images/logout-icon.svg">
                     <span>Esci</span>
                   </a>

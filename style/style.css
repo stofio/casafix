@@ -25,7 +25,8 @@
 #home,
 #announce,
 #settings-user,
-#settings-prof {
+#settings-prof,
+#login {
   display: none;
 }
 
@@ -36,13 +37,24 @@ body * {
 }
 
 body {
-  background: #fbfbfb;
+  background: #f4f4f4;
+}
+
+.container-inner {
+  max-width: 800px;
+  margin-right: auto;
+  margin-left: auto;
+}
+
+::placeholder {
+  opacity: .6;
 }
 
 #header {
   box-shadow: 0px 1px 6px 0px #e0e0e0;
   background: #fff;
   padding: 8px 0;
+  z-index: 1000;
 }
 
 #header .row {
@@ -226,7 +238,7 @@ body {
 
 .back-btn {
   position: absolute;
-  margin-top: -30px;
+  margin-top: -10px;
   cursor: pointer;
 }
 
@@ -279,6 +291,22 @@ button.def-btn:hover {
   line-height: 23px;
 }
 
+.title-small {
+  text-align: left;
+  margin-bottom: 15px;
+}
+
+.title-small h1 {
+  font-size: 31px;
+  font-family: 'Yantramanav-medium';
+  line-height: 39px;
+}
+
+.title-small p {
+  font-size: 19px;
+  line-height: 23px;
+}
+
 .registr-icon {
   max-width: 55px;
   margin-bottom: 8px;
@@ -292,6 +320,7 @@ button.def-btn:hover {
   box-shadow: 0px 2px 2px rgb(0 0 0 / 8%);
   border-radius: 6px;
   width: 450px;
+  border: solid 1px rgba( 0 0 0 / 8%);
 }
 
 .registration-box h2 {
@@ -379,7 +408,7 @@ button.def-btn:hover {
 }
 
 .popup-box {
-  padding: 48px;
+  padding: 30px;
   background: #FFFFFF;
   box-shadow: 0px 2px 2px rgb(0 0 0 / 8%);
   border-radius: 6px;
@@ -425,6 +454,28 @@ button.def-btn:hover {
   padding: 0 15px;
 }
 
+.input-with-label select {
+  font-size: 17px;
+  border: 1px solid #C4C4C4;
+  border-radius: 6px;
+  height: 36px;
+  padding: 0 15px;
+}
+
+.input-with-label textarea {
+  width: 100%;
+  font-size: 17px;
+  border: 1px solid #C4C4C4;
+  border-radius: 6px;
+  height: 65px;
+  padding: 6px 15px;
+}
+
+.input-with-label .opt {
+  color: #616161;
+  font-size: 11px;
+}
+
 .box-error {
   text-align: left;
   margin-bottom: 15px;
@@ -461,4 +512,199 @@ button.def-btn:hover {
 .side-line-text span {
   background-color: white;
   padding: 0 10px;
+}
+
+.edit-pen {
+  color: #FB743E;
+  cursor: pointer;
+}
+
+.edit-pen:hover {
+  text-decoration: underline;
+}
+
+.edit-pen::before {
+  content: '✎';
+}
+
+.profile-box {
+  margin-bottom: 30px;
+  background: #FFFFFF;
+  box-shadow: 0px 2px 2px rgb(0 0 0 / 8%);
+  border: solid 1px rgba( 0 0 0 / 8%);
+  border-radius: 6px;
+  width: 100%;
+}
+
+.profile-box-head {
+  border-bottom: solid 1px rgba( 0 0 0 / 8%);
+  padding: 30px;
+  display: flex;
+  justify-content: space-between;
+}
+
+.profile-box-head h2 {
+  font-size: 25px;
+  margin: 0;
+  font-family: 'Yantramanav-medium';
+}
+
+.profile-box-head button.def-btn {
+  margin-top: 0;
+}
+
+.profile-box-body {
+  padding: 30px;
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.profile-box-body .input-with-label {
+  min-width: 250px;
+}
+
+.profile-box-body .mr-20 {
+  margin-right: 20px;
+}
+
+.prof-box-body-img {
+  width: 20%;
+  display: flex;
+  justify-content: space-between;
+  flex-direction: column;
+}
+
+.prof-box-body-info {
+  width: 80%;
+}
+
+.prof-box-body-info .input-with-label {
+  width: 100%;
+}
+
+.prof-box-body-img .input-with-label {
+  margin-top: 15px;
+}
+
+.prof-box-body-img div.prof-my-img {
+  background-repeat: no-repeat;
+  background-size: cover;
+  width: 80px;
+  height: 80px;
+  border-radius: 20px;
+}
+
+#changePassword {
+  display: flex;
+  justify-content: flex-end;
+  align-items: flex-end;
+}
+
+#changePassword span {
+  color: #FB743E;
+  cursor: pointer;
+}
+
+#changePassword::before {
+  content: '🔑';
+}
+
+#changePassword span:hover {
+  text-decoration: underline;
+}
+
+.profile-box-body label {
+  font-family: Yantramanav-medium;
+  font-size: 16px;
+}
+
+.prof-box-body-profession {
+  background-color: #F6F5F5;
+  border-radius: 6px;
+  width: 100%;
+  margin-bottom: 15px;
+  padding: 15px;
+  border: solid 1px rgba( 0 0 0 / 8%);
+}
+
+.my-services {
+  display: flex;
+}
+
+.add-prof-box {
+  border-radius: 6px;
+  width: 100%;
+  margin-bottom: 15px;
+  padding: 5px;
+  border: solid 1px rgba( 0 0 0 / 8%);
+  text-align: center;
+  color: #FB743E;
+  font-weight: bold;
+}
+
+.add-prof-box:hover {
+  background-color: #fb743e15;
+  text-decoration: underline;
+  cursor: pointer;
+}
+
+.add-plus {
+  color: #FB743E;
+  cursor: pointer;
+}
+
+.add-plus:hover {
+  text-decoration: underline;
+}
+
+.add-plus::before {
+  font-weight: 800;
+  content: '+';
+}
+
+.profile-box-body.my-portfolio {
+  display: block;
+}
+
+.portfolio-item {
+  margin-bottom: 30px;
+  cursor: pointer;
+}
+
+.portfolio-item:hover {
+  text-decoration: underline;
+}
+
+.portfolio-item .portfolio-front-img {
+  height: 150px;
+  border-radius: 6px;
+  width: 100%;
+  background-repeat: no-repeat;
+  background-size: cover;
+  border-radius: 20px;
+  margin-bottom: 10px;
+}
+
+.portfolio-item strong {
+  font-size: 16px;
+}
+
+.profile-box-body .def-btn {
+  margin-top: 0;
+  margin-right: 15px;
+}
+
+.saveContainer {
+  align-items: center;
+}
+
+.saveContainer .cancel-btn {
+  padding: 0 15px;
+  color: #FB743E;
+  font-family: 'Yantramanav-medium';
+  cursor: pointer;
+}
+
+.saveContainer .cancel-btn:hover {
+  text-decoration: underline;
 }
