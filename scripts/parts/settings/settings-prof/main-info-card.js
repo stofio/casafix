@@ -18,14 +18,14 @@
 
 
   //bind events
-  $(document).on('load', _loadPage());
-  $(document).on('click', '.modifyBtn', _changeToModifyMod);
-  $(document).on('click', '.saveBtn', _saveData);
-  $(document).on('click', '.cancBtn', _cancelInputs);
+  $(document).on('load', _loadCard());
+  $(document).on('click', '.modifyBtnMain', _changeToModifyMod);
+  $(document).on('click', '.saveBtnMain', _saveData);
+  $(document).on('click', '.cancBtnMain', _cancelInputs);
 
 
   //init
-  async function _loadPage() {
+  async function _loadCard() {
     uid = await dbSett.getTheUid();
     $box.find('.inp-text').hide();
     $box.find('input').hide();
@@ -38,25 +38,23 @@
 
 
   //functions
-
   function _renderTextAndBtn() {
     _renderModifyButton();
     _renderText();
   }
 
   function _renderSaveButton() {
-    var btn = `<button class="def-btn saveBtn"">Salva</button>
-               <span class="cancel-btn cancBtn">cancella</span>`;
+    var btn = `<button class="def-btn saveBtnMain"">Salva</button>
+               <span class="cancel-btn cancBtnMain">cancella</span>`;
     $saveContainer.html(btn);
     $modifyContainer.html('');
   }
 
   function _renderModifyButton() {
-    var btn = `<div class="edit-pen modifyBtn">Modifica</div>`;
+    var btn = `<div class="edit-pen modifyBtnMain">Modifica</div>`;
     $modifyContainer.html(btn);
     $saveContainer.html('');
   }
-
 
 
   function _changeToModifyMod() {
@@ -74,23 +72,31 @@
   function _renderInputs() {
     $box.find('.inp-text').hide();
     $box.find('input').show();
+    $box.find('.get-location-icon').show();
+    if ($box.find('.rmv').hasClass('rmvActive')) {
+      $box.find('.rmv').show();
+    }
   }
 
   //hide input show text
   function _renderText() {
     $box.find('.inp-text').show();
     $box.find('input').hide();
+    $box.find('.get-location-icon').hide();
+    if ($box.find('.rmv').hasClass('rmvActive')) {
+      $box.find('.rmv').hide();
+    }
   }
 
   function _getData() {
     return new Promise((resolve) => {
-      dbSett.getMainInfo(uid).then((data) => {
-        console.log(data.profile);
-        currentData = data.profile;
+      dbSett.getProfProfileData(uid).then((data) => {
+        if (data) {
+          currentData = data.profile;
+        }
         resolve();
       });
     })
-
   }
 
   function _fillData(obj) {
@@ -98,7 +104,14 @@
     _fillInput('#surname', obj.surname);
     _fillInput('#email', obj.contact_email);
     _fillInput('#phone', obj.phone);
-    _fillInput('#location', obj.location);
+    _fillInput('#location', obj.location.address);
+    if (obj.location.address) {
+      $box.find('.rmv').show().addClass('rmvActive').hide();
+      $box.find('.location-inp').prop('disabled', true);
+      $box.find('#location').attr('data-lat', obj.location.lat);
+      $box.find('#location').attr('data-lng', obj.location.lng);
+      $box.find('#location').attr('data-region', obj.location.region);
+    }
   }
 
   /**
@@ -109,7 +122,11 @@
   function _fillInput(domId, val) {
     var $nameInp = $box.find(domId);
     var $nameTxt = $box.find(domId).parent().children('.inp-text');
-    val == '' ? $nameTxt.html('-') : $nameTxt.html(val);
+    if (val == '' || val == null) {
+      $nameTxt.html('-')
+    } else {
+      $nameTxt.html(val);
+    }
     $nameInp.val(val);
   }
 
@@ -119,12 +136,20 @@
   }
 
   async function _saveData() {
+    var lat = $box.find('#location').attr('data-lat');
+    var lng = $box.find('#location').attr('data-lng');
+    var region = $box.find('#location').attr('data-region');
     var obj = {
         name: $box.find('#name').val(),
         surname: $box.find('#surname').val(),
         contact_email: $box.find('#email').val(),
         phone: $box.find('#phone').val(),
-        location: $box.find('#location').val(),
+        location: {
+          address: $box.find('#location').val(),
+          region: region,
+          lat: lat,
+          lng: lng,
+        }
       }
       //compare if data is the same
     if (JSON.stringify(obj) === JSON.stringify(currentData)) {
@@ -132,7 +157,7 @@
       return;
     } else {
       loadingButtonOn();
-      await dbSett.saveMainInfo(uid, obj);
+      await dbSett.saveProfMainInfo(uid, obj);
       currentData = obj;
       _fillData(obj);
       _changeToTextMode();
@@ -142,13 +167,13 @@
   }
 
   function loadingButtonOn() {
-    var btn = $box.find('.saveBtn');
+    var btn = $box.find('.saveBtnMain');
     btn.attr('disabled', true);
     btn.html('Salva...');
   }
 
   function loadingButtonOff() {
-    var btn = $box.find('.saveBtn');
+    var btn = $box.find('.saveBtnMain');
     btn.attr('disabled', false);
     btn.html('Salva');
   }

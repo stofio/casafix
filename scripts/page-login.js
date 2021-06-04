@@ -14,7 +14,7 @@
       isLoggedOrUid = false;
     }
     //check the role, get header, show page per id or redirect
-    loadPage.loadPageOnAuth(isLoggedOrUid, '#login', lnk.pgAnnounce, lnk.pgHome);
+    loadPage.loadPageOnAuth(isLoggedOrUid, '#login', lnk.pgAnnounce, lnk.pgHome, false);
     unsubscribe();
   });
 

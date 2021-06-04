@@ -8,6 +8,11 @@
   <link rel="stylesheet" type="text/css" href="/style/bootstrap.min.css">
   <link rel="stylesheet" type="text/css" href="/style/style.css">
   <link rel="stylesheet" type="text/css" href="/style/style.responsive.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@splidejs/splide@latest/dist/css/splide.min.css">
+
+
+  <!--select2-->
+  <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
 </head>
 
 <body>
@@ -29,7 +34,7 @@
               </div>
             </div>
             <div class="profile-box-body">
-              <div class="prof-box-body-inputs">
+              <div class="prof-box-body-in puts">
                 <div class="row m-0">
                   <div class="input-with-label mr-20">
                     <label>Nome</label><br>
@@ -55,10 +60,14 @@
                   </div>
                 </div>
                 <div class="row m-0">
-                  <div class="input-with-label mr-20">
-                    <label>Località</label><br>
-                    <span class="inp-text"></span>
-                    <input id="location" type="text" placeholder="Località" />
+                  <div class="input-with-label autocomplete-input mr-20">
+                    <label>Località (provincia, comune o via)</label><br>
+                    <div class="inp-with-loc">
+                      <span class="inp-text"></span>
+                      <input type="text" class="location-inp" id="location" data-lat='' data-lng='' data-region='' placeholder="Località" />
+                      <div class="rmv"><img src="images/close-menu.svg"></div>
+                      <div class="get-location-icon"><img src="images/location_pointer.svg" /></div>
+                    </div>
                   </div>
                   <!--<div id="changePassword" class="input-with-label"><span> Cambia Password</span></div>-->
                 </div>
@@ -71,30 +80,34 @@
           <div class="profile-box" id="descriptionInfo">
             <div class="profile-box-head">
               <h2>Informazioni personali</h2>
-              <div class="edit-pen">Modifica</div>
+              <div class="modifyContainer">
+                <!--render modify btn-->
+              </div>
             </div>
             <div class="profile-box-body">
               <div class="prof-box-body-img">
                 <div class="col-md-6 p-0 ">
-                  <div class="prof-my-img" style="background-image:url(/images/placeholder-prof-img.png)"></div>
-                  <div class="edit-pen">Cambia</div>
+                  <div class="prof-my-img" attr-img="" style="background-image:url(/images/placeholder-prof-img.png)"></div>
+                  <div id="changeImg" class="swap-pen">Cambia</div>
+                  <input type="file" id="changeImgInput" hidden/>
                 </div>
                 <div class="input-with-label col-md-6 p-0">
-                  <label>Anno di nascita</label><br>
+                  <label>Data di nascita</label><br>
                   <span class="inp-text"></span>
-                  <select id="birthYear">
-                    <option>Anno</option>
-                    <option>Anno</option>
-                  </select>
+                  <input type="date" id="birthDate">
                 </div>
               </div>
               <div class="prof-box-body-info">
                 <div class="row m-0">
                   <div class="input-with-label">
                     <label>Descrivi in poche parole il tuo profilo professionale</label><br>
+                    <span class="inp-text"></span>
                     <textarea id="description" type="text" placeholder="Descrizione"></textarea>
                   </div>
                 </div>
+              </div>
+              <div class="row m-0 mt-2 saveContainer">
+                <!--render save btn-->
               </div>
             </div>
           </div>
@@ -103,63 +116,114 @@
           <div class="profile-box" id="professionsAndServices">
             <div class="profile-box-head">
               <h2>Professione e servizi</h2>
-              <div class="edit-pen">Modifica</div>
+              <div class="modifyContainer">
+                <!--render modify btn-->
+              </div>
             </div>
             <div class="profile-box-body">
-              <label>Scegli la tua professione e fai un elenco di tutti i servizi che offri.<br>
-                     Puoi scegliere al massimo 3 professioni con 12 servizi ciascuna (di cui 8 devono essere predefiniti e 4 possono essere a scelta libera).
+              <label>Seleziona professione e servizi che offri (max 3 professioni e 12 servizi ciascuna).
               </label>
 
-              <div class="prof-box-body-profession">
-                <div class="input-with-label">
-                  <label>Professione</label><br>
-                  <input type="text" placeholder="es. Elettricista" />
-                </div>
-                <div class="input-with-label">
-                  <label>Servizi</label><br>
-                  <div class="my-services row">
-                    <div class="col-md-4 col-6">
-                      <input type="text" class="mb-3" placeholder="predefinito" />
-                    </div>
-                    <div class="col-md-4 col-6">
-                      <input type="text" class="mb-3" placeholder="predefinito" />
-                    </div>
-                    <div class="col-md-4 col-6">
-                      <input type="text" class="mb-3" placeholder="predefinito" />
-                    </div>
-                    <div class="col-md-4 col-6">
-                      <input type="text" class="mb-3" placeholder="predefinito" />
-                    </div>
-                    <div class="col-md-4 col-6">
-                      <input type="text" class="mb-3" placeholder="predefinito" />
-                    </div>
-                    <div class="col-md-4 col-6">
-                      <input type="text" class="mb-3" placeholder="predefinito" />
-                    </div>
-                    <div class="col-md-4 col-6">
-                      <input type="text" class="mb-3" placeholder="predefinito" />
-                    </div>
-                    <div class="col-md-4 col-6">
-                      <input type="text" class="mb-3" placeholder="predefinito" />
-                    </div>
-                    <div class="col-md-4 col-6">
-                      <input type="text" class="mb-3" placeholder="libero" />
-                    </div>
-                    <div class="col-md-4 col-6">
-                      <input type="text" class="mb-3" placeholder="libero" />
-                    </div>
-                    <div class="col-md-4 col-6">
-                      <input type="text" class="mb-3" placeholder="libero" />
-                    </div>
-                    <div class="col-md-4 col-6">
-                      <input type="text" class="mb-3" placeholder="libero" />
+              <div class="my-professions">
+
+                <div class="prof-box-body-profession">
+                  <input value="0" class="counter" type="text" hidden/>
+                  <div class="prof-title">
+                    <label>Professione</label>
+                    <span class="remove">Rimuovi</span>
+                  </div>
+                  <span class="inp-text"></span>
+                  <select class="select-prof">
+                    <option value="0" selected disabled>Seleziona</option>
+                  </select>
+                  <span class="set-counter"><b>0</b>/12</span>
+                  <div class="services-container"></div>
+                  <div class="other-services" style="display: none;">
+                    <div class="row">
+                      <div class="col-md-3">
+                        <input class="aaa" type="text" placeholder="Altro" />
+                      </div>
+                      <div class="col-md-3">
+                        <input type="text" placeholder="Altro" />
+                      </div>
+                      <div class="col-md-3">
+                        <input type="text" placeholder="Altro" />
+                      </div>
+                      <div class="col-md-3">
+                        <input type="text" placeholder="Altro" />
+                      </div>
                     </div>
                   </div>
                 </div>
+
+                <div class="prof-box-body-profession" style="display: none;">
+                  <input value="0" class="counter" type="text" hidden/>
+                  <div class="prof-title">
+                    <label>Professione</label>
+                    <span class="remove">Rimuovi</span>
+                  </div>
+                  <span class="inp-text"></span>
+                  <select class="select-prof">
+                    <option value="0" selected disabled>Seleziona</option>
+                  </select>
+                  <span class="set-counter"><b>0</b>/12</span>
+                  <div class="services-container"></div>
+                  <div class="other-services" style="display: none;">
+                    <div class="row">
+                      <div class="col-md-3">
+                        <input type="text" placeholder="Altro" />
+                      </div>
+                      <div class="col-md-3">
+                        <input type="text" placeholder="Altro" />
+                      </div>
+                      <div class="col-md-3">
+                        <input type="text" placeholder="Altro" />
+                      </div>
+                      <div class="col-md-3">
+                        <input type="text" placeholder="Altro" />
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="prof-box-body-profession" style="display: none;">
+                  <input value="0" class="counter" type="text" hidden/>
+                  <div class="prof-title">
+                    <label>Professione</label>
+                    <span class="remove">Rimuovi</span>
+                  </div>
+                  <span class="inp-text"></span>
+                  <select class="select-prof">
+                    <option value="0" selected disabled>Seleziona</option>
+                  </select>
+                  <span class="set-counter"><b>0</b>/12</span>
+                  <div class="services-container"></div>
+                  <div class="other-services" style="display: none;">
+                    <div class="row">
+                      <div class="col-md-3">
+                        <input type="text" placeholder="Altro" />
+                      </div>
+                      <div class="col-md-3">
+                        <input type="text" placeholder="Altro" />
+                      </div>
+                      <div class="col-md-3">
+                        <input type="text" placeholder="Altro" />
+                      </div>
+                      <div class="col-md-3">
+                        <input type="text" placeholder="Altro" />
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
               </div>
+
 
               <div id="addProf" class="add-prof-box">Aggiungi professione</div>
 
+              <div class="row m-0 mt-2 saveContainer">
+                <!--render save btn-->
+              </div>
             </div>
           </div>
 
@@ -191,6 +255,23 @@
             </div>
           </div>
 
+          <div class="popup" id="email-reg-popup">
+            <div class="popup-overlay"></div>
+            <div class="row popup-container">
+              <div class="popup-box">
+                <div class="splide">
+                  <div class="splide__track">
+                    <ul class="splide__list">
+                      <li class="splide__slide">Slide 01</li>
+                      <li class="splide__slide">Slide 02</li>
+                      <li class="splide__slide">Slide 03</li>
+                    </ul>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
 
 
         </div>
@@ -204,12 +285,17 @@
 <!--firebase-->
 <script src="https://www.gstatic.com/firebasejs/8.5.0/firebase-app.js"></script>
 <script src="https://www.gstatic.com/firebasejs/8.5.0/firebase-auth.js"></script>
-<script src="https://www.gstatic.com/firebasejs/8.5.0/firebase-database.js"></script>
+<script src="https://www.gstatic.com/firebasejs/8.5.0/firebase-firestore.js"></script>
+<script src="https://www.gstatic.com/firebasejs/8.5.0/firebase-storage.js"></script>
+<script src="https://unpkg.com/geofirestore/dist/geofirestore.js"></script>
+
 <script src="scripts/_firebaseConn.js"></script>
 
 <!--scripts/vendor-->
 <script type="text/javascript" src="/scripts/vendor/jquery.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/oj.mustache/0.7.2/oj.mustache.min.js" integrity="sha512-+KQDdWwfzb3UZ0sEt1Op66MoQ9NKs6bE02+NpPnsQxZ6ylUP3Fd8L3yf1CsYPD2vndRIbOCzWk2RUfOJ9bsOcA==" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@splidejs/splide@latest/dist/js/splide.min.js"></script>
 
 <!--scripts/main.js-->
 <script type="text/javascript" src="/scripts/parts/links.js"></script>
@@ -217,6 +303,9 @@
 <script type="text/javascript" src="/scripts/parts/auth/dbAuth.js"></script>
 <script type="text/javascript" src="/scripts/parts/header.js"></script>
 <script type="text/javascript" src="/scripts/parts/loadPage.js"></script>
+
+<script src="https://unpkg.com/@mapbox/mapbox-sdk/umd/mapbox-sdk.min.js"></script>
+<script type="text/javascript" src="/scripts/parts/autoInputLocation.js"></script>
 
 <script type="text/javascript" src="/scripts/page-settings-professional.js"></script>
 

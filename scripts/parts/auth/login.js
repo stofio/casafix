@@ -49,7 +49,17 @@
   }
 
   function _googleLogin() {
-    firebaseAuth.googleSignin((uid, email) => {
+    firebaseAuth.googleSignin((user) => {
+      dbAuth.isRegistered(user.uid, (registered) => {
+        if (!registered) {
+          //delete user
+          user.delete()
+            .then(() => {
+              window.location.replace(lnk.pgRegistration);
+            })
+          return;
+        }
+      })
       dbAuth.isProfessional(uid, () => {
         window.location.replace(lnk.pgAnnounce);
       })
@@ -61,16 +71,27 @@
   }
 
   function _facebookLogin() {
-    firebaseAuth.facebookSignin((error, uid, email) => {
+    firebaseAuth.facebookSignin((error, user) => {
       if (error == "auth/account-exists-with-different-credential") {
         $errorForGoogleAndFb.html("L'Account è già registrato con email o google. Riprova");
         return;
       }
-      dbAuth.isProfessional(uid, () => {
+      dbAuth.isRegistered(user.uid, (registered) => {
+        if (!registered) {
+          console.log(user)
+            //delete user
+          user.delete()
+            .then(() => {
+              window.location.replace(lnk.pgRegistration);
+              return;
+            })
+        }
+      })
+      dbAuth.isProfessional(user.uid, () => {
         window.location.replace(lnk.pgAnnounce);
       })
 
-      dbAuth.isUser(uid, () => {
+      dbAuth.isUser(user.uid, () => {
         window.location.replace(lnk.pgHome);
       })
     })

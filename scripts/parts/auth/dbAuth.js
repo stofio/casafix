@@ -1,13 +1,17 @@
 var dbAuth = (function() {
 
-  var database = firebase.database();
+  var database = firebase.firestore();
 
   //create new PROFESSIONAL in db
-  function createNewProfe(uid, email, provider, callback) {
-    database.ref('users/' + uid).set({
+  function createNewProfe(uid, email, provider, photoUrl, callback) {
+    database.collection('professionals').doc(uid).set({
       _is_professional: 1,
       _email: email,
-      created: $.now()
+      created: $.now(),
+      profile: {
+        contact_email: email,
+        prof_img_url: photoUrl,
+      }
     }).then(() => {
       saveUserRoleAndProvider(uid, 'professional', email, provider, () => {
         if (typeof(callback) == 'function') {
@@ -20,11 +24,15 @@ var dbAuth = (function() {
   }
 
   //create new USER in db
-  function createNewUser(uid, email, provider, callback) {
-    database.ref('users/' + uid).set({
+  function createNewUser(uid, email, provider, photoUrl, callback) {
+    database.collection('users').doc(uid).set({
       _is_user: 1,
       _email: email,
-      created: $.now()
+      created: $.now(),
+      profile: {
+        contact_email: email,
+        prof_img_url: photoUrl,
+      }
     }).then(() => {
       saveUserRoleAndProvider(uid, 'user', email, provider, () => {
         if (typeof(callback) == 'function') {
@@ -37,57 +45,117 @@ var dbAuth = (function() {
   }
 
 
+
   function isProfessional(uid, callback) {
-    var prof = firebase.database().ref('users/' + uid + '/_is_professional');
-    prof.on('value', (snapshot) => {
-      const data = snapshot.val();
-      var isProf = data == 1 ? true : false;
-      if (typeof(callback) == 'function') {
-        callback(isProf);
-      }
-    });
+    database.collection('professionals').doc(uid).get()
+      .then((doc) => {
+        console.log(uid)
+        console.log(doc.exists)
+        var isProf;
+        if (!doc.exists) {
+          isProf = false;
+        } else {
+          const data = doc.data();
+          if (data._is_professional == 1) {
+            isProf = true;
+          } else {
+            isProf = false;
+          }
+          if (typeof(callback) == 'function') {
+            callback(isProf);
+          }
+        }
+      });
   }
 
   function isUser(uid, callback) {
-    var us = firebase.database().ref('users/' + uid + '/_is_user');
-    us.on('value', (snapshot) => {
-      const data = snapshot.val();
-      console.log(data)
-      var isUser = data == 1 ? true : false;
-      if (typeof(callback) == 'function') {
-        callback(isUser);
-      }
-    });
+    database.collection('users').doc(uid).get()
+      .then((doc) => {
+        var isUser;
+        if (!doc.exists) {
+          isUser = false;
+        } else {
+          const data = doc.data();
+          if (data._is_user == 1) {
+            isUser = true;
+          } else {
+            isUser = false;
+          }
+          if (typeof(callback) == 'function') {
+            callback(isUser);
+          }
+        }
+      });
+  }
+
+  function isRegistered(uid, callback) {
+    database.collection('users_register').doc(uid).get()
+      .then((doc) => {
+        var isReg;
+        if (!doc.exist) {
+          isReg = false;
+        } else {
+          isReg = true;
+        }
+        if (typeof(callback) == 'function') {
+          callback(isReg);
+        }
+      });
+
   }
 
   /**
    * return object with 'name' and 'imgLink' 
    */
-  function getUserNameAndImg(uid, callback) {
-    var user = firebase.database().ref('users/' + uid);
-    user.on('value', (snapshot) => {
-      const data = snapshot.val();
-      var name = data.name;
-      var imgLink = data.imgProfileUrl;
-      if (name == '' || name == null) {
-        name = 'Profilo';
-      }
-      if (imgLink == '' || imgLink == null) {
-        imgLink = '/images/placeholder-prof-img.png';
-      }
-      var obj = {
-        name: name,
-        imgLink: imgLink
-      }
-      if (typeof(callback) == 'function') {
-        callback(obj);
-      }
-    });
+  function getUserNameAndImgProf(uid, callback) {
+    database.collection('professionals').doc(uid).get()
+      .then((doc) => {
+        const data = doc.data();
+        var name = data.profile.name;
+        var imgLink = data.profile.prof_img_url;
+        if (name == '' || name == null) {
+          name = 'Profilo';
+        }
+        if (imgLink == '' || imgLink == null) {
+          imgLink = '/images/placeholder-prof-img.png';
+        }
+        var obj = {
+          name: name,
+          imgLink: imgLink
+        }
+        if (typeof(callback) == 'function') {
+          callback(obj);
+        }
+      });
+  }
+
+  function getUserNameAndImgUser(uid, callback) {
+    database.collection('users').doc(uid).get()
+      .then((doc) => {
+        const data = doc.data();
+        var name = data.profile.name;
+        var imgLink = data.profile.prof_img_url;
+        if (name == '' || name == null) {
+          name = 'Profilo';
+        }
+        if (imgLink == '' || imgLink == null) {
+          imgLink = '/images/placeholder-prof-img.png';
+        }
+        var obj = {
+          name: name,
+          imgLink: imgLink
+        }
+        if (typeof(callback) == 'function') {
+          callback(obj);
+        }
+      });
   }
 
 
+
+
   function saveUserRoleAndProvider(uid, role, email, provider, callback) {
-    database.ref('users_register/' + uid).set({
+    database.collection('registered_accounts').doc(uid).set({
       _role: role,
       email: email,
       provider: provider
@@ -101,19 +169,18 @@ var dbAuth = (function() {
   }
 
   function isUserExistent(uid, callback) {
-    var registeredUser = firebase.database().ref('users_register/' + uid);
-    registeredUser.on('value', (snapshot) => {
-      const data = snapshot.val();
-      if (data == null) {
-        if (typeof(callback) == 'function') {
-          callback(false);
+    database.collection('users_register/').doc(uid).get()
+      .then((doc) => {
+        var isExistent;
+        if (!doc.exist) {
+          isExistent = false;
+        } else {
+          isExistent = true;
         }
-      } else {
         if (typeof(callback) == 'function') {
-          callback(true);
+          callback(isExistent);
         }
-      }
-    })
+      })
   }
 
 
@@ -123,9 +190,11 @@ var dbAuth = (function() {
     createNewUser: createNewUser,
     isProfessional: isProfessional,
     isUser: isUser,
-    getUserNameAndImg: getUserNameAndImg,
+    getUserNameAndImgProf: getUserNameAndImgProf,
+    getUserNameAndImgUser: getUserNameAndImgUser,
     isUserExistent: isUserExistent,
-    saveUserRoleAndProvider: saveUserRoleAndProvider
+    saveUserRoleAndProvider: saveUserRoleAndProvider,
+    isRegistered: isRegistered
   }
 
 })();

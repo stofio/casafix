@@ -123,6 +123,9 @@
   .prof-box-body-img .input-with-label {
     min-width: auto;
   }
+  .prof-box-body-info {
+    padding-left: 0;
+  }
   .prof-box-body-img,
   .prof-box-body-info {
     width: 100%;
@@ -130,6 +133,7 @@
   .prof-box-body-img {
     margin-bottom: 20px;
     flex-direction: row;
+    padding-right: 0;
   }
   .prof-box-body-img .input-with-label {
     margin-top: 0;

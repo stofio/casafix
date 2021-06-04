@@ -56,13 +56,13 @@
       } else {
         //CREATE PROFILE
         if ($userRole.val() === 'professional') {
-          dbAuth.createNewProfe(uid, $inputEmail.val(), 'email', () => {
+          dbAuth.createNewProfe(uid, $inputEmail.val(), 'email', '', () => {
             firebaseAuth.sendVerificationEmail(() => {
               window.location.replace(lnk.pgSettProf);
             });
           });
         } else if ($userRole.val() === 'user') {
-          dbAuth.createNewUser(uid, $inputEmail.val(), 'email', () => {
+          dbAuth.createNewUser(uid, $inputEmail.val(), 'email', '', () => {
             firebaseAuth.sendVerificationEmail(() => {
               window.location.replace(lnk.pgSettUser);
             });
@@ -73,14 +73,14 @@
   }
 
   function _registerWithGoogle() {
-    firebaseAuth.googleSignin((uid, email) => {
+    firebaseAuth.googleSignin((user) => {
       if ($userRole.val() === 'professional') {
         //IF IS PROFESSIONAL
-        dbAuth.isUserExistent(uid, (exist) => {
+        dbAuth.isUserExistent(user.uid, (exist) => {
           //IF PROFILE ALREADY CREATED
           if (exist) {
             //check if is a professional
-            dbAuth.isProfessional(uid, (isProf) => {
+            dbAuth.isProfessional(user.uid, (isProf) => {
               if (isProf) {
                 window.location.replace(lnk.pgSettProf);
               } else {
@@ -92,18 +92,25 @@
             })
           } else {
             //CREATE PROFILE
-            dbAuth.createNewProfe(uid, email, 'google', () => {
+            var photo;
+            if (user.photoURL !== '' || user.photoURL !== null) {
+              //get better resolution of image
+              photo = user.photoURL.replace('s96-c', 's400-c');
+            } else {
+              photo = '';
+            }
+            dbAuth.createNewProfe(user.uid, user.email, 'google', photo, () => {
               window.location.replace(lnk.pgSettProf);
             });
           }
         })
       } else if ($userRole.val() === 'user') {
         //IF IS USER
-        dbAuth.isUserExistent(uid, (exist) => {
+        dbAuth.isUserExistent(user.uid, (exist) => {
           //IF PROFILE ALREADY CREATED
           if (exist) {
             //check if is a user
-            dbAuth.isUser(uid, (isUser) => {
+            dbAuth.isUser(user.uid, (isUser) => {
               if (isUser) {
                 window.location.replace(lnk.pgSettUser);
               } else {
@@ -115,7 +122,14 @@
             })
           } else {
             //CREATE PROFILE
-            dbAuth.createNewUser(uid, email, 'google', () => {
+            var photo;
+            if (user.photoURL !== '' || user.photoURL !== null) {
+              //get better resolution of image
+              photo = user.photoURL.replace('s96-c', 's400-c');
+            } else {
+              photo = '';
+            }
+            dbAuth.createNewUser(user.uid, user.email, 'google', photo, () => {
               window.location.replace(lnk.pgSettUser);
             });
           }
@@ -125,18 +139,18 @@
   }
 
   function _registerWithFacebook() {
-    firebaseAuth.facebookSignin((error, uid, email) => {
+    firebaseAuth.facebookSignin((error, user) => {
       if (error == "auth/account-exists-with-different-credential") {
         $errorForGoogleAndFb.html("L'Account è già registrato con email o google. Riprova");
         return;
       }
       if ($userRole.val() === 'professional') {
         //IF IS PROFESSIONAL
-        dbAuth.isUserExistent(uid, (exist) => {
+        dbAuth.isUserExistent(user.uid, (exist) => {
           //IF PROFILE ALREADY CREATED
           if (exist) {
             //check if is a professional
-            dbAuth.isProfessional(uid, (isProf) => {
+            dbAuth.isProfessional(user.uid, (isProf) => {
               if (isProf) {
                 window.location.replace(lnk.pgSettProf);
               } else {
@@ -148,8 +162,14 @@
             })
           } else {
             //CREATE PROFILE
-            console.log('CREATE PROFILE')
-            dbAuth.createNewProfe(uid, email, 'facebook', () => {
+            var photo;
+            if (user.photoURL !== '' || user.photoURL !== null) {
+              //get better resolution of image
+              photo = `${user.photoURL}?type=large`;
+            } else {
+              photo = '';
+            }
+            dbAuth.createNewProfe(user.uid, user.email, 'facebook', photo, () => {
               firebaseAuth.sendVerificationEmail(() => {
                 window.location.replace(lnk.pgSettProf);
               });
@@ -158,11 +178,11 @@
         })
       } else if ($userRole.val() === 'user') {
         //IF IS USER
-        dbAuth.isUserExistent(uid, (exist) => {
+        dbAuth.isUserExistent(user.uid, (exist) => {
           //IF PROFILE ALREADY CREATED
           if (exist) {
             //check if is a user
-            dbAuth.isUser(uid, (isUser) => {
+            dbAuth.isUser(user.uid, (isUser) => {
               if (isUser) {
                 window.location.replace(lnk.pgSettUser);
               } else {
@@ -174,7 +194,14 @@
             })
           } else {
             //CREATE PROFILE
-            dbAuth.createNewUser(uid, email, 'facebook', () => {
+            var photo;
+            if (user.photoURL !== '' || user.photoURL !== null) {
+              //get better resolution of image
+              photo = `${user.photoURL}?type=large`;
+            } else {
+              photo = '';
+            }
+            dbAuth.createNewUser(user.uid, user.email, 'facebook', photo, () => {
               firebaseAuth.sendVerificationEmail(() => {
                 window.location.replace(lnk.pgSettUser);
               });

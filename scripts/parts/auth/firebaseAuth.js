@@ -13,7 +13,7 @@ var firebaseAuth = (function() {
         var email = user.email;
         if (typeof(callback) == 'function') {
           //if doesnt exist, return uid & email to save in db
-          callback(uid, email);
+          callback(user); //ADD USER IMAGEE!!
         }
       })
       .catch((error) => {
@@ -35,7 +35,7 @@ var firebaseAuth = (function() {
         var email = user.email;
         if (typeof(callback) == 'function') {
           //if doesnt exist, return uid & email to save in db
-          callback(e = false, uid, email);
+          callback(e = false, user); //ADD USER IMAGEE!!
         }
       }).catch((error) => {
         console.log(error)
@@ -74,12 +74,17 @@ var firebaseAuth = (function() {
     }
   }
 
+
   function isEmailAuthenticated() {
-    return firebase.auth().currentUser.emailVerified;
+    if (firebase.auth().currentUser !== null) {
+      return firebase.auth().currentUser.emailVerified;
+    }
   }
 
   function getCurrentUserEmail() {
-    return firebase.auth().currentUser.email;
+    if (firebase.auth().currentUser !== null) {
+      return firebase.auth().currentUser.email;
+    }
   }
 
 

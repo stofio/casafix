@@ -1,0 +1,136 @@
+{
+  "Imbianchino/ Pittore": [
+    "intonaco pareti esterne",
+    "tinteggiatura pareti interne",
+    "tinteggiatura pareti esterne",
+    "stucco veneziano",
+    "applicazione stucco",
+    "decorazioni pareti",
+    "carta da parati"
+  ],
+
+  "Traslocatore": [
+    "trasloco",
+    "sgombero",
+    "svuotamento",
+    "ritiro mobili usati",
+    "smaltimento materiali discarica",
+    "imballaggio"
+  ],
+
+  "Idraulico": [
+    "riparazione tubi",
+    "sblocco scarico",
+    "vasca a doccia",
+    "certificazioni",
+    "manutenzione/ sostituzione/ riparazione sanitari",
+    "manutenzione/ sostituzione/ riparazione/ installazione caldaia",
+    "manutenzione/ sostituzione/ riparazione termosifone",
+    "pulizia fossa biologica",
+    "reti fognarie e colonne di scarico"
+  ],
+
+  "Elettricista": [
+    "rete telefonica",
+    "rete internet",
+    "manutenzione/ sostituzione antenna",
+    "certificato conformità impianto elettrico",
+    "installazione impianto elettrico",
+    "installazione impianto illuminazione",
+    "riparazione/ manutenzione/ sostituzione cancello automatico",
+    "elettricista generico",
+    "circuiti stampati",
+    "prese ed interruttori",
+    "citofoni",
+    "videocitofoni",
+    "progettazione impianti elettrici"
+  ],
+
+  "Esperto Elettrodomestici / TV": [
+    "riparazione/ sostituzione/ installazione lavatrice",
+    "riparazione/ sostituzione/ installazione Frigorifero",
+    "riparazione ferro da stiro",
+    "riparazione/ sostituzione/ installazione lavastoviglie",
+    "riparazione/ sostituzione/ installazione forno",
+    "riparazione/ sostituzione/ installazione asciugatrice",
+    "riparazione aspirapolvere",
+    "riparazione/ sostituzione/ installazione macchina da caffe ",
+    "riparazione/ sostituzione/ installazione televisione tv",
+    "riparazione macchina fotografica"
+  ],
+
+  "Cartongessista": [
+    "realizzaznione/ riparazione opere in cartongesso",
+    "libreria in cartongesso",
+    "demolizione opere in cartongesso"
+  ],
+
+  "Fabbro / Lavoratore Ferro Acciaio": [
+    "lavorazione metallo",
+    "sabbiatura",
+    "manutenzione/ riparazione/ realizzazione inferiate",
+    "manutenzione/ riparazione/ realizzazione cancelli",
+    "manutenzione/ riparazione/ realizzazione ringhiere",
+    "manutenzione/ riparazione/ realizzazione recinti",
+    "fabbro",
+    "cassaforte",
+    "automazione cancelli"
+  ],
+
+  "Vetraio": [
+    "installazione/ sostituzione vetro",
+    "installazione/ sostituzione vetro antisfondamento",
+    "installazione/ sostituzione doppi vetri",
+    "foratura vetro",
+    "realizzazione oggetti in vetro",
+    "realizzazione/ sostituzione vetrate su misura",
+    "specchi",
+    "box doccia"
+  ],
+
+  "Pavimenti / Piastrellista": [
+    "posa / sostituzione piastrelle",
+    "posa / sostituzione pavimento in pietra",
+    "posa / sostituzione pavimento in calcestruzzo cls",
+    "posa / sostituzione pavimento in marmo",
+    "posa / sostituzione pavimento in parquet",
+    "posa/ sostituzione pavimento",
+    "restauro/ lucidatura/ levigatura/ lamatura parquet",
+    "taglio marmo"
+  ],
+
+  "Falegname": [
+    "rivestire mobili",
+    "creazione/ riparazione/ montaggio mobili",
+    "creazione/ riparazione/ montaggio scaffali",
+    "creazione/ riparazione/ montaggio librerie",
+    "creazione/ riparazione tavoli",
+    "creazione/ riparazione/ montaggio  armadi su misura",
+    "letti su misura",
+    "divani su misura",
+    "casetta in legno",
+    "trattamenti legno",
+    "trattamento antitarlo",
+    "ante scorrevoli",
+    "porte",
+    "finestre"
+
+  ],
+
+  "Meccanico": [
+    "problemi motore",
+    "problemi carrozzeria",
+    "sostituzione/ installazione ruote",
+    "auto in avaria",
+    "spie quadro",
+    "aria condizionata",
+    "finestrini",
+    "portiera",
+    "fari",
+    "revisione",
+    "tagliando",
+    "certificazioni",
+    "sostituzione vetro"
+  ]
+
+}

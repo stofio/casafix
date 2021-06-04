@@ -12,17 +12,18 @@ var loadPage = (function() {
     if (uid !== false) {
       //IF IS LOGGED
       var isEmailAuth = firebaseAuth.isEmailAuthenticated();
-      if (isEmailAuth == false) {
-        if (window.location.pathname == lnk.pgVerifyEmail) return; //prevent continous reload
+      if (!isEmailAuth) {
+        if (window.location.pathname == lnk.pgVerifyEmail) return; //prevent continous reload 
         window.location.replace(lnk.pgVerifyEmail);
         return;
       }
+    }
+    if (isEmailAuth) {
       dbAuth.isProfessional(uid, (isProf) => {
         //PROFESSIONAL
         if (isProf) {
-          console.log('Role: prof')
           if (profLinkRedir == false) {
-            dbAuth.getUserNameAndImg(uid, (obj) => {
+            dbAuth.getUserNameAndImgProf(uid, (obj) => {
               header.getHeader('prof', obj);
               $(sectionId).fadeIn(500);
               return;
@@ -37,9 +38,8 @@ var loadPage = (function() {
         //USER
         console.log(isUser)
         if (isUser) {
-          console.log('Role: prof')
           if (userLinkRedir == false) {
-            dbAuth.getUserNameAndImg(uid, (obj) => {
+            dbAuth.getUserNameAndImgUser(uid, (obj) => {
               header.getHeader('user', obj);
               $(sectionId).fadeIn(500);
               return;
