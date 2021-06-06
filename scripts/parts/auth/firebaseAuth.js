@@ -91,7 +91,7 @@ var firebaseAuth = (function() {
   function signOut() {
     firebase.auth().signOut()
       .then(() => {
-        window.location.replace('/registrazione');
+        window.location.replace('/registrazione.html');
       }).catch((error) => {
         console.log('Sign out failed:' + error);
       });
