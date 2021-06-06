@@ -60,11 +60,11 @@
           return;
         }
       })
-      dbAuth.isProfessional(uid, () => {
+      dbAuth.isProfessional(user.uid, () => {
         window.location.replace(lnk.pgAnnounce);
       })
 
-      dbAuth.isUser(uid, () => {
+      dbAuth.isUser(user.uid, () => {
         window.location.replace(lnk.pgHome);
       })
     })
@@ -78,8 +78,6 @@
       }
       dbAuth.isRegistered(user.uid, (registered) => {
         if (!registered) {
-          console.log(user)
-            //delete user
           user.delete()
             .then(() => {
               window.location.replace(lnk.pgRegistration);

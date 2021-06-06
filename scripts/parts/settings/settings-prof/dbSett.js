@@ -86,6 +86,84 @@ var dbSett = (function() {
     })
   }
 
+  //return image url
+  function uploadWorkImg(uid, image) {
+    return new Promise((resolve, reject) => {
+      storage.ref('users/' + uid + '/images/portfolio/' + uuidv4()).put(image)
+        .then((snapshot) => {
+          resolve(snapshot.ref.getDownloadURL());
+        }).catch((e) => {
+          console.log(e);
+          reject();
+        })
+    })
+  }
+
+  function saveWorkImageDb(uid, url, title) {
+    return new Promise((resolve) => {
+      database.collection('professionals').doc(uid).collection('portfolio').add({
+        "img_url": url,
+        "img_title": title,
+        "created": $.now()
+      }).then((snapshot) => {
+        resolve(snapshot.id);
+      })
+    })
+  }
+
+  function getPortfolioData(uid) {
+    return new Promise((resolve, reject) => {
+      database.collection('professionals').doc(uid).collection('portfolio').orderBy('created', "asc").get()
+        .then((querySnapshot) => {
+          // querySnapshot.forEach(doc => {
+          //   console.log(doc.id, " => ", doc.data());
+          // });
+          // const data = doc.data();
+          resolve(querySnapshot);
+        });
+    })
+  }
+
+  function uuidv4() {
+    return ([1e7] + -1e3 + -4e3 + -8e3 + -1e11).replace(/[018]/g, c =>
+      (c ^ crypto.getRandomValues(new Uint8Array(1))[0] & 15 >> c / 4).toString(16)
+    );
+  }
+
+  function deleteImage(imgUrl) {
+    return new Promise((resolve, reject) => {
+      storage.refFromURL(imgUrl).delete()
+        .then(function() {
+          resolve();
+        })
+        .catch(function(error) {
+          console.log('Deleting image by url error: ' + error);
+        });
+    });
+  }
+
+  function deleteImgId(imgId, uid) {
+    return new Promise((resolve, reject) => {
+      database.collection('professionals').doc(uid).collection('portfolio').doc(imgId).delete()
+        .then((snapshot) => {
+          resolve();
+        })
+        .catch(e => {
+          console.log('Deleting portfolio document error: ' + e);
+        });
+    });
+  }
+
+  function modifyTitlePortImg(uid, imgId, newTitle) {
+    return new Promise((resolve, reject) => {
+      database.collection('professionals').doc(uid).collection('portfolio').doc(imgId).update({
+        img_title: newTitle
+      }).then(() => {
+        resolve();
+      })
+    })
+  }
+
 
   return {
     getTheUid: getTheUid,
@@ -94,7 +172,13 @@ var dbSett = (function() {
     saveProfDescInfo: saveProfDescInfo,
     uploadProfImage: uploadProfImage,
     saveProfImageUrl: saveProfImageUrl,
-    saveProfession: saveProfession
+    saveProfession: saveProfession,
+    uploadWorkImg: uploadWorkImg,
+    saveWorkImageDb: saveWorkImageDb,
+    getPortfolioData: getPortfolioData,
+    deleteImage: deleteImage,
+    deleteImgId: deleteImgId,
+    modifyTitlePortImg: modifyTitlePortImg
   }
 
 })();

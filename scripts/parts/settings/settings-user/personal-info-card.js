@@ -1,39 +1,40 @@
 (function() {
 
   var uid;
+  var limitImageSize = 2097152; // 2 MiB for bytes.
 
   //cache dom
-  var $box = $('#mainInfo');
+  var $box = $('#descriptionInfo');
 
   var $modifyContainer = $box.find('.modifyContainer');
   var $saveContainer = $box.find('.saveContainer');
 
+
   var currentData = {
-    name: '',
-    surname: '',
-    contact_email: '',
-    phone: '',
+    birth_date: '',
+    prof_img_url: '',
     location: {
       address: '',
       region: '',
       lat: '',
       lng: '',
     }
-  };
-
+  }
 
   //bind events
   $(document).on('load', _loadCard());
-  $(document).on('click', '.modifyBtnMain', _changeToModifyMod);
-  $(document).on('click', '.saveBtnMain', _saveData);
-  $(document).on('click', '.cancBtnMain', _cancelInputs);
+  $(document).on('click', '.modifyBtnDesc', _changeToModifyMod);
+  $(document).on('click', '.saveBtnDesc', _saveData);
+  $(document).on('click', '.cancBtnDesc', _cancelInputs);
+  $(document).on('click', '#changeImg', _changeImage);
+  $(document).on('change', '#changeImgInput', _uploadImage);
 
 
   //init
   async function _loadCard() {
     uid = await dbSett.getTheUid();
     $box.find('.inp-text').hide();
-    $box.find('input').hide();
+    $box.find('input, #changeImg').hide();
     _getData()
       .then(() => {
         _renderTextAndBtn();
@@ -42,25 +43,24 @@
   }
 
 
-  //functions
+  //function
   function _renderTextAndBtn() {
     _renderModifyButton();
     _renderText();
   }
 
   function _renderSaveButton() {
-    var btn = `<button class="def-btn saveBtnMain"">Salva</button>
-               <span class="cancel-btn cancBtnMain">cancella</span>`;
+    var btn = `<button class="def-btn saveBtnDesc"">Salva</button>
+                 <span class="cancel-btn cancBtnDesc">cancella</span>`;
     $saveContainer.html(btn);
     $modifyContainer.html('');
   }
 
   function _renderModifyButton() {
-    var btn = `<div class="edit-pen modifyBtnMain">Modifica</div>`;
+    var btn = `<div class="edit-pen modifyBtnDesc">Modifica</div>`;
     $modifyContainer.html(btn);
     $saveContainer.html('');
   }
-
 
   function _changeToModifyMod() {
     _renderSaveButton();
@@ -72,11 +72,10 @@
     _renderText();
   }
 
-
   //hide text show input
   function _renderInputs() {
     $box.find('.inp-text').hide();
-    $box.find('input').show();
+    $box.find('input, textarea, #changeImg').show();
     $box.find('.get-location-icon').show();
     if ($box.find('.rmv').hasClass('rmvActive')) {
       $box.find('.rmv').show();
@@ -86,7 +85,7 @@
   //hide input show text
   function _renderText() {
     $box.find('.inp-text').show();
-    $box.find('input').hide();
+    $box.find('input, #changeImg').hide();
     $box.find('.get-location-icon').hide();
     if ($box.find('.rmv').hasClass('rmvActive')) {
       $box.find('.rmv').hide();
@@ -95,7 +94,7 @@
 
   function _getData() {
     return new Promise((resolve) => {
-      dbSett.getProfProfileData(uid).then((data) => {
+      dbSett.getUserProfileData(uid).then((data) => {
         if (data) {
           currentData = data.profile;
         }
@@ -105,10 +104,9 @@
   }
 
   function _fillData(obj) {
-    _fillInput('#name', obj.name);
-    _fillInput('#surname', obj.surname);
-    _fillInput('#email', obj.contact_email);
-    _fillInput('#phone', obj.phone);
+    //_fillInput('#name', obj.prof_img_url);
+    _fillInput('#birthDate', obj.birth_date);
+    _setProfImageUrl(obj.prof_img_url);
     _fillInput('#location', obj.location.address);
     if (obj.location.address) {
       $box.find('.rmv').show().addClass('rmvActive').hide();
@@ -145,10 +143,9 @@
     var lng = $box.find('#location').attr('data-lng');
     var region = $box.find('#location').attr('data-region');
     var obj = {
-        name: $box.find('#name').val(),
-        surname: $box.find('#surname').val(),
-        contact_email: $box.find('#email').val(),
-        phone: $box.find('#phone').val(),
+        birth_date: $box.find('#birthDate').val(),
+        description: $box.find('#description').val(),
+        prof_img_url: $box.find('.prof-my-img').attr('attr-img'),
         location: {
           address: $box.find('#location').val(),
           region: region,
@@ -162,7 +159,7 @@
       return;
     } else {
       _loadingButtonOn();
-      await dbSett.saveProfMainInfo(uid, obj);
+      await dbSett.saveUserDescInfo(uid, obj);
       currentData = obj;
       _fillData(obj);
       _changeToTextMode();
@@ -172,15 +169,67 @@
   }
 
   function _loadingButtonOn() {
-    var $btn = $box.find('.saveBtnMain');
+    var $btn = $box.find('.saveBtnDesc');
     $btn.attr('disabled', true).css('opacity', .5).css("pointer-events", "none");
     $btn.html('Salva...');
   }
 
   function _loadingButtonOff() {
-    var $btn = $box.find('.saveBtnMain');
+    var $btn = $box.find('.saveBtnDesc');
     $btn.attr('disabled', false).css('opacity', 1).css("pointer-events", "auto");
     $btn.html('Salva');
+  }
+
+  function _changeImage() {
+    $box.find('#changeImgInput').trigger('click');
+  }
+
+  async function _uploadImage() {
+    $box.find('#changeImgInput').attr('disabled', true);
+    var uploadedImage = this.files[0];
+    if (uploadedImage == null) {
+      _loadingButtonOn();
+    }
+    var fileType = uploadedImage["type"];
+    var validImageTypes = ["image/gif", "image/jpeg", "image/png"];
+
+    if ($.inArray(fileType, validImageTypes) < 0) {
+      _loadingButtonOff();
+      $box.find('#changeImgInput').attr('disabled', false);
+      alert('Puoi caricare solo immagini, riprova!');
+      return;
+    }
+
+    if (uploadedImage.size > limitImageSize) {
+      _loadingButtonOff();
+      $box.find('#changeImgInput').attr('disabled', false);
+      alert("La dimensione dell'immagine deve essere inferiore a 2MiB, riprova!");
+      return;
+    }
+
+    dbSett.uploadUserImage(uid, uploadedImage)
+      .then((url) => {
+        _setProfImageUrl(url)
+        _saveImageUrl(uid, url)
+          .then(() => {
+            currentData.prof_img_url = url;
+            $box.find('#changeImgInput').attr('disabled', false);
+            _loadingButtonOff()
+          })
+      })
+
+  }
+
+  function _setProfImageUrl(url) {
+    $box.find('.prof-my-img').css('background-image', `url(${url})`);
+    $box.find('.prof-my-img').attr('attr-img', url);
+  }
+
+  function _saveImageUrl(uid, url) {
+    return new Promise((resolve) => {
+      dbSett.saveUserImageUrl(uid, url);
+      resolve();
+    })
   }
 
 

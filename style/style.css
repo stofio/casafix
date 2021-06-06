@@ -58,7 +58,7 @@ label {
   box-shadow: 0px 1px 6px 0px #e0e0e0;
   background: #fff;
   padding: 8px 0;
-  z-index: 1000;
+  z-index: 8;
 }
 
 #header .row {
@@ -192,7 +192,7 @@ label {
   background-position: center center;
   width: 50px;
   height: 50px;
-  border-radius: 20px;
+  border-radius: 10px;
 }
 
 #progress {
@@ -394,22 +394,24 @@ button.def-btn:hover {
 
 .popup-overlay {
   display: none;
-  position: absolute;
+  position: fixed;
   top: 0;
   left: 0;
   width: 100%;
   height: 100%;
   background-color: rgba(0, 0, 0, .32);
   opacity: 0.8;
-  z-index: 1;
+  z-index: 9;
 }
 
 .popup-container.row {
-  position: absolute;
+  position: fixed;
   margin: 0;
   top: 20vh;
   justify-content: center;
-  width: 100%;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 10;
 }
 
 .popup-box {
@@ -417,8 +419,8 @@ button.def-btn:hover {
   background: #FFFFFF;
   box-shadow: 0px 2px 2px rgb(0 0 0 / 8%);
   border-radius: 6px;
-  width: 420px;
-  z-index: 2;
+  min-width: 420px;
+  z-index: 10;
   box-shadow: 0 2px 3px 0 rgba(60, 64, 67, .3), 0 6px 10px 4px rgba(60, 64, 67, .15);
 }
 
@@ -617,7 +619,7 @@ button.def-btn:hover {
   background-size: cover;
   width: 90px;
   height: 90px;
-  border-radius: 20px;
+  border-radius: 10px;
 }
 
 #changePassword {
@@ -669,7 +671,7 @@ button.def-btn:hover {
 }
 
 .add-prof-box:hover {
-  background-color: #fb743e15;
+  background-color: #f9f9f9;
   text-decoration: underline;
   cursor: pointer;
 }
@@ -697,10 +699,6 @@ button.def-btn:hover {
   cursor: pointer;
 }
 
-.portfolio-item:hover {
-  text-decoration: underline;
-}
-
 .portfolio-item .portfolio-front-img {
   height: 150px;
   border-radius: 6px;
@@ -708,8 +706,57 @@ button.def-btn:hover {
   background-repeat: no-repeat;
   background-position: center center;
   background-size: cover;
-  border-radius: 20px;
+  border-radius: 10px;
   margin-bottom: 10px;
+  border: 1px solid #C4C4C4;
+}
+
+.portfolio-front-img .mod-port-item {
+  opacity: 0;
+  display: flex;
+  width: 100%;
+  height: 100%;
+  border-radius: 10px;
+  justify-content: center;
+  align-items: center;
+}
+
+.portfolio-item:hover .mod-port-item {
+  opacity: 1;
+  background-color: rgba(29, 29, 29, .14);
+}
+
+.portfolio-front-img .mod-port-item .port-mod,
+.portfolio-front-img .mod-port-item .port-del {
+  border-radius: 100px;
+  background-color: #fff;
+  width: 35px;
+  height: 35px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border: solid 1px #C4C4C4;
+}
+
+.portfolio-item:hover .mod-port-item .port-mod:hover,
+.portfolio-front-img .mod-port-item .port-del:hover {
+  background-color: #f9f9f9;
+}
+
+.portfolio-front-img .mod-port-item .port-del {
+  margin-left: 10px;
+}
+
+.portfolio-front-img .mod-port-item .port-del:before {
+  content: url(/images/trash-icon.svg);
+  margin-bottom: -8px;
+}
+
+.portfolio-front-img .mod-port-item .port-mod:before {
+  content: '✎';
+  color: #FB743E;
+  margin-bottom: -2px;
+  font-size: 22px;
 }
 
 .portfolio-item strong {
@@ -788,12 +835,17 @@ button.def-btn:hover {
 }
 
 .services-container ul li:hover {
-  background-color: #fb743e15;
+  background-color: #f9f9f9;
 }
 
 .services-container ul li.active {
   border-color: #FB743E;
-  background-color: #fb743e15;
+  background-color: #f9f9f9;
+}
+
+.services-container ul li.active.toText {
+  border-color: #C4C4C4;
+  background-color: #fff;
 }
 
 .select-prof option {
@@ -829,12 +881,12 @@ button.def-btn:hover {
 }
 
 .other-services input:hover {
-  background-color: #fb743e15;
+  background-color: #f9f9f9;
 }
 
 .other-services input.active {
   border-color: #FB743E;
-  background-color: #fb743e15;
+  background-color: #f9f9f9;
 }
 
 .set-counter,
@@ -966,4 +1018,35 @@ button.def-btn:hover {
     -ms-transform: translateY(-5px);
     transform: translateY(-5px);
   }
+}
+
+.popup#add-new-work-img .popup-container {
+  top: 11vh;
+  width: 100%;
+}
+
+.popup#add-new-work-img .popup-box {
+  max-width: 800px;
+  width: 100%;
+}
+
+.upload-work-btn #newWorkImage {
+  border: dotted 2px #FB743E;
+  text-align: center;
+  color: #FB743E;
+  padding: 10px;
+  cursor: pointer;
+  margin-bottom: 20px;
+  width: 200px;
+  margin: 0 auto;
+  margin-top: 10px;
+}
+
+.preview-work-image {
+  display: none;
+  height: 320px;
+  width: 100%;
+  background-size: contain !important;
+  background-repeat: no-repeat !important;
+  background-position: center center !important;
 }

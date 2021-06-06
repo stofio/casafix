@@ -13,12 +13,6 @@
     surname: '',
     contact_email: '',
     phone: '',
-    location: {
-      address: '',
-      region: '',
-      lat: '',
-      lng: '',
-    }
   };
 
 
@@ -50,7 +44,7 @@
 
   function _renderSaveButton() {
     var btn = `<button class="def-btn saveBtnMain"">Salva</button>
-               <span class="cancel-btn cancBtnMain">cancella</span>`;
+                 <span class="cancel-btn cancBtnMain">cancella</span>`;
     $saveContainer.html(btn);
     $modifyContainer.html('');
   }
@@ -77,25 +71,17 @@
   function _renderInputs() {
     $box.find('.inp-text').hide();
     $box.find('input').show();
-    $box.find('.get-location-icon').show();
-    if ($box.find('.rmv').hasClass('rmvActive')) {
-      $box.find('.rmv').show();
-    }
   }
 
   //hide input show text
   function _renderText() {
     $box.find('.inp-text').show();
     $box.find('input').hide();
-    $box.find('.get-location-icon').hide();
-    if ($box.find('.rmv').hasClass('rmvActive')) {
-      $box.find('.rmv').hide();
-    }
   }
 
   function _getData() {
     return new Promise((resolve) => {
-      dbSett.getProfProfileData(uid).then((data) => {
+      dbSett.getUserProfileData(uid).then((data) => {
         if (data) {
           currentData = data.profile;
         }
@@ -109,14 +95,6 @@
     _fillInput('#surname', obj.surname);
     _fillInput('#email', obj.contact_email);
     _fillInput('#phone', obj.phone);
-    _fillInput('#location', obj.location.address);
-    if (obj.location.address) {
-      $box.find('.rmv').show().addClass('rmvActive').hide();
-      $box.find('.location-inp').prop('disabled', true);
-      $box.find('#location').attr('data-lat', obj.location.lat);
-      $box.find('#location').attr('data-lng', obj.location.lng);
-      $box.find('#location').attr('data-region', obj.location.region);
-    }
   }
 
   /**
@@ -141,20 +119,11 @@
   }
 
   async function _saveData() {
-    var lat = $box.find('#location').attr('data-lat');
-    var lng = $box.find('#location').attr('data-lng');
-    var region = $box.find('#location').attr('data-region');
     var obj = {
         name: $box.find('#name').val(),
         surname: $box.find('#surname').val(),
         contact_email: $box.find('#email').val(),
         phone: $box.find('#phone').val(),
-        location: {
-          address: $box.find('#location').val(),
-          region: region,
-          lat: lat,
-          lng: lng,
-        }
       }
       //compare if data is the same
     if (JSON.stringify(obj) === JSON.stringify(currentData)) {
@@ -162,7 +131,7 @@
       return;
     } else {
       _loadingButtonOn();
-      await dbSett.saveProfMainInfo(uid, obj);
+      await dbSett.saveUserMainInfo(uid, obj);
       currentData = obj;
       _fillData(obj);
       _changeToTextMode();

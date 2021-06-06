@@ -25,7 +25,7 @@
 
 
   function _showEmailRegPopup() {
-    popup.showPopup();
+    popup.showPopup('#email-reg-popup');
   }
 
   function _registerWithEmail() {

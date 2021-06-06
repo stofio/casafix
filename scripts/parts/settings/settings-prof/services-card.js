@@ -94,7 +94,7 @@
     $box.find('.other-services input:empty').filter(function() { return this.value == ""; }).parent()
       .hide();
     $box.find('.services-container li').filter(function() { return $(this).hasClass('active') })
-      .prop('disabled', true).css('pointer-events', 'none');
+      .prop('disabled', true).css('pointer-events', 'none').addClass('toText');
     $box.find('.services-container li').filter(function() { return !$(this).hasClass('active') })
       .hide();
 
@@ -115,7 +115,7 @@
   function _renderInputs() {
     $box.find('.other-services input').prop('disabled', false).css('pointer-events', 'auto');
     $box.find('.other-services input').parent().show();
-    $box.find('.services-container li').prop('disabled', false).css('pointer-events', 'auto');
+    $box.find('.services-container li').prop('disabled', false).css('pointer-events', 'auto').removeClass('toText');
     $box.find('.services-container li').show();
 
     $box.find('.select2').show();
@@ -147,13 +147,13 @@
 
   function _loadingButtonOn() {
     var $btn = $box.find('.saveBtnProf');
-    $btn.attr('disabled', true).css('opacity', .5);
+    $btn.attr('disabled', true).css('opacity', .5).css("pointer-events", "none");
     $btn.html('Salva...');
   }
 
   function _loadingButtonOff() {
     var $btn = $box.find('.saveBtnProf');
-    $btn.attr('disabled', false).css('opacity', 1);
+    $btn.attr('disabled', false).css('opacity', 1).css("pointer-events", "auto");
     $btn.html('Salva');
   }
 

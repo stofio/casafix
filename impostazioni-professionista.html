@@ -228,50 +228,19 @@
           </div>
 
 
+
+
           <div class="profile-box" id="portfolio">
             <div class="profile-box-head">
               <h2>Portfolio</h2>
-              <div class="add-plus">Aggiungi</div>
+              <div class="add-plus newPortfItem">Aggiungi</div>
             </div>
             <div class="profile-box-body my-portfolio">
-              <div class="row">
-                <div class="col-md-4 col-6  portfolio-item">
-                  <div class="portfolio-front-img" style="background-image:url(/images/placeholder-prof-img.png)"></div>
-                  <strong>Impianti elettrici</strong>
-                </div>
-                <div class="col-md-4 col-6  portfolio-item">
-                  <div class="portfolio-front-img" style="background-image:url(/images/placeholder-prof-img.png)"></div>
-                  <strong>Impianti elettrici</strong>
-                </div>
-                <div class="col-md-4 col-6  portfolio-item">
-                  <div class="portfolio-front-img" style="background-image:url(/images/placeholder-prof-img.png)"></div>
-                  <strong>Impianti elettrici</strong>
-                </div>
-                <div class="col-md-4 col-6  portfolio-item">
-                  <div class="portfolio-front-img" style="background-image:url(/images/placeholder-prof-img.png)"></div>
-                  <strong>Impianti elettrici</strong>
-                </div>
+              <div class="row portfolio-list">
+
               </div>
             </div>
           </div>
-
-          <div class="popup" id="email-reg-popup">
-            <div class="popup-overlay"></div>
-            <div class="row popup-container">
-              <div class="popup-box">
-                <div class="splide">
-                  <div class="splide__track">
-                    <ul class="splide__list">
-                      <li class="splide__slide">Slide 01</li>
-                      <li class="splide__slide">Slide 02</li>
-                      <li class="splide__slide">Slide 03</li>
-                    </ul>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-
 
 
         </div>
@@ -279,41 +248,79 @@
   </section>
 
 
+  <!-- <div class="popup" id="email-reg-popup">
+    <div class="popup-overlay"></div>
+    <div class="row popup-container">
+      <div class="popup-box">
+        <h2>Impianti elettrici</h2>
+        <div class="slide-container">
+          <div class="slide-images">
+
+          </div>
+
+        </div>
+      </div>
+    </div> -->
+
+  <div class="popup" id="add-new-work-img">
+    <div class="popup-overlay"></div>
+    <div class="row popup-container">
+      <div class="popup-box">
+        <h2>Aggiungi nuova immagine</h2>
+        <div class="new-img">
+          <div class="upload-work-btn">
+            <div class="preview-work-image"></div>
+            <div id="newWorkImage">Seleziona</div>
+            <input type="file" id="newWorkImageInput" hidden/>
+          </div>
+          <div class="input-with-label">
+            <label>Titolo</label><br>
+            <input type="text" id="workImgTitle" value="">
+          </div>
+          <div class="saveContainer">
+            <button class="def-btn saveBtnNewWork">Salva</button>
+            <span class="cancel-btn cancBtnNewWork">cancella</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+
 
 </body>
 
 <!--firebase-->
-<script src="https://www.gstatic.com/firebasejs/8.5.0/firebase-app.js"></script>
-<script src="https://www.gstatic.com/firebasejs/8.5.0/firebase-auth.js"></script>
-<script src="https://www.gstatic.com/firebasejs/8.5.0/firebase-firestore.js"></script>
-<script src="https://www.gstatic.com/firebasejs/8.5.0/firebase-storage.js"></script>
-<script src="https://unpkg.com/geofirestore/dist/geofirestore.js"></script>
+<script src="https://www.gstatic.com/firebasejs/8.5.0/firebase-app.js "></script>
+<script src="https://www.gstatic.com/firebasejs/8.5.0/firebase-auth.js "></script>
+<script src="https://www.gstatic.com/firebasejs/8.5.0/firebase-firestore.js "></script>
+<script src="https://www.gstatic.com/firebasejs/8.5.0/firebase-storage.js "></script>
+<script src="https://unpkg.com/geofirestore/dist/geofirestore.js "></script>
 
-<script src="scripts/_firebaseConn.js"></script>
+<script src="scripts/_firebaseConn.js "></script>
 
 <!--scripts/vendor-->
-<script type="text/javascript" src="/scripts/vendor/jquery.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/oj.mustache/0.7.2/oj.mustache.min.js" integrity="sha512-+KQDdWwfzb3UZ0sEt1Op66MoQ9NKs6bE02+NpPnsQxZ6ylUP3Fd8L3yf1CsYPD2vndRIbOCzWk2RUfOJ9bsOcA==" crossorigin="anonymous"></script>
-<script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/@splidejs/splide@latest/dist/js/splide.min.js"></script>
+<script type="text/javascript " src="/scripts/vendor/jquery.min.js "></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/oj.mustache/0.7.2/oj.mustache.min.js " integrity="sha512-+KQDdWwfzb3UZ0sEt1Op66MoQ9NKs6bE02+NpPnsQxZ6ylUP3Fd8L3yf1CsYPD2vndRIbOCzWk2RUfOJ9bsOcA==" crossorigin=" anonymous "></script>
+<script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js "></script>
+<script src="https://unpkg.com/@mapbox/mapbox-sdk/umd/mapbox-sdk.min.js "></script>
 
 <!--scripts/main.js-->
-<script type="text/javascript" src="/scripts/parts/links.js"></script>
-<script type="text/javascript" src="/scripts/parts/auth/firebaseAuth.js"></script>
-<script type="text/javascript" src="/scripts/parts/auth/dbAuth.js"></script>
-<script type="text/javascript" src="/scripts/parts/header.js"></script>
-<script type="text/javascript" src="/scripts/parts/loadPage.js"></script>
+<script type="text/javascript " src="/scripts/parts/links.js "></script>
+<script type="text/javascript " src="/scripts/parts/auth/firebaseAuth.js "></script>
+<script type="text/javascript " src="/scripts/parts/auth/dbAuth.js "></script>
+<script type="text/javascript " src="/scripts/parts/header.js "></script>
+<script type="text/javascript " src="/scripts/parts/loadPage.js "></script>
+<script type="text/javascript " src="/scripts/parts/popup.js "></script>
+<script type="text/javascript " src="/scripts/parts/autoInputLocation.js "></script>
 
-<script src="https://unpkg.com/@mapbox/mapbox-sdk/umd/mapbox-sdk.min.js"></script>
-<script type="text/javascript" src="/scripts/parts/autoInputLocation.js"></script>
+<script type="text/javascript " src="/scripts/page-settings-professional.js "></script>
 
-<script type="text/javascript" src="/scripts/page-settings-professional.js"></script>
-
-<script type="text/javascript" src="/scripts/parts/settings/settings-prof/dbSett.js"></script>
-<script type="text/javascript" src="/scripts/parts/settings/settings-prof/main-info-card.js"></script>
-<script type="text/javascript" src="/scripts/parts/settings/settings-prof/personal-info-card.js"></script>
-<script type="text/javascript" src="/scripts/parts/settings/settings-prof/services-card.js"></script>
-<script type="text/javascript" src="/scripts/parts/settings/settings-prof/portfolio-card.js"></script>
+<script type="text/javascript " src="/scripts/parts/settings/settings-prof/dbSett.js "></script>
+<script type="text/javascript " src="/scripts/parts/settings/settings-prof/main-info-card.js "></script>
+<script type="text/javascript " src="/scripts/parts/settings/settings-prof/personal-info-card.js "></script>
+<script type="text/javascript " src="/scripts/parts/settings/settings-prof/services-card.js "></script>
+<script type="text/javascript " src="/scripts/parts/settings/settings-prof/portfolio-card.js "></script>
 
 
 </html>

@@ -1,6 +1,7 @@
 (function() {
 
   var uid;
+  var limitImageSize = 2097152; // 2 MiB for bytes.
 
   //cache dom
   var $box = $('#descriptionInfo');
@@ -141,13 +142,13 @@
 
   function _loadingButtonOn() {
     var $btn = $box.find('.saveBtnDesc');
-    $btn.attr('disabled', true).css('opacity', .5);
+    $btn.attr('disabled', true).css('opacity', .5).css("pointer-events", "none");
     $btn.html('Salva...');
   }
 
   function _loadingButtonOff() {
     var $btn = $box.find('.saveBtnDesc');
-    $btn.attr('disabled', false).css('opacity', 1);
+    $btn.attr('disabled', false).css('opacity', 1).css("pointer-events", "auto");
     $btn.html('Salva');
   }
 
@@ -159,6 +160,23 @@
     $box.find('#changeImgInput').attr('disabled', true);
     _loadingButtonOn();
     var uploadedImage = this.files[0];
+    var fileType = uploadedImage["type"];
+    var validImageTypes = ["image/gif", "image/jpeg", "image/png"];
+
+    if ($.inArray(fileType, validImageTypes) < 0) {
+      _loadingButtonOff();
+      $box.find('#changeImgInput').attr('disabled', false);
+      alert('Puoi caricare solo immagini, riprova!');
+      return;
+    }
+
+    if (uploadedImage.size > limitImageSize) {
+      _loadingButtonOff();
+      $box.find('#changeImgInput').attr('disabled', false);
+      alert("La dimensione dell'immagine deve essere inferiore a 2MiB, riprova!");
+      return;
+    }
+
     dbSett.uploadProfImage(uid, uploadedImage)
       .then((url) => {
         _setProfImageUrl(url)
@@ -169,6 +187,7 @@
             _loadingButtonOff()
           })
       })
+
   }
 
   function _setProfImageUrl(url) {

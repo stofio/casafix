@@ -89,12 +89,15 @@ var dbAuth = (function() {
   }
 
   function isRegistered(uid, callback) {
-    database.collection('users_register').doc(uid).get()
+    database.collection('registered_accounts').doc(uid).get()
       .then((doc) => {
+        console.log(doc)
         var isReg;
-        if (!doc.exist) {
+        if (!doc.exists) {
+          console.log('false')
           isReg = false;
         } else {
+          console.log('true')
           isReg = true;
         }
         if (typeof(callback) == 'function') {
@@ -169,10 +172,10 @@ var dbAuth = (function() {
   }
 
   function isUserExistent(uid, callback) {
-    database.collection('users_register/').doc(uid).get()
+    database.collection('registered_accounts').doc(uid).get()
       .then((doc) => {
         var isExistent;
-        if (!doc.exist) {
+        if (!doc.exists) {
           isExistent = false;
         } else {
           isExistent = true;
