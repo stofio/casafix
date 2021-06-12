@@ -21,8 +21,7 @@
   $(document).on('click', '.modifyBtnProf', _changeToModifyMod);
   $(document).on('click', '.saveBtnProf', _saveData);
   $(document).on('click', '.cancBtnProf', _cancelInputs);
-  $('select').on('change', _changeSelect);
-  //$addNewBtn.on('click', _addNewProf);
+  $('.select-prof').on('change', _changeSelect);
   $(document).on('click', '.services-container li', _toggleService);
   $addNewBtn.on('click', _addNewProfession);
   $(document).on('click', '.remove', _removeProfession);
@@ -49,7 +48,17 @@
 
   //functions
   function _initializeSelect() {
-    $box.find('select').select2();
+    $box.find('select').select2({
+      placeholder: "Professione",
+      language: {
+        noResults: function(params) {
+          return "Nessun risultato trovato";
+        }
+      }
+    });
+    $('.select-prof').one('select2:open', function(e) {
+      $('input.select2-search__field').prop('placeholder', '🔎︎');
+    });
   }
 
   function _renderTextAndBtn() {

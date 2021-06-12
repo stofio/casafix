@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Cerca professionista</title>
+  <link rel="stylesheet" type="text/css" href="/style/bootstrap.min.css">
+  <link rel="stylesheet" type="text/css" href="/style/style.css">
+  <link rel="stylesheet" type="text/css" href="/style/style.responsive.css">
+  <link rel="stylesheet" type="text/css" href="/style/jquery.rateyo.min.css">
+  <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
+
+</head>
+
+<body>
+
+  <nav id="header"></nav>
+
+
+  <section class="top-sec" id="search-page">
+    <div class="container">
+
+      <!-- component search -->
+      <div class="search-bar mobile-closing" id="searchBar">
+        <div class="row m-0">
+          <div class="row m-0 search-inputs">
+            <div class="inp-service">
+              <img src="/images/search-icon.svg" />
+              <select id="sel-search-prof">
+                <option value="0" selected disabled>Servizio / Professionista</option>
+              </select>
+            </div>
+            <div class="inp-location">
+              <img src="/images/search-place.svg" />
+              <div class="autocomplete-input">
+                <input type="text" class="location-inp" id="location" data-lat='' data-lng='' data-region='' placeholder="Dove?" />
+                <div class="rmv rmvActive"><img src="images/close-menu.svg"></div>
+              </div>
+            </div>
+          </div>
+          <button id="searchBtn" class="def-btn mt-0" type="submit"><img src="/images/search-icon-white.svg" /></button>
+        </div>
+      </div>
+
+      <!-- Professionisti a Bologna, Qualche zona -->
+      <div class="searched-location">
+        <h1>Professionisti a <span>Bologna, Qualche zona</span></h1>
+      </div>
+
+      <div class="div-line"></div>
+
+
+
+      <div class="row">
+        <!-- component sidebar -->
+        <div class="col-md-3 mobile-filter-swap">
+          <div class="sidebar-filter" id="sidebarFilter">
+            <h3>Filtra Servizi</h3>
+            <select id="sel-side-prof">
+              <option value="0" selected disabled>Professione</option>
+            </select>
+            <div id="servicesContainer">
+
+            </div>
+          </div>
+        </div>
+
+
+        <div class="col-md-9">
+          <!-- component sort -->
+          <div id="sort-prof">
+            <h3>Ordina per</h3>
+            <select>
+              <option value="distance" selected>⛖ Distanza</option>
+              <option value="reviews">✎ n. di Recensioni</option>
+              <option value="stars">★ n. di Stelle</option>
+              <option value="new">☻ Nuovi Iscritti</option>
+            </select>
+          </div>
+
+          <!-- component list   -->
+          <div id="listProf">
+            <script id="tmpList" type="text/template">
+              {{#professinal}}
+              <li>{{.}}</li>
+              {{/professinal}}
+            </script>
+
+            <div class="prof-box">
+              <div class="prof-box-img">
+                <div class="prof-img-bg" style="background: url(/images/1-intro-photo-final.jpg)"></div>
+              </div>
+              <div class="prof-and-stars">
+                <div class="prof-professions">
+                  <span>Elettricista</span>
+                  <span>Elettricista</span>
+                </div>
+                <div class="prof-prof-stars">
+                  <span>32</span>
+                  <div class="number-stars"></div>
+                </div>
+              </div>
+              <div class="prof-info">
+                <p>Bobby Hill</p>
+                <p>Provincia di Roma</p>
+                <p class="intro">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pretium, consequat, ac...</p>
+              </div>
+              <div class="distance-and-button">
+                <span class="distance">⇄ 1.2 km</span>
+                <button class="def-btn goToProfile">Profilo</button>
+              </div>
+            </div>
+
+
+            <div class="prof-box">
+              <div class="prof-box-img">
+                <div class="prof-img-bg" style="background: url(/images/1-intro-photo-final.jpg)"></div>
+              </div>
+              <div class="prof-and-stars">
+                <div class="prof-professions">
+                  <span>Elettricista</span>
+                  <span>Elettricista</span>
+                  <span>Elettricista</span>
+                </div>
+                <div class="prof-prof-stars">
+                  <span>32</span>
+                  <div class="number-stars"></div>
+                </div>
+              </div>
+              <div class="prof-info">
+                <p>Bobby Hill</p>
+                <p>Provincia di Roma</p>
+                <p class="intro">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pretium, consequat, ac...</p>
+              </div>
+              <div class="distance-and-button">
+                <span class="distance">⇄ 1.2 km</span>
+                <button class="def-btn goToProfile">Profilo</button>
+              </div>
+            </div>
+
+
+            <div class="prof-box">
+              <div class="prof-box-img">
+                <div class="prof-img-bg" style="background: url(/images/1-intro-photo-final.jpg)"></div>
+              </div>
+              <div class="prof-and-stars">
+                <div class="prof-professions">
+                  <span>Elettricista</span>
+                  <span>Elettricista</span>
+                </div>
+                <div class="prof-prof-stars">
+                  <span>32</span>
+                  <div class="number-stars"></div>
+                </div>
+              </div>
+              <div class="prof-info">
+                <p>Bobby Hill</p>
+                <p>Provincia di Roma</p>
+                <p class="intro">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pretium, consequat, ac...</p>
+              </div>
+              <div class="distance-and-button">
+                <span class="distance">⇄ 1.2 km</span>
+                <button class="def-btn goToProfile">Profilo</button>
+              </div>
+            </div>
+
+
+
+
+
+          </div>
+        </div>
+
+      </div>
+
+
+
+    </div>
+  </section>
+
+</body>
+
+<!--firebase-->
+<script src="https://www.gstatic.com/firebasejs/8.5.0/firebase-app.js"></script>
+<script src="https://www.gstatic.com/firebasejs/8.5.0/firebase-auth.js"></script>
+<script src="https://www.gstatic.com/firebasejs/8.5.0/firebase-firestore.js"></script>
+<script src="scripts/_firebaseConn.js"></script>
+<script src="https://unpkg.com/geofirestore/dist/geofirestore.js "></script>
+
+<!--scripts/vendor-->
+<script type="text/javascript" src="/scripts/vendor/jquery.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/oj.mustache/0.7.2/oj.mustache.min.js" integrity="sha512-+KQDdWwfzb3UZ0sEt1Op66MoQ9NKs6bE02+NpPnsQxZ6ylUP3Fd8L3yf1CsYPD2vndRIbOCzWk2RUfOJ9bsOcA==" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js "></script>
+<script src="https://unpkg.com/@mapbox/mapbox-sdk/umd/mapbox-sdk.min.js "></script>
+<script type="text/javascript" src="/scripts/vendor/jquery.rateyo.min.js"></script>
+
+<!--scripts/main.js-->
+<script type="text/javascript" src="/scripts/parts/links.js"></script>
+<script type="text/javascript" src="/scripts/parts/auth/firebaseAuth.js"></script>
+<script type="text/javascript" src="/scripts/parts/auth/dbAuth.js"></script>
+<script type="text/javascript" src="/scripts/parts/header.js"></script>
+<script type="text/javascript" src="/scripts/parts/loadPage.js"></script>
+<script type="text/javascript" src="/scripts/parts/popup.js"></script>
+<script type="text/javascript" src="/scripts/parts/autoInputLocation.js"></script>
+
+<script src="/scripts/page-search-professional.js"></script>
+
+<script type="text/javascript" src="/scripts/parts/search-professional/main.js"></script>
+<script type="text/javascript" src="/scripts/parts/search-professional/searchBar.js"></script>
+<script type="text/javascript" src="/scripts/parts/search-professional/filterSidebar.js"></script>
+<script type="text/javascript" src="/scripts/parts/search-professional/sortDropdown.js"></script>
+<script type="text/javascript" src="/scripts/parts/search-professional/listProfessionals.js"></script>
+
+</html>
