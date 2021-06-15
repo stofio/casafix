@@ -76,18 +76,19 @@
               <option value="reviews">✎ n. di Recensioni</option>
               <option value="stars">★ n. di Stelle</option>
               <option value="new">☻ Nuovi Iscritti</option>
+
+              <!-- <option value="distance" selected>📌 Distanza</option>
+              <option value="reviews">💬 n. di Recensioni</option>
+              <option value="stars">⭐ n. di Stelle</option>
+              <option value="new">👋 Nuovi Iscritti</option> -->
             </select>
           </div>
 
           <!-- component list   -->
           <div id="listProf">
-            <script id="tmpList" type="text/template">
-              {{#professinal}}
-              <li>{{.}}</li>
-              {{/professinal}}
-            </script>
 
-            <div class="prof-box">
+
+            <!-- <div class="prof-box">
               <div class="prof-box-img">
                 <div class="prof-img-bg" style="background: url(/images/1-intro-photo-final.jpg)"></div>
               </div>
@@ -110,63 +111,7 @@
                 <span class="distance">⇄ 1.2 km</span>
                 <button class="def-btn goToProfile">Profilo</button>
               </div>
-            </div>
-
-
-            <div class="prof-box">
-              <div class="prof-box-img">
-                <div class="prof-img-bg" style="background: url(/images/1-intro-photo-final.jpg)"></div>
-              </div>
-              <div class="prof-and-stars">
-                <div class="prof-professions">
-                  <span>Elettricista</span>
-                  <span>Elettricista</span>
-                  <span>Elettricista</span>
-                </div>
-                <div class="prof-prof-stars">
-                  <span>32</span>
-                  <div class="number-stars"></div>
-                </div>
-              </div>
-              <div class="prof-info">
-                <p>Bobby Hill</p>
-                <p>Provincia di Roma</p>
-                <p class="intro">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pretium, consequat, ac...</p>
-              </div>
-              <div class="distance-and-button">
-                <span class="distance">⇄ 1.2 km</span>
-                <button class="def-btn goToProfile">Profilo</button>
-              </div>
-            </div>
-
-
-            <div class="prof-box">
-              <div class="prof-box-img">
-                <div class="prof-img-bg" style="background: url(/images/1-intro-photo-final.jpg)"></div>
-              </div>
-              <div class="prof-and-stars">
-                <div class="prof-professions">
-                  <span>Elettricista</span>
-                  <span>Elettricista</span>
-                </div>
-                <div class="prof-prof-stars">
-                  <span>32</span>
-                  <div class="number-stars"></div>
-                </div>
-              </div>
-              <div class="prof-info">
-                <p>Bobby Hill</p>
-                <p>Provincia di Roma</p>
-                <p class="intro">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pretium, consequat, ac...</p>
-              </div>
-              <div class="distance-and-button">
-                <span class="distance">⇄ 1.2 km</span>
-                <button class="def-btn goToProfile">Profilo</button>
-              </div>
-            </div>
-
-
-
+            </div> -->
 
 
           </div>
@@ -206,10 +151,11 @@
 
 <script src="/scripts/page-search-professional.js"></script>
 
-<script type="text/javascript" src="/scripts/parts/search-professional/main.js"></script>
-<script type="text/javascript" src="/scripts/parts/search-professional/searchBar.js"></script>
+<script type="text/javascript" src="/scripts/parts/search-professional/dbSearch.js"></script>
+<script type="text/javascript" src="/scripts/parts/searchBar.js"></script>
 <script type="text/javascript" src="/scripts/parts/search-professional/filterSidebar.js"></script>
 <script type="text/javascript" src="/scripts/parts/search-professional/sortDropdown.js"></script>
 <script type="text/javascript" src="/scripts/parts/search-professional/listProfessionals.js"></script>
+<script type="text/javascript" src="/scripts/parts/search-professional/main.js"></script>
 
 </html>

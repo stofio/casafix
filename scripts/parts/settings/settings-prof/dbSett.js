@@ -27,7 +27,8 @@ var dbSett = (function() {
           "profile.location.lng": obj.location.lng,
         })
         .then(() => {
-          resolve();
+          _checkIfProfileCanBeListed(uid)
+            .then(resolve());
         })
     })
   }
@@ -81,10 +82,12 @@ var dbSett = (function() {
       database.collection('professionals').doc(uid).update({
         professions: obj
       }).then(() => {
-        resolve();
+        _checkIfProfileCanBeListed(uid)
+          .then(resolve());
       })
     })
   }
+
 
   //return image url
   function uploadWorkImg(uid, image) {
@@ -158,6 +161,39 @@ var dbSett = (function() {
     return new Promise((resolve, reject) => {
       database.collection('professionals').doc(uid).collection('portfolio').doc(imgId).update({
         img_title: newTitle
+      }).then(() => {
+        resolve();
+      })
+    })
+  }
+
+
+  function _checkIfProfileCanBeListed(uid) {
+    return new Promise((resolve, reject) => {
+      database.collection('professionals').doc(uid).get()
+        .then(doc => {
+          var prof = doc.data();
+          if (prof.professions.length == 0) {
+            _setProfileCompleted(uid, 0);
+            return;
+          } else if (prof.profile.name == '' || prof.profile.surname == '') {
+            _setProfileCompleted(uid, 0);
+            return;
+          } else if (prof.profile.location.address == '') {
+            _setProfileCompleted(uid, 0);
+            return;
+          } else {
+            _setProfileCompleted(uid, 1)
+              .then(resolve());
+          }
+        })
+    })
+  }
+
+  function _setProfileCompleted(uid, completed) {
+    return new Promise((resolve) => {
+      database.collection('professionals').doc(uid).update({
+        "_profile_completed": completed
       }).then(() => {
         resolve();
       })

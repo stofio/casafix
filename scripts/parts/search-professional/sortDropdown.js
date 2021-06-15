@@ -21,18 +21,23 @@ var sortDropdown = (function() {
     //RENDER LIST
   }
 
-
   function _initializeSelect(callback) {
     $sort.select2({
       minimumResultsForSearch: -1,
     });
   }
 
+  function blockSortDropdown() {
+    $sort.attr("disabled", "disabled").css('pointer-events', 'none');
+  }
 
-
+  function unblockSortDropdown() {
+    $sort.removeAttr('disabled').css('pointer-events', 'auto');
+  }
 
   return {
-
+    blockSortDropdown: blockSortDropdown,
+    unblockSortDropdown: unblockSortDropdown
   }
 
 })();

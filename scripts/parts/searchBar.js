@@ -79,9 +79,6 @@ var searchBar = (function() {
     })
   }
 
-  function _openCloseSearch() {
-
-  }
 
   function _openSearch() {
     $bar.find('.search-inputs').slideDown();
@@ -96,9 +93,22 @@ var searchBar = (function() {
     }
   }
 
+  function blockSearchBar() {
+    $bar.find('select').attr("disabled", "disabled").css('pointer-events', 'none');
+    $bar.find('input').attr("disabled", "disabled").css('pointer-events', 'none');
+    $bar.find('button').attr("disabled", "disabled").css('pointer-events', 'none');
+  }
+
+  function unblockSearchBar() {
+    $bar.find('select').removeAttr('disabled').css('pointer-events', 'auto');
+    $bar.find('input').removeAttr('disabled').css('pointer-events', 'auto');
+    $bar.find('button').removeAttr('disabled').css('pointer-events', 'auto');
+  }
+
 
   return {
-
+    blockSearchBar: blockSearchBar,
+    unblockSearchBar: unblockSearchBar
   }
 
 })();

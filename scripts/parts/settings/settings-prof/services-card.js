@@ -169,6 +169,8 @@
   //return object of services
   function createDataObj() {
     var obj = [];
+    var arrayProfessions = [];
+    var arrayServices = [];
     //each profession box get data and push to obj
     $.each($box.find('.prof-box-body-profession'), (i, prof) => {
       var profession = '';
@@ -197,6 +199,8 @@
           selectedServ.slice(0, selRemainingFree);
         }
 
+        arrayProfessions.push(profession);
+        arrayServices.push(...selectedServ);
         obj.push({
           "_prof_name": profession,
           "sel_serv": selectedServ,
@@ -204,7 +208,12 @@
         });
       }
     });
-    return obj;
+    return {
+      arrayProfessions: arrayProfessions,
+      arrayServices: arrayServices,
+      objProfService: obj
+    }
+    //return obj;
   }
 
 
@@ -221,7 +230,7 @@
 
   function _fillData(myProfession) {
     _emptyData();
-    $.each(myProfession, (i, prof) => {
+    $.each(myProfession.objProfService, (i, prof) => {
       currProfBox = $box.find('.prof-box-body-profession')[i];
       if (!$(currProfBox).is(':visible')) $(currProfBox).show();
       $(currProfBox).find('select').val('').val(prof._prof_name).trigger('change');
