@@ -6,9 +6,10 @@ var sortDropdown = (function() {
   var $sort = $sortCont.find('select');
 
 
+
   //bind events
-  $(document).on('load', _loadSort());
   $sort.on('change', _sortList);
+  $(document).on('load', _loadSort());
 
   //init
   function _loadSort() {
@@ -34,6 +35,7 @@ var sortDropdown = (function() {
   function unblockSortDropdown() {
     $sort.removeAttr('disabled').css('pointer-events', 'auto');
   }
+
 
   return {
     blockSortDropdown: blockSortDropdown,

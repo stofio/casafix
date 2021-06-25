@@ -2,6 +2,15 @@ var dbSearch = (function() {
 
   var database = firebase.firestore();
 
+  var firebaseRef = firebase.database().ref('professionals-location');
+  var geoFire = new geofire.GeoFire(firebaseRef);
+
+  function size() {
+    database.collection('professionals').get().then(snap => {
+      var size = snap.size // will return the collection size
+      console.log(size)
+    });
+  }
 
   function getTheUid() {
     return new Promise((resolve, reject) => {
@@ -25,39 +34,86 @@ var dbSearch = (function() {
   }
 
   function getFilteredProfessionals(dataFil) {
-    console.log(dataFil.services);
+    console.log(dataFil.location.lat)
     return new Promise((resolve, reject) => {
-      var ref = database.collection('professionals').where("_profile_completed", "==", 1);
+      loadProfInRange([dataFil.location.lat, dataFil.location.lng], dataFil.range)
+        .then(geoProfs => {
+          if (geoProfs == null) {
+            resolve([])
+            return;
+          }
+          let uidsInRange = geoProfs.map(prof => prof.key);
+          var ref = database.collection('professionals').where("_profile_completed", "==", 1);
+          var ref = database.collection('professionals').where(firebase.firestore.FieldPath.documentId(), "in", uidsInRange);
+
+          if (dataFil.profession !== null) {
+            if (dataFil.profession.length !== 0) {
+              if (dataFil.services.length == 0) {
+                //filter profession only
+                ref = ref.where("professions.arrayProfessions", "array-contains", dataFil.profession);
+              } else {
+                //filter services
+                $.each(dataFil.services, (i, serv) => {
+                  ref = ref.where("professions.selectedServices." + serv, "==", true);
+                })
+              }
+            }
+          }
 
 
-      if (dataFil.profession.length !== 0) {
-        if (dataFil.services.length == 0) {
-          //filter profession only
-          var ref = ref.where("professions.arrayProfessions", "array-contains", dataFil.profession);
-        } else {
-          //filter services
-          var ref = ref.where("professions.arrayServices", "array-contains-any", dataFil.services);
-        }
-      }
 
-      if (dataFil.location.place !== "") {
-        //filter location
-        var ref = ref.where("professions.arrayProfessions", "==", dataFil.location.region);
-      }
+          ref.get()
+            .then((snapshot) => {
+              var profsArr = snapshot.docs.map(doc => {
+                return {...doc.data(), uid: doc.id }
+              });
 
-      ref.get()
-        .then((snapshot) => {
-          var profsArr = snapshot.docs.map(doc => {
-            return {...doc.data(), uid: doc.id }
-          });
-          //console.log(snapshot.docs.map(doc => doc.id));
-          resolve(profsArr);
+              //set the distance
+              var profsWithDistance = [];
+              $.each(profsArr, (i, prof) => {
+                $.each(geoProfs, (g, geoProf) => {
+                  if (prof.uid == geoProf.key) {
+                    profsWithDistance.push({...prof, distance: geoProf.distance });
+                  }
+                });
+              })
+
+              resolve(profsWithDistance);
+            })
+            .catch(e => {
+              reject(e);
+            });
         })
-        .catch(e => {
-          reject(e);
-        });
     })
   }
+
+
+  function loadProfInRange(arrCenter, range) {
+    return new Promise((resolve, reject) => {
+      var geoQuery = geoFire.query({
+        center: arrCenter,
+        radius: range
+      });
+      var keysEntered = false;
+      var arrayOfProfInRange = [];
+      geoQuery.on("key_entered", function(key, location, distance) {
+        var keysEntered = true;
+        arrayOfProfInRange.push({
+          key: key,
+          location: location,
+          distance: distance
+        });
+        console.log(34324342)
+        resolve(arrayOfProfInRange)
+      })
+      geoQuery.on("ready", function() {
+        if (!keysEntered) {
+          resolve(null);
+        }
+      });
+    })
+  }
+
 
 
 
@@ -67,6 +123,7 @@ var dbSearch = (function() {
     getTheUid: getTheUid,
     getProfProfileData: getProfProfileData,
     getFilteredProfessionals: getFilteredProfessionals,
+    size: size
   }
 
 })();

@@ -171,11 +171,13 @@
     var obj = [];
     var arrayProfessions = [];
     var arrayServices = [];
+    var boolServices = {};
     //each profession box get data and push to obj
     $.each($box.find('.prof-box-body-profession'), (i, prof) => {
       var profession = '';
       var selectedServ = [];
       var otherServ = [];
+      var isServiceObj = {};
       if (i == 3) return;
       //get profession
       profession = $(prof).find('select').val();
@@ -189,8 +191,8 @@
           //get selected services
         $(prof).find('.services-container li').filter(function() { return $(this).hasClass('active') })
           .each((i, item) => {
-            console.log()
             selectedServ.push($(item).html());
+            isServiceObj[$(item).html()] = true;
           })
 
         //remove items over max of 12
@@ -201,6 +203,7 @@
 
         arrayProfessions.push(profession);
         arrayServices.push(...selectedServ);
+        boolServices = isServiceObj;
         obj.push({
           "_prof_name": profession,
           "sel_serv": selectedServ,
@@ -210,7 +213,7 @@
     });
     return {
       arrayProfessions: arrayProfessions,
-      arrayServices: arrayServices,
+      selectedServices: boolServices,
       objProfService: obj
     }
     //return obj;

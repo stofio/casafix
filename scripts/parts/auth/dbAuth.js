@@ -8,6 +8,8 @@ var dbAuth = (function() {
       _is_professional: 1,
       _email: email,
       created: $.now(),
+      reviews: 0,
+      stars: 0,
       profile: {
         contact_email: email,
         prof_img_url: photoUrl,

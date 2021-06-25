@@ -11,4 +11,6 @@ var firebaseConfig = {
 // Initialize Firebase
 firebase.initializeApp(firebaseConfig);
 
+
+
 //firebase.app().functions('europe-west1');

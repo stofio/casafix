@@ -3,6 +3,9 @@ var dbSett = (function() {
   var database = firebase.firestore();
   var storage = firebase.storage();
 
+  var firebaseRef = firebase.database().ref('professionals-location');
+  var geoFire = new geofire.GeoFire(firebaseRef);
+
 
   function getTheUid() {
     return new Promise((resolve, reject) => {
@@ -28,9 +31,23 @@ var dbSett = (function() {
         })
         .then(() => {
           _checkIfProfileCanBeListed(uid)
-            .then(resolve());
+            .then(() => {
+              saveGeoLocation(uid, obj.location.lat, obj.location.lng)
+                .then(resolve());
+            });
         })
     })
+  }
+
+  function saveGeoLocation(uid, lat, lng) {
+    return new Promise((resolve, reject) => {
+      geoFire.set(uid, [lat * 1, lng * 1]).then(function() {
+        resolve();
+      }, function(error) {
+        console.log("Error: " + error);
+        reject();
+      });
+    });
   }
 
   function getProfProfileData(uid) {

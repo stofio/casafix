@@ -11,6 +11,8 @@ var filterSidebar = (function() {
   var $dropdownServices = $sidebar.find('select');
   var $servicesContainer = $sidebar.find('#servicesContainer');
 
+  var $changeRange = $('#range');
+
   //bind events
   $(document).on('load', _loadSidebar());
   $dropdownServices.on('change', setServiceFilter);
@@ -18,6 +20,14 @@ var filterSidebar = (function() {
 
   $(window).on('resize', _setMobileFiltersSidebar);
   $('#sidebarFilter h3').on('click', openCloseSwap);
+
+  $changeRange.on('click', _openRangeMenu);
+  $changeRange.find('li').on('click', _setRange);
+  document.onclick = function(e) {
+    if (!e.target.matches('#range, #range .value, #range ul, #range .km')) {
+      _closeRangeMenu();
+    }
+  }
 
   //init
   function _loadSidebar() {
@@ -35,27 +45,19 @@ var filterSidebar = (function() {
     $.each(servicesJson, (serv, subArr) => {
       if (serv == $selected) {
         $.each(subArr, (i, val) => {
-          console.log(val)
           var r = `<div class="radio-cont">
-                    <input class="subserviceItem" type="checkbox" id="${val.replace(/\s+/g, '-').toLowerCase()}" name="services" value="${val}">
-                    <label class="side-label" for="${val.replace(/\s+/g, '-').toLowerCase()}">${val}</label><br>
+                    <input class="subserviceItem" type="checkbox" id="${val.replace(/\\|\//g,'').replace(/\s+/g, '-').toLowerCase()}" name="services" value="${val}">
+                    <label class="side-label" for="${val.replace(/\\|\//g,'').replace(/\s+/g, '-').toLowerCase()}">${val}</label><br>
                    </div>`;
           $servicesContainer.append(r);
         })
         return;
       }
     })
-
-    //set service par to url
-    //render subservices
-    //RENDER LIST
   }
 
   function _setSubserviceFilter(e) {
     _limitChecked(e);
-    console.log(checked)
-      //set subservice par to url
-      //RENDER LIST
   }
 
 
@@ -121,7 +123,6 @@ var filterSidebar = (function() {
     if ($(e.target).is(":checked")) {
       checked.push(e.target.id);
       if (checked.length > 3) {
-        console.log('splice')
         checked.splice(0, 1);
       }
       $(".subserviceItem").prop("checked", false);
@@ -134,20 +135,34 @@ var filterSidebar = (function() {
     }
   }
 
-  $('h3').on('click', () => {
-    console.log(checked)
-  })
+  function _openRangeMenu() {
+    $changeRange.find('ul').css('display', 'block');
+  }
+
+  function _closeRangeMenu() {
+    $changeRange.find('ul').css('display', 'none');
+  }
+
+  function _setRange() {
+    $changeRange.find('li').removeClass('active');
+    var value = $(this).html();
+    $(this).addClass('active');
+    $changeRange.find('.value .km').html(value);
+  }
 
 
   function blockFilterSidebar() {
     $dropdownServices.attr("disabled", "disabled").css('pointer-events', 'none');
     $servicesContainer.find('input').attr("disabled", "disabled").css('pointer-events', 'none');
+    $changeRange.attr("disabled", "disabled").css('pointer-events', 'none');
   }
 
   function unblockFilterSidebar() {
     $dropdownServices.removeAttr('disabled').css('pointer-events', 'auto');
     $servicesContainer.find('input').removeAttr('disabled').css('pointer-events', 'auto');
+    $changeRange.removeAttr('disabled').css('pointer-events', 'auto');
   }
+
 
 
   return {

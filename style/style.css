@@ -19,6 +19,10 @@
   /* Chrome 4+, Firefox 3.5, Opera 10+, Safari 3—5 */
 }
 
+html {
+  scroll-behavior: smooth;
+}
+
 #registration,
 #registration-prof,
 #registration-user,
@@ -1412,4 +1416,84 @@ li.select2-results__option {
   margin-right: 30px;
   font-family: 'Yantramanav-medium';
   font-size: 19x;
+}
+
+.load-placeholder {
+  width: 100%;
+  height: 210px;
+  margin-bottom: 20px;
+  border-radius: 6px;
+  animation: loadList 1s infinite;
+  animation-timing-function: cubic-bezier(0.4, 0, 1, 1);
+}
+
+@keyframes loadList {
+  0% {
+    background-color: #eeeeee;
+  }
+  60% {
+    background-color: #fff;
+  }
+  100% {
+    background-color: #eeeeee;
+  }
+}
+
+.no-results {
+  text-align: center;
+  margin-top: 50px;
+  color: #fb743e;
+  font-size: 25px;
+  font-family: 'Yantramanav-medium';
+}
+
+.range-drop {
+  position: relative;
+  display: inline-block;
+}
+
+.range-drop .value .km {
+  font-family: 'Yantramanav-medium';
+  font-size: 31px;
+  margin-bottom: 0;
+  cursor: pointer;
+  color: #3c4858;
+  margin-left: 5px;
+}
+
+.range-drop .value .km:hover {
+  color: #FB743E;
+}
+
+.range-drop .value span {
+  font-size: 14px;
+  margin-left: -2px;
+}
+
+.range-drop ul {
+  position: absolute;
+  background-color: #fff;
+  padding: 10px 15px;
+  list-style: none;
+  z-index: 1;
+  box-shadow: 1px 1px 6px 0px rgb(0 0 0 / 13%);
+  border-radius: 6px;
+  min-width: 110px;
+  display: none;
+}
+
+.range-drop li {
+  font-size: 22px;
+  font-family: 'Yantramanav-medium';
+  padding: 4px 0;
+  cursor: pointer;
+}
+
+.range-drop li:hover {
+  text-decoration: underline;
+}
+
+.loc-err {
+  text-align: right;
+  color: #ef2f2f;
 }

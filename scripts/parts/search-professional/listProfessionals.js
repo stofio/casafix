@@ -8,21 +8,84 @@ var listProfessionals = (function() {
       $(document).on('click', '.prof-box', _goToUserProfile);
 
       //functions
-      async function renderList(dataFilter) {
-        var profObj = await _getFilteredProfessionals(dataFilter);
-        $profList.empty();
-        profObj.forEach(prof => $profList.append(getTemplate(prof)));
+      function renderList(dataFilter) {
+        return new Promise((resolve, reject) => {
+          $profList.empty();
+          $profList.append(_loadingList())
+          _getFilteredProfessionals(dataFilter)
+            .then(profObj => {
+              if (profObj.length !== 0) {
+                $profList.empty();
+                _sortProfessionals(profObj, dataFilter.sort)
+                  .then(sorted => {
+                    sorted.forEach(prof => $profList.append(getTemplate(prof)));
+                  })
+              } else {
+                $profList.empty();
+                $profList.append('<h4 class="no-results">La ricerca non ha dato nessun risultato.<br/> Prova a cambiare filtri, zona o raggio di ricerca.</h4>')
+              }
+              resolve();
+            })
+        })
       }
+
+      //the sortType can be string -> distance, reviews, stars, created
+      function _sortProfessionals(profObj, sortType) {
+        return new Promise((resolve, reject) => {
+          if (sortType == 'created') {
+            var sortedCreated = profObj.sort(SortByCreated);
+            resolve(sortedCreated);
+          }
+          if (sortType == 'reviews') {
+            var sortedCreated = profObj.sort(SortByReviews);
+            resolve(sortedCreated);
+          }
+          if (sortType == 'stars') {
+            var sortedCreated = profObj.sort(SortByStars);
+            resolve(sortedCreated);
+          }
+          if (sortType == 'distance') {
+            var sortedCreated = profObj.sort(SortByDistance);
+            resolve(sortedCreated);
+          }
+        });
+      }
+
+      function SortByCreated(a, b) {
+        var aName = a.created;
+        var bName = b.created;
+        return ((aName > bName) ? -1 : ((aName < bName) ? 1 : 0));
+      }
+
+      function SortByReviews(a, b) {
+        var aName = a.reviews;
+        var bName = b.reviews;
+        return ((aName > bName) ? -1 : ((aName < bName) ? 1 : 0));
+      }
+
+      function SortByStars(a, b) {
+        var aName = a.stars;
+        var bName = b.stars;
+        return ((aName > bName) ? -1 : ((aName < bName) ? 1 : 0));
+      }
+
+      function SortByDistance(a, b) {
+        var aName = a.distance;
+        var bName = b.distance;
+        return ((aName < bName) ? -1 : ((aName > bName) ? 1 : 0));
+      }
+
+
 
 
       function _getFilteredProfessionals(dataFilter) {
         return new Promise((resolve, reject) => {
           dbSearch.getFilteredProfessionals(dataFilter)
             .then(data => {
-              console.log(data)
               resolve(data);
             })
             .catch(e => {
+              console.log(e)
               reject(e);
             })
         })
@@ -32,34 +95,33 @@ var listProfessionals = (function() {
         let tmpCont = document.createElement('div');
         tmpCont.classList.add('prof-box');
         let tmp = `
-          <input class="profuid" type="text" value="${profObj.uid}" hidden />
-          <div class="prof-box-img">
-            <div class="prof-img-bg" style="background: url(${profObj.profile.prof_img_url})"></div>
-          </div>
-          <div class="prof-and-stars">
-            <div class="prof-professions">
-              ${ profObj.professions.objProfService.map(prof => `<span>${prof._prof_name}</span>`).join("- &nbsp;") }
-            </div>
-            <div class="prof-prof-stars">
-              <span>32</span>
-              <div class="number-stars"></div>
-            </div>
-          </div>
-          <div class="prof-info">
-            <p>${profObj.profile.name} ${profObj.profile.surname}</p>
-            <p>${profObj.profile.location.region}</p>
-            <p class="intro">${profObj.profile.description}</p>
-          </div>
-          <div class="distance-and-button">
-            <span class="distance">⇄ 1.2 km</span>
-            <button class="def-btn goToProfile">Profilo</button>
-          </div>
-        `;
+    <input class="profuid" type="text" value="${profObj.uid}" hidden />
+    <div class="prof-box-img">
+      <div class="prof-img-bg" style="background: url(${profObj.profile.prof_img_url})"></div>
+    </div>
+    <div class="prof-and-stars">
+      <div class="prof-professions">
+        ${ profObj.professions.objProfService.map(prof => `<span>${prof._prof_name}</span>`).join("- &nbsp;") }
+      </div>
+      <div class="prof-prof-stars">
+        <span>${profObj.reviews}</span>
+        <div class="number-stars"></div>
+      </div>
+    </div>
+    <div class="prof-info">
+      <p>${profObj.profile.name} ${profObj.profile.surname}</p>
+      <p>${profObj.profile.location.region}</p>
+      <p class="intro">${profObj.profile.description}</p>
+    </div>
+    <div class="distance-and-button">
+      <span class="distance">⇄ ${profObj.distance.toFixed(2)} km da te</span>
+      <button class="def-btn goToProfile">Profilo</button>
+    </div>`;
 
     $(tmpCont).append(tmp);
 
     $(tmpCont).find('.number-stars').rateYo({
-      rating: Math.floor(Math.random() * 5) + 1,
+      rating: profObj.stars,
       starWidth: "18px",
       spacing: "1px",
       readOnly: true,
@@ -67,12 +129,21 @@ var listProfessionals = (function() {
       normalFill: "#cdcdcd"
     });
 
-    return tmpCont;
-  }
+      return tmpCont;
+    }
 
   function _goToUserProfile() {
     var uid = $(this).find('.profuid').val();
     console.log(uid)
+  }
+
+  function _loadingList() {
+        let tmp = `
+          <div class="load-placeholder"></div>
+          <div class="load-placeholder"></div>
+          <div class="load-placeholder"></div>
+            <div class="load-placeholder"></div>`;
+      return tmp;
   }
 
 

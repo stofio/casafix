@@ -45,7 +45,17 @@
 
       <!-- Professionisti a Bologna, Qualche zona -->
       <div class="searched-location">
-        <h1>Professionisti a <span>Bologna, Qualche zona</span></h1>
+        <h1>Professionisti vicino a <span id="place-name"></span> nel raggio di
+          <div id="range" class="range-drop">
+            <div class="value"> <span class="km">50 km</span> <span>&#9660;</span></div>
+            <ul>
+              <li data-range="10">10 km</li>
+              <li class="active" data-range="50">50 km</li>
+              <li data-range="100">100 km</li>
+              <li data-range="200">200 km</li>
+            </ul>
+          </div>
+        </h1>
       </div>
 
       <div class="div-line"></div>
@@ -56,7 +66,7 @@
         <!-- component sidebar -->
         <div class="col-md-3 mobile-filter-swap">
           <div class="sidebar-filter" id="sidebarFilter">
-            <h3>Filtra Servizi</h3>
+            <h3>Filtra Servizi <span>(max 3)</span></h3>
             <select id="sel-side-prof">
               <option value="0" selected disabled>Professione</option>
             </select>
@@ -71,11 +81,11 @@
           <!-- component sort -->
           <div id="sort-prof">
             <h3>Ordina per</h3>
-            <select>
+            <select id="sortFilter">
               <option value="distance" selected>⛖ Distanza</option>
               <option value="reviews">✎ n. di Recensioni</option>
               <option value="stars">★ n. di Stelle</option>
-              <option value="new">☻ Nuovi Iscritti</option>
+              <option value="created">☻ Nuovi Iscritti</option>
 
               <!-- <option value="distance" selected>📌 Distanza</option>
               <option value="reviews">💬 n. di Recensioni</option>
@@ -86,7 +96,6 @@
 
           <!-- component list   -->
           <div id="listProf">
-
 
             <!-- <div class="prof-box">
               <div class="prof-box-img">
@@ -120,7 +129,6 @@
       </div>
 
 
-
     </div>
   </section>
 
@@ -130,8 +138,8 @@
 <script src="https://www.gstatic.com/firebasejs/8.5.0/firebase-app.js"></script>
 <script src="https://www.gstatic.com/firebasejs/8.5.0/firebase-auth.js"></script>
 <script src="https://www.gstatic.com/firebasejs/8.5.0/firebase-firestore.js"></script>
+<script src="https://www.gstatic.com/firebasejs/8.5.0/firebase-database.js"></script>
 <script src="scripts/_firebaseConn.js"></script>
-<script src="https://unpkg.com/geofirestore/dist/geofirestore.js "></script>
 
 <!--scripts/vendor-->
 <script type="text/javascript" src="/scripts/vendor/jquery.min.js"></script>
@@ -139,6 +147,9 @@
 <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js "></script>
 <script src="https://unpkg.com/@mapbox/mapbox-sdk/umd/mapbox-sdk.min.js "></script>
 <script type="text/javascript" src="/scripts/vendor/jquery.rateyo.min.js"></script>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/rsvp/4.8.5/rsvp.min.js" integrity="sha512-HFmmKqGaLV2NYgTKWTLxKYsreelx/C5mZLO5kgcA00If59U0YbjAdOpVsoSAb6YTi5K11nVtotiQnSHkltN2XQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+<script src="https://cdn.firebase.com/libs/geofire/5.0.1/geofire.min.js"></script>
 
 <!--scripts/main.js-->
 <script type="text/javascript" src="/scripts/parts/links.js"></script>
@@ -151,6 +162,7 @@
 
 <script src="/scripts/page-search-professional.js"></script>
 
+<script type="text/javascript" src="/scripts/_geofire.js"></script>
 <script type="text/javascript" src="/scripts/parts/search-professional/dbSearch.js"></script>
 <script type="text/javascript" src="/scripts/parts/searchBar.js"></script>
 <script type="text/javascript" src="/scripts/parts/search-professional/filterSidebar.js"></script>

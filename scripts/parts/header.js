@@ -233,7 +233,6 @@ var header = (function() {
 
   function _closeProfileMenu() {
     $('.profileMenu').css('display', 'none');
-
   }
 
   function _logout() {

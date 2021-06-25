@@ -10,6 +10,7 @@ var lnk = (function() {
     pgAnnounce: '/annunci.html',
     pgLogin: '/accedi.html',
     pgVerifyEmail: '/verifica-email.html',
+    pgCercaProf: '/cerca-professionista.html',
   }
 
 })();

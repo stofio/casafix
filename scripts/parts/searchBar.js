@@ -1,3 +1,6 @@
+/**
+ * here we use PHP to save SESSION of the search
+ */
 var searchBar = (function() {
 
   var servicesJson = {};
@@ -5,12 +8,17 @@ var searchBar = (function() {
   //cache dom
   var $bar = $('#searchBar');
   var $select = $bar.find('select');
-  var $inpLocation = $bar.find('#inpLocation');
+  var $inpLocation = $bar.find('#location');
   var $searchBtn = $bar.find('#searchBtn');
 
   //bind events
   $(document).on('load', _loadSearch());
   $searchBtn.on('click', _search);
+  $(document).on('click', (e) => {
+    if (!e.target.matches('#searchBtn, #searchBtn *')) {
+      _removeLocationMandatory();
+    }
+  });
 
   //init
   function _loadSearch() {
@@ -24,14 +32,39 @@ var searchBar = (function() {
 
   //functions
   function _search(e) {
+    if (!_validated()) { return; }
     if ($searchBtn.hasClass('deactivated')) {
       _openSearch();
       e.preventDefault();
       return;
     } else {
-      //go to search page with url service and place
+      var lat = $inpLocation.attr('data-lat');
+      var lng = $inpLocation.attr('data-lng');
+      var pl = $inpLocation.val();
+      var selected = $select.val();
+
+      var srv = '';
+      var prf = '';
+
+
+      $.each(servicesJson, (i, prof) => {
+        if (i == selected) {
+          prf = selected;
+        }
+        $.each(prof, (a, serv) => {
+          //console.log(i, serv)
+          if (serv == selected) {
+            srv = serv;
+            prf = i;
+            return;
+          }
+        })
+      })
+      window.location.href = lnk.pgCercaProf + `?lat=${lat}&lng=${lng}&pl=${pl}&srv=${srv}&prf=${prf}`;
     }
   }
+
+
 
 
   function _initializeSelect(callback) {
@@ -77,6 +110,23 @@ var searchBar = (function() {
         $select.append(newSubOption);
       })
     })
+  }
+
+  function _validated() {
+    if ($inpLocation.val() == "") {
+      _showLocationMandatory();
+      return false;
+    } else {
+      return true;
+    }
+  }
+
+  function _showLocationMandatory() {
+    $('#searchBar').append('<div class="loc-err">Per iniziare la ricerca seleziona prima una località</div>')
+  }
+
+  function _removeLocationMandatory() {
+    $('.loc-err').remove();
   }
 
 

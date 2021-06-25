@@ -3,6 +3,9 @@ var dbSett = (function() {
   var database = firebase.firestore();
   var storage = firebase.storage();
 
+  var firebaseRef = firebase.database().ref('users-location');
+  var geoFire = new geofire.GeoFire(firebaseRef);
+
   function getTheUid() {
     return new Promise((resolve, reject) => {
       firebase.auth().onAuthStateChanged(function(user) {
@@ -73,15 +76,28 @@ var dbSett = (function() {
   function saveUserDescInfo(uid, obj) {
     return new Promise((resolve, reject) => {
       database.collection('users').doc(uid).update({
-        "profile.birth_date": obj.birth_date,
-        "profile.location.address": obj.location.address,
-        "profile.location.region": obj.location.region,
-        "profile.location.lat": obj.location.lat,
-        "profile.location.lng": obj.location.lng,
-      }).then(() => {
-        resolve();
-      })
+          "profile.birth_date": obj.birth_date,
+          "profile.location.address": obj.location.address,
+          "profile.location.region": obj.location.region,
+          "profile.location.lat": obj.location.lat,
+          "profile.location.lng": obj.location.lng,
+        })
+        .then(() => {
+          saveGeoLocation(uid, obj.location.lat, obj.location.lng)
+            .then(resolve());
+        });
     })
+  }
+
+  function saveGeoLocation(uid, lat, lng) {
+    return new Promise((resolve, reject) => {
+      geoFire.set(uid, [lat * 1, lng * 1]).then(function() {
+        resolve();
+      }, function(error) {
+        console.log("Error: " + error);
+        reject();
+      });
+    });
   }
 
 
