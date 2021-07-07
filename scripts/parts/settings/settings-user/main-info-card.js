@@ -25,7 +25,7 @@
 
   //init
   async function _loadCard() {
-    uid = await dbSett.getTheUid();
+    uid = await dbUserSett.getTheUid();
     $box.find('.inp-text').hide();
     $box.find('input').hide();
     _getData()
@@ -81,7 +81,7 @@
 
   function _getData() {
     return new Promise((resolve) => {
-      dbSett.getUserProfileData(uid).then((data) => {
+      dbUserSett.getUserProfileData(uid).then((data) => {
         if (data) {
           currentData = data.profile;
         }
@@ -131,7 +131,7 @@
       return;
     } else {
       _loadingButtonOn();
-      await dbSett.saveUserMainInfo(uid, obj);
+      await dbUserSett.saveUserMainInfo(uid, obj);
       currentData = obj;
       _fillData(obj);
       _changeToTextMode();

@@ -113,7 +113,9 @@ var searchBar = (function() {
   }
 
   function _validated() {
+    if ($searchBtn.hasClass('deactivated')) return true;
     if ($inpLocation.val() == "") {
+      _removeLocationMandatory();
       _showLocationMandatory();
       return false;
     } else {

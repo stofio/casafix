@@ -1,4 +1,4 @@
-var dbSett = (function() {
+var dbUserSett = (function() {
 
   var database = firebase.firestore();
   var storage = firebase.storage();

@@ -25,7 +25,7 @@
   //init 
   async function _loadCard() {
     _disableSaveBtn();
-    uid = await dbSett.getTheUid();
+    uid = await dbProfSett.getTheUid();
     _getData()
       .then((querySnapshot) => {
         if (querySnapshot) {
@@ -122,7 +122,7 @@
     var title = $popup.find('#workImgTitle').val();
     if (image == null) return;
     _loadingButtonOn()
-    dbSett.uploadWorkImg(uid, image)
+    dbProfSett.uploadWorkImg(uid, image)
       .then((url) => {
         _saveImageDb(uid, url, title)
           .then((docId) => {
@@ -137,7 +137,7 @@
 
   function _saveImageDb(uid, url, title) {
     return new Promise((resolve) => {
-      dbSett.saveWorkImageDb(uid, url, title).then(docId => {
+      dbProfSett.saveWorkImageDb(uid, url, title).then(docId => {
         resolve(docId);
       });
     })
@@ -158,7 +158,7 @@
 
   function _getData() {
     return new Promise((resolve) => {
-      dbSett.getPortfolioData(uid).then((querySnapshot) => {
+      dbProfSett.getPortfolioData(uid).then((querySnapshot) => {
         resolve(querySnapshot);
       });
     })
@@ -169,9 +169,9 @@
     popup.yesNoPopup(`Vuoi eliminare l'immagine ${imgTitle}?`, () => {
       var imgId = $(this).closest('.portfolio-front-img').attr('data-imgid');
       var imgUrl = $(this).closest('.portfolio-front-img').css('background-image').slice(4, -1).replace(/"/g, "");
-      dbSett.deleteImage(imgUrl)
+      dbProfSett.deleteImage(imgUrl)
         .then(() => {
-          dbSett.deleteImgId(imgId, uid)
+          dbProfSett.deleteImgId(imgId, uid)
             .then(() => {
               $(this).closest('.portfolio-item').remove();
             })
@@ -183,7 +183,7 @@
     var imgTitle = $(this).closest('.portfolio-item').find('strong');
     popup.inputPopup('Modifica titolo', imgTitle.html(), (newTitle) => {
       var imgId = $(this).closest('.portfolio-front-img').attr('data-imgid');
-      dbSett.modifyTitlePortImg(uid, imgId, newTitle)
+      dbProfSett.modifyTitlePortImg(uid, imgId, newTitle)
         .then(() => {
           imgTitle.html(newTitle);
         })

@@ -1,4 +1,4 @@
-var dbSett = (function() {
+var dbProfSett = (function() {
 
   var database = firebase.firestore();
   var storage = firebase.storage();
@@ -190,9 +190,11 @@ var dbSett = (function() {
       database.collection('professionals').doc(uid).get()
         .then(doc => {
           var prof = doc.data();
-          if (prof.professions.length == 0) {
-            _setProfileCompleted(uid, 0);
-            return;
+          if (prof.professions) {
+            if (prof.professions.length == 0) {
+              _setProfileCompleted(uid, 0);
+              return;
+            }
           } else if (prof.profile.name == '' || prof.profile.surname == '') {
             _setProfileCompleted(uid, 0);
             return;

@@ -89,7 +89,8 @@ var popup = (function() {
     showPopup: showPopup,
     hidePopup: hidePopup,
     yesNoPopup: yesNoPopup,
-    inputPopup: inputPopup
+    inputPopup: inputPopup,
+
   }
 
 

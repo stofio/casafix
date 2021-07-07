@@ -15,7 +15,7 @@ var dbAuth = (function() {
         prof_img_url: photoUrl,
       }
     }).then(() => {
-      saveUserRoleAndProvider(uid, 'professional', email, provider, () => {
+      saveUserRoleAndProvider(uid, 'professionals', email, provider, () => {
         if (typeof(callback) == 'function') {
           callback();
         }
@@ -36,7 +36,7 @@ var dbAuth = (function() {
         prof_img_url: photoUrl,
       }
     }).then(() => {
-      saveUserRoleAndProvider(uid, 'user', email, provider, () => {
+      saveUserRoleAndProvider(uid, 'users', email, provider, () => {
         if (typeof(callback) == 'function') {
           callback();
         }

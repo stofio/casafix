@@ -11,6 +11,8 @@ var lnk = (function() {
     pgLogin: '/accedi.html',
     pgVerifyEmail: '/verifica-email.html',
     pgCercaProf: '/cerca-professionista.html',
+    pgProfiloProf: '/profilo-professionista.html',
+    pgGiveReview: '/lascia-recensione.html',
   }
 
 })();

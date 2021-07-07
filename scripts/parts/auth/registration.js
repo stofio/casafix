@@ -55,13 +55,13 @@
         return;
       } else {
         //CREATE PROFILE
-        if ($userRole.val() === 'professional') {
+        if ($userRole.val() === 'professionals') {
           dbAuth.createNewProfe(uid, $inputEmail.val(), 'email', '', () => {
             firebaseAuth.sendVerificationEmail(() => {
               window.location.replace(lnk.pgSettProf);
             });
           });
-        } else if ($userRole.val() === 'user') {
+        } else if ($userRole.val() === 'users') {
           dbAuth.createNewUser(uid, $inputEmail.val(), 'email', '', () => {
             firebaseAuth.sendVerificationEmail(() => {
               window.location.replace(lnk.pgSettUser);
@@ -74,7 +74,7 @@
 
   function _registerWithGoogle() {
     firebaseAuth.googleSignin((user) => {
-      if ($userRole.val() === 'professional') {
+      if ($userRole.val() === 'professionals') {
         //IF IS PROFESSIONAL
         dbAuth.isUserExistent(user.uid, (exist) => {
           //IF PROFILE ALREADY CREATED
@@ -104,7 +104,7 @@
             });
           }
         })
-      } else if ($userRole.val() === 'user') {
+      } else if ($userRole.val() === 'users') {
         //IF IS USER
         dbAuth.isUserExistent(user.uid, (exist) => {
           //IF PROFILE ALREADY CREATED
@@ -144,7 +144,7 @@
         $errorForGoogleAndFb.html("L'Account è già registrato con email o google. Riprova");
         return;
       }
-      if ($userRole.val() === 'professional') {
+      if ($userRole.val() === 'professionals') {
         //IF IS PROFESSIONAL
         dbAuth.isUserExistent(user.uid, (exist) => {
           //IF PROFILE ALREADY CREATED
@@ -176,7 +176,7 @@
             });
           }
         })
-      } else if ($userRole.val() === 'user') {
+      } else if ($userRole.val() === 'users') {
         //IF IS USER
         dbAuth.isUserExistent(user.uid, (exist) => {
           //IF PROFILE ALREADY CREATED

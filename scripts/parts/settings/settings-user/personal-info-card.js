@@ -32,7 +32,7 @@
 
   //init
   async function _loadCard() {
-    uid = await dbSett.getTheUid();
+    uid = await dbUserSett.getTheUid();
     $box.find('.inp-text').hide();
     $box.find('input, #changeImg').hide();
     _getData()
@@ -94,7 +94,7 @@
 
   function _getData() {
     return new Promise((resolve) => {
-      dbSett.getUserProfileData(uid).then((data) => {
+      dbUserSett.getUserProfileData(uid).then((data) => {
         if (data) {
           currentData = data.profile;
         }
@@ -159,7 +159,7 @@
       return;
     } else {
       _loadingButtonOn();
-      await dbSett.saveUserDescInfo(uid, obj);
+      await dbUserSett.saveUserDescInfo(uid, obj);
       currentData = obj;
       _fillData(obj);
       _changeToTextMode();
@@ -207,7 +207,7 @@
       return;
     }
 
-    dbSett.uploadUserImage(uid, uploadedImage)
+    dbUserSett.uploadUserImage(uid, uploadedImage)
       .then((url) => {
         _setProfImageUrl(url)
         _saveImageUrl(uid, url)
@@ -227,7 +227,7 @@
 
   function _saveImageUrl(uid, url) {
     return new Promise((resolve) => {
-      dbSett.saveUserImageUrl(uid, url);
+      dbUserSett.saveUserImageUrl(uid, url);
       resolve();
     })
   }

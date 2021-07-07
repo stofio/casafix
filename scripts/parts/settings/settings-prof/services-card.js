@@ -30,18 +30,21 @@
 
   //init
   async function _loadCard() {
-    uid = await dbSett.getTheUid();
+    uid = await dbProfSett.getTheUid();
     $box.find('.inp-text').hide();
     _initializeSelect();
     _getServicesJson()
       .then(obj => {
         servicesJson = obj;
         _fillSelectBoxes();
-        _getData().then((myProfession) => {
-          currentData = myProfession;
-          _fillData(myProfession);
-          _renderTextAndBtn();
-        });
+        _getData()
+          .then((myProfession) => {
+            currentData = myProfession;
+            if (currentData) {
+              _fillData(myProfession);
+            }
+            _renderTextAndBtn();
+          });
       }).catch(e => console.log(e));
   }
 
@@ -142,7 +145,7 @@
       return;
     } else {
       _loadingButtonOn();
-      dbSett.saveProfession(uid, profs)
+      dbProfSett.saveProfession(uid, profs)
         .then(() => {
           currentData = profs;
           _fillData(profs);
@@ -222,7 +225,7 @@
 
   function _getData() {
     return new Promise((resolve) => {
-      dbSett.getProfProfileData(uid).then((data) => {
+      dbProfSett.getProfProfileData(uid).then((data) => {
         if (data) {
           currentData = data.professions;
         }

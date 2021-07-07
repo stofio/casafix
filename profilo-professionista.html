@@ -10,6 +10,8 @@
   <link rel="stylesheet" type="text/css" href="/style/style.responsive.css">
   <link rel="stylesheet" type="text/css" href="/style/jquery.rateyo.min.css">
   <link href="https://cdnjs.cloudflare.com/ajax/libs/fotorama/4.6.4/fotorama.css" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/Swiper/6.7.5/swiper-bundle.css" integrity="sha512-QVtxgaHBBkLhZUCbW87PairvKm3vCeV1URNOIsMmQimJobi1+D8azJi7ATrsw9zk2yQq2bzMv0kVK0PPggf3tA==" crossorigin="anonymous" referrerpolicy="no-referrer"
+  />
 </head>
 
 <body>
@@ -18,13 +20,95 @@
 
   <section class="top-sec" id="profile-professional">
     <div class="container">
-      <div class="row">
-        <div class="rateyo"></div>
 
-        <p>https://rateyo.fundoocode.ninja/</p>
+      <div class="">
+
+        <!--main info-->
+        <div id="prof-main-info" class="prof-box-full full-profile">
+          <input class="profuid" type="text" value="TNOF1RPtZFN2uiWvQWlgd5uD5bB3" hidden="">
+          <div class="prof-box-img">
+            <div class="prof-img-bg"></div>
+          </div>
+          <div class="prof-professions">
+
+          </div>
+          <div class="prof-prof-stars">
+            <button class="def-btn sendMessage">Contatta <div class="msg-icon" style="content: url(images/contact-arrow.svg); width: 20px; height: 20px;"></div></button>
+            <div class="save-to-favorite">
+              <i></i>
+              <span>Preferiti</span>
+            </div>
+          </div><br>
+          <div class="prof-info">
+            <p class="prof-name"></p>
+            <p class="prof-location"></p>
+          </div>
+          <div class="rating-full">
+            <div class="prof-prof-stars">
+              <span></span>
+              <div class="number-stars"></div>
+            </div>
+          </div>
+          <div class="full-description">
+            <p></p>
+          </div>
+        </div>
+
+        <!--services-->
+        <div id="prof-professions-sec"></div>
+
+        <!--portfolio-->
+        <div class="prof-box-full full-profile full-portfolio">
+          <div class="col-md-12 p-0">
+            <h3>Portfolio</h3>
+          </div>
+          <div class="row gallery-portfolio"></div>
+        </div>
+
+
+        <!--reviews-->
+        <div id="reviews-sec" class="prof-box-full full-profile">
+          <div class="col-md-12 p-0 reviews-top-title">
+            <h3>Recensioni</h3>
+            <div id="give-review">
+              <span>Lascia una recensione -></span>
+            </div>
+          </div>
+          <div class="row reviews-list">
+
+          </div>
+        </div>
+
+
+
+
       </div>
+
     </div>
   </section>
+
+  <!--fullscreen portfolio-->
+  <div id="fullscreen-swiper-port">
+    <div class="swiper-wrapper"></div>
+    <div id='fullscreen-swiper-close-port'>✖</div>
+    <!-- Add Pagination -->
+    <div class="swiper-pagination"></div>
+    <!-- Add Arrows -->
+    <div class="swiper-button-next"></div>
+    <div class="swiper-button-prev"></div>
+  </div>
+
+  <!--fullscreen reviews-->
+  <div id="fullscreen-swiper-rew">
+    <div class="swiper-wrapper"></div>
+    <div id='fullscreen-swiper-close-rew'>✖</div>
+    <!-- Add Pagination -->
+    <div class="swiper-pagination"></div>
+    <!-- Add Arrows -->
+    <div class="swiper-button-next"></div>
+    <div class="swiper-button-prev"></div>
+  </div>
+  <div id="fullscreen-swiper-backdrop"></div>
 
 
 
@@ -41,6 +125,7 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/oj.mustache/0.7.2/oj.mustache.min.js" integrity="sha512-+KQDdWwfzb3UZ0sEt1Op66MoQ9NKs6bE02+NpPnsQxZ6ylUP3Fd8L3yf1CsYPD2vndRIbOCzWk2RUfOJ9bsOcA==" crossorigin="anonymous"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/fotorama/4.6.4/fotorama.js "></script>
 <script type="text/javascript" src="/scripts/vendor/jquery.rateyo.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Swiper/6.7.5/swiper-bundle.min.js" integrity="sha512-jm5exnXjOC6mBpqBG81xU+GK4ybKq28mLihDCNj2E3RkzrfW/tSGt7Uy7wRSkedl95C4cH9+9lectBCGwEcD0g==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 
 
 <!--scripts/main.js-->
@@ -52,21 +137,13 @@
 
 <script type="text/javascript" src="/scripts/page-profile-prof.js"></script>
 
+<script type="text/javascript" src="/scripts/parts/profile-professional/dbProfile.js"></script>
+<script type="text/javascript" src="/scripts/parts/profile-professional/main-info-init.js"></script>
+<script type="text/javascript" src="/scripts/parts/profile-professional/main-prof-info.js"></script>
+<script type="text/javascript" src="/scripts/parts/profile-professional/prof-services.js"></script>
+<script type="text/javascript" src="/scripts/parts/profile-professional/portfolio.js"></script>
+<script type="text/javascript" src="/scripts/parts/profile-professional/prof-reviews.js"></script>
 
-<script>
-  $(".rateyo").rateYo({
-    rating: 3,
-    numStars: 5,
-    precision: 2,
-    starWidth: "64px",
-    spacing: "5px",
-    rtl: true,
-    multiColor: {
-      startColor: "#000000",
-      endColor: "#ffffff"
-    }
-  });
-</script>
 
 
 

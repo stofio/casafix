@@ -100,6 +100,9 @@
   #header #mobile-header-access .access {
     display: none;
   }
+  .full-services .service-item {
+    width: 100% !important;
+  }
 }
 
 @media(max-width:600px) {
@@ -121,6 +124,18 @@
     padding-top: 15px;
     width: 100%;
   }
+  .prof-prof-stars {
+    margin-top: 12px;
+  }
+  .full-services .service-item {
+    width: 50%;
+  }
+  .prof-box-full .prof-info {
+    padding-left: 0;
+  }
+  .prof-box-full .prof-professions {
+    float: initial;
+  }
 }
 
 @media(max-width:767px) {
@@ -129,8 +144,11 @@
     padding: 15px;
   }
   .profile-box-head,
-  .profile-box-body {
-    padding: 15px;
+  .profile-box-body,
+  .prof-box-full,
+  .review-box-head,
+  .review-box-body {
+    padding: 15px !important;
   }
   .profile-box-body .input-with-label {
     min-width: 100%;
@@ -223,6 +241,17 @@
   }
   .mobile-filter-swap .select2-container {
     width: 100% !important;
+  }
+  #profile-professional .prof-box {
+    padding: 15px;
+  }
+  .prof-box-full .prof-prof-stars {
+    float: left;
+    margin-top: 15px;
+  }
+  .prof-box-full .prof-info {
+    width: 100%;
+    margin-top: 15px;
   }
   /* 768px */
 }

@@ -1,5 +1,50 @@
 (function() {
 
+  /**
+   * 
+   * 
+   * 
+   * 
+   * 
+   * 
+   * 
+   * 
+   * 
+   * 
+   * 
+   * 
+   * 
+   * 
+   * 
+   * 
+   * 
+   * 
+   * 
+   * 
+   * 
+   * 
+   * 
+   * CHECK DIGITAL OCEAN FOR THE FUNCTIONALITIES OF LOGIN (IF USER EXIST.. GOOGLE LOGIN(IF DOESN EXIST))
+   * 
+   * 
+   * 
+   * 
+   * 
+   * 
+   * 
+   * 
+   * 
+   * 
+   * 
+   * 
+   * 
+   * 
+   * 
+   * 
+   * 
+   * 
+   */
+
   //cache dom
   var $section = $('#login');
   var $emailLogBtn = $section.find('#emailLoginBtn');

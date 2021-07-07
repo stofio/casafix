@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Profilo Professionista</title>
+  <link rel="stylesheet" type="text/css" href="/style/bootstrap.min.css">
+  <link rel="stylesheet" type="text/css" href="/style/style.css">
+  <link rel="stylesheet" type="text/css" href="/style/style.responsive.css">
+  <link rel="stylesheet" type="text/css" href="/style/jquery.rateyo.min.css">
+</head>
+
+<body>
+
+  <nav id="header"></nav>
+
+  <section class="top-sec" id="leave-review">
+    <div class="container">
+
+      <div class="">
+
+        <div class="review-box">
+          <div class="review-box-head">
+            <h2>Lascia una recensione a <span></span></h2>
+          </div>
+          <div class="review-box-body">
+            <div class="reviewer">
+              <div class="reviewer-img"></div>
+              <p></p>
+            </div>
+            <span class="review-stars-label">Quando valuti la professionalità di <span></span>?</span>
+            <div class="rating">
+              <div class="review-rating-stars"></div>
+              <span class="rating-num"></span>
+            </div>
+            <div class="review-text">
+              <textarea id="review-comment" placeholder="Recensione"></textarea>
+            </div>
+            <div class="review-images">
+              <div id="newReviewImage" class="new-photo-placeholder">
+                <img src="images/photo-camera.svg">
+              </div>
+              <div class="prew-imgs"></div>
+              <input type="file" id="newReviewImageInput" accept="image/png,image/jpeg" hidden multiple/>
+            </div>
+            <p class="review-notice">Le recensioni false risulteranno in un evento negativo. <a href="#">Scopri di più </a></p>
+            <button id="confirm-review" class="def-btn">Conferma</button>
+          </div>
+        </div>
+
+      </div>
+
+    </div>
+  </section>
+
+
+</body>
+
+<!--firebase-->
+<script src="https://www.gstatic.com/firebasejs/8.5.0/firebase-app.js"></script>
+<script src="https://www.gstatic.com/firebasejs/8.5.0/firebase-auth.js"></script>
+<script src="https://www.gstatic.com/firebasejs/8.5.0/firebase-firestore.js"></script>
+<script src="https://www.gstatic.com/firebasejs/8.5.0/firebase-storage.js "></script>
+<script src="scripts/_firebaseConn.js"></script>
+
+<!--scripts/vendor-->
+<script type="text/javascript" src="/scripts/vendor/jquery.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/oj.mustache/0.7.2/oj.mustache.min.js" integrity="sha512-+KQDdWwfzb3UZ0sEt1Op66MoQ9NKs6bE02+NpPnsQxZ6ylUP3Fd8L3yf1CsYPD2vndRIbOCzWk2RUfOJ9bsOcA==" crossorigin="anonymous"></script>
+<script type="text/javascript" src="/scripts/vendor/jquery.rateyo.min.js"></script>
+
+<!--scripts/main.js-->
+<script type="text/javascript" src="/scripts/parts/links.js"></script>
+<script type="text/javascript" src="/scripts/parts/auth/firebaseAuth.js"></script>
+<script type="text/javascript" src="/scripts/parts/auth/dbAuth.js"></script>
+<script type="text/javascript" src="/scripts/parts/header.js"></script>
+<script type="text/javascript" src="/scripts/parts/loadPage.js"></script>
+
+<script type="text/javascript" src="/scripts/page-leave-review.js"></script>
+
+<script type="text/javascript" src="/scripts/parts/review/dbReview.js"></script>
+<script type="text/javascript" src="/scripts/parts/review/review.js"></script>
+
+
+
+
+
+</html>

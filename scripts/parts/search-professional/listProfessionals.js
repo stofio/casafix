@@ -135,6 +135,7 @@ var listProfessionals = (function() {
   function _goToUserProfile() {
     var uid = $(this).find('.profuid').val();
     console.log(uid)
+    
   }
 
   function _loadingList() {
