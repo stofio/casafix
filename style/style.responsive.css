@@ -253,6 +253,20 @@
     width: 100%;
     margin-top: 15px;
   }
+  .msg-box-head,
+  .msg-box-wrap,
+  .msg-box-foot {
+    padding: 15px !important;
+  }
+  .msg-send button {
+    padding: 6px 8px;
+  }
+  .msg-send button span {
+    display: none;
+  }
+  .arrow-box-rooms {
+    display: block;
+  }
   /* 768px */
 }
 

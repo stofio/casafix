@@ -4,7 +4,7 @@ var dbProfile = (function() {
 
   function getPortfolioImg(uid) {
     return new Promise((resolve, reject) => {
-      database.collection('professionals').doc(uid).collection('portfolio').orderBy('created', "asc").get()
+      database.collection('professionals').doc(uid).collection('portfolio').orderBy('created', "desc").get()
         .then((querySnapshot) => {
           // querySnapshot.forEach(doc => {
           //   console.log(doc.id, " => ", doc.data());
@@ -30,7 +30,7 @@ var dbProfile = (function() {
   //return array of reviews
   function getReviewsData(uid) {
     return new Promise((resolve) => {
-      database.collection('professionals').doc(uid).collection('reviews_taken').orderBy('created', "asc").get()
+      database.collection('professionals').doc(uid).collection('reviews_taken').orderBy('created', "desc").get()
         .then(snapshot => {
           resolve(snapshot.docs.map(doc => doc.data()));
         });

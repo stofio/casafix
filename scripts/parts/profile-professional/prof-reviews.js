@@ -4,11 +4,14 @@ var profProfReviews = (function() {
 
   //cache dom
   $section = $('#reviews-sec');
-  $leaveRevBtn = $('#reviews-sec');
+  $leaveRevBtn = $('#give-review');
+  $reviewSwiper = $('#fullscreen-swiper-rew');
+  $reviewSwiperWrapper = $('#fullscreen-swiper-rew .swiper-wrapper');
 
   //bind events
   $(document).on('load', _loadReviews());
   $leaveRevBtn.on('click', _goToLeaveReview);
+  $(document).on('click', '.review img', _openFullScreenImages);
 
   //init
   function _loadReviews() {
@@ -36,9 +39,9 @@ var profProfReviews = (function() {
   }
 
   function _addReview(review) {
-    console.log(review)
-    var tmp = `<div class="review col-md-12">
-                <div class="reviewer">
+    var dateOptions = { 'month': 'long', 'day': 'numeric', 'year': 'numeric' };
+    var date = new Date(review.created).toLocaleString('it-IT', dateOptions);
+    var tmp = `<div class="reviewer">
                   <div class="reviewer-img"></div>
                   <div class="flex-column align-items-center">
                     <p class="reviwer-name"></p>
@@ -46,15 +49,21 @@ var profProfReviews = (function() {
                   </div>
                 </div>
                 <div class="review-date">
-                  <p>Gennaio 13, 2021</p>
+                  <p>${date}</p>
                 </div>
                 <div class="review-desc">
                   <p>${review.review}</p>
                 </div>
                 <div class="review-images"></div>
-              </div>`;
+              `;
 
-    var $currentReview = $section.find('.reviews-list').append(tmp);
+    var singleRew = document.createElement('div');
+    singleRew.className = 'review col-md-12';
+    $(singleRew).html(tmp);
+
+    $section.find('.reviews-list').append(singleRew);
+
+    var $currentReview = $(singleRew);
 
     dbProfile.getUserProfileImageAndName(review.from_uid)
       .then(obj => {
@@ -81,6 +90,51 @@ var profProfReviews = (function() {
 
   function _goToLeaveReview() {
     window.location.replace(lnk.pgGiveReview + `?uid=` + uid);
+  }
+
+
+  function _openFullScreenImages() {
+    $reviewSwiperWrapper.empty();
+
+    var imgClickedIndex = $(this).index();
+
+    var imges = $(this).parent().find('img');
+    $.each(imges, (i, imgEl) => {
+      var slide = document.createElement('div');
+      slide.className = 'swiper-slide';
+      $(slide).html($(imgEl).clone());
+      $reviewSwiperWrapper.append(slide);
+    })
+
+    fullscreenSwiper = new Swiper('#fullscreen-swiper-rew', {
+      observer: true,
+      observeParents: true,
+      navigation: {
+        nextEl: '.swiper-button-next',
+        prevEl: '.swiper-button-prev',
+      },
+      pagination: {
+        el: '.swiper-pagination',
+        type: 'bullets',
+      },
+      slidesPerView: 1,
+      centeredSlides: true,
+      paginationClickable: true,
+      spaceBetween: 10,
+      loop: true,
+      initialSlide: imgClickedIndex
+    })
+
+    $reviewSwiper.fadeIn();
+    $('#fullscreen-swiper-backdrop').fadeIn();
+    //$('body, html').addClass('no-scroll');
+
+    $('#fullscreen-swiper-close-rew').on('click', function() {
+      $('#fullscreen-swiper-rew').hide()
+      $('#fullscreen-swiper-backdrop').fadeOut();
+      // $('body, html').removeClass('no-scroll');
+    });
+
   }
 
 

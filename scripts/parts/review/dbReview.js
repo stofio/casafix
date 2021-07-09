@@ -46,30 +46,24 @@ var dbReview = (function() {
       let fileUrls = [];
 
       $.each(images, (i, img) => {
-        _uploadReviewImage(uid, img)
-          .then(imgUrl => {
-            fileUrls.push(imgUrl);
-            if (isLastElement) resolve(fileUrls);
-          });
-        var isLastElement = i == images.length - 1;
+        c = 0;
+        storage.ref('users/' + uid + '/images/reviews/' + uuidv4()).put(img)
+          .then((snapshot) => {
+            return snapshot.ref.getDownloadURL()
+          })
+          .then(url => {
+            fileUrls.push(url);
+            c++;
+            console.log(c)
+            if (c == images.length) {
+              console.log('LAST')
+              resolve(fileUrls);
+            }
+          })
       })
-
-
     })
   }
 
-  //return image url
-  function _uploadReviewImage(uid, image) {
-    return new Promise((resolve, reject) => {
-      storage.ref('users/' + uid + '/images/reviews/' + uuidv4()).put(image)
-        .then((snapshot) => {
-          resolve(snapshot.ref.getDownloadURL());
-        }).catch((e) => {
-          console.log(e);
-          reject();
-        })
-    })
-  }
 
   function uuidv4() {
     return ([1e7] + -1e3 + -4e3 + -8e3 + -1e11).replace(/[018]/g, c =>
@@ -96,6 +90,7 @@ var dbReview = (function() {
 
   function _saveReviewToProfessional(reviewObj) {
     return new Promise((resolve) => {
+      $.each(reviewObj.images, (i, img) => {})
       database.collection('professionals').doc(reviewObj.toUid).collection('reviews_taken').add({
         "review": reviewObj.review,
         "stars": reviewObj.stars,

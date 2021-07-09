@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Messaggi</title>
+  <link rel="stylesheet" type="text/css" href="/style/bootstrap.min.css">
+  <link rel="stylesheet" type="text/css" href="/style/style.css">
+  <link rel="stylesheet" type="text/css" href="/style/style.responsive.css">
+</head>
+
+<body>
+
+  <nav id="header"></nav>
+
+  <section class="top-sec" id="messages">
+    <div class="container">
+
+      <div class="row">
+        <div class="col-md-4">
+
+          <!-- sidebar messages -->
+          <div class="rooms-box" id="chat-rooms">
+            <div class="rooms-box-head">
+              <h3>Chats</h3>
+              <img class="arrow-box-rooms" src="/images/wide-arrow.svg" />
+            </div>
+            <div class="rooms-box-body">
+
+              <div class="single-chat">
+                <img src="https://lh3.googleusercontent.com/a/AATXAJzQ07LeoK3xf_DqWH2Jf36fSlfzRLX5d1fdh1I=s400-c" />
+                <div class="single-chat-info">
+                  <div class="room-name-time">
+                    <p>Mario Rossi</p>
+                    <span>12:12</span>
+                  </div>
+                  <p class="last-message">Ciao come va tutto bene...</p>
+                </div>
+              </div>
+
+              <div class="single-chat">
+                <img src="https://lh3.googleusercontent.com/a/AATXAJzQ07LeoK3xf_DqWH2Jf36fSlfzRLX5d1fdh1I=s400-c" />
+                <div class="single-chat-info">
+                  <div class="room-name-time">
+                    <p>Mario Rossi</p>
+                    <span>5/7/21</span>
+                  </div>
+                  <p class="last-message">Ciao come va tutto bene...</p>
+                </div>
+              </div>
+
+              <div class="single-chat">
+                <img src="https://lh3.googleusercontent.com/a/AATXAJzQ07LeoK3xf_DqWH2Jf36fSlfzRLX5d1fdh1I=s400-c" />
+                <div class="single-chat-info">
+                  <div class="room-name-time">
+                    <p>Mario Rossi</p>
+                    <span>1/7/21</span>
+                  </div>
+                  <p class="last-message">Ciao come va tutto bene...</p>
+                </div>
+              </div>
+
+            </div>
+          </div>
+        </div>
+
+        <div class="col-md-8">
+
+          <div class="messages-box" id="chat">
+            <div class="msg-box-head">
+              <h3>Professionista <a href="#">Mario Rossi</a></h3>
+            </div>
+            <div class="msg-box-wrap">
+
+
+              <div class="single-message msg-single-body">
+                <img src="https://lh3.googleusercontent.com/a/AATXAJzQ07LeoK3xf_DqWH2Jf36fSlfzRLX5d1fdh1I=s400-c" class="msg-received-img" />
+                <div class="msg-single">
+                  <p class="msg-sender-name">Mario Rossi</p>
+                  <div class="msg-text">
+                    Ciao come va tutto bene
+                  </div>
+                  <div class="msg-time">
+                    12:12
+                  </div>
+                </div>
+              </div>
+
+
+              <div class="single-message msg-single-body">
+                <img src="https://lh3.googleusercontent.com/a/AATXAJzQ07LeoK3xf_DqWH2Jf36fSlfzRLX5d1fdh1I=s400-c" class="msg-received-img" />
+                <div class="msg-single">
+                  <p class="msg-sender-name">Luigi Verdi</p>
+                  <div class="msg-text">
+                    Ciao come va tutto bene Ciao come va tutto bene Ciao come va tutto bene
+                  </div>
+                  <div class="msg-time">
+                    12:12
+                  </div>
+                </div>
+              </div>
+
+
+
+
+
+            </div>
+            <div class="msg-box-foot">
+              <div id="msg-send-image" class="msg-send-image-placeholder">
+                <img src="images/photo-camera.svg">
+              </div>
+              <div class="msg-input">
+                <input id="mgsInput" type="text" />
+              </div>
+              <div class="msg-send">
+                <button id="send-message" type="button">
+                    <span>Invia</span>
+                    <div class="msg-icon" style="content: url(images/contact-arrow.svg); width: 20px; height: 20px;"></div>
+                </button>
+              </div>
+            </div>
+          </div>
+
+        </div>
+
+
+      </div>
+
+
+
+
+    </div>
+  </section>
+
+
+
+</body>
+
+<!--firebase-->
+<script src="https://www.gstatic.com/firebasejs/8.5.0/firebase-app.js"></script>
+<script src="https://www.gstatic.com/firebasejs/8.5.0/firebase-auth.js"></script>
+<script src="https://www.gstatic.com/firebasejs/8.5.0/firebase-firestore.js"></script>
+<script src="scripts/_firebaseConn.js"></script>
+
+<!--scripts/vendor-->
+<script type="text/javascript" src="/scripts/vendor/jquery.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/oj.mustache/0.7.2/oj.mustache.min.js" integrity="sha512-+KQDdWwfzb3UZ0sEt1Op66MoQ9NKs6bE02+NpPnsQxZ6ylUP3Fd8L3yf1CsYPD2vndRIbOCzWk2RUfOJ9bsOcA==" crossorigin="anonymous"></script>
+
+<!--scripts/main.js-->
+<script type="text/javascript" src="/scripts/parts/links.js"></script>
+<script type="text/javascript" src="/scripts/parts/auth/firebaseAuth.js"></script>
+<script type="text/javascript" src="/scripts/parts/auth/dbAuth.js"></script>
+<script type="text/javascript" src="/scripts/parts/header.js"></script>
+<script type="text/javascript" src="/scripts/parts/loadPage.js"></script>
+
+<script type="text/javascript" src="scripts/page-messaggi.js"></script>
+
+<script type="text/javascript" src="scripts/parts/chat/dbChat.js"></script>
+<script type="text/javascript" src="scripts/parts/chat/chatMain.js"></script>
+<script type="text/javascript" src="scripts/parts/chat/chatSidebar.js"></script>
+<script type="text/javascript" src="scripts/parts/chat/chatPanel.js"></script>
+
+
+
+</html>

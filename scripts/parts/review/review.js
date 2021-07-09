@@ -14,7 +14,7 @@ var profProfReviews = (function() {
   $section = $('#leave-review');
   $currUserName = $section.find('.reviewer p');
   $currUserImg = $section.find('.reviewer-img');
-  $reviewerName = $section.find('.review-box-head span');
+  $reviewerName = $section.find('.review-box-head a');
 
   $stars = $section.find('.review-rating-stars');
   $starsLabel = $section.find('.review-stars-label span');
@@ -60,8 +60,10 @@ var profProfReviews = (function() {
   }
 
   function _setProfName(data) {
+    console.log(data)
     var name = data.name + ' ' + data.surname;
     $reviewerName.html(name);
+    $reviewerName.attr('href', lnk.pgProfiloProf + '?uid=' + professionalUid);
     $starsLabel.html(name);
   }
 
@@ -124,6 +126,7 @@ var profProfReviews = (function() {
     $stars.css('pointer-events', 'none');
     $text.attr('disabled', true);
     $section.find('p').css('pointer-events', 'none');
+    $section.find('a').css('pointer-events', 'none');
   }
 
   function _loadingButtonOn() {
@@ -159,8 +162,10 @@ var profProfReviews = (function() {
           fromUid: currentUserUid,
           created: $.now()
         }
+        console.log(reviewObj.images)
         dbReview.saveReview(reviewObj)
           .then(() => {
+            console.log('Save revuew')
             _showSuccess();
             console.log('Done')
           });
@@ -180,7 +185,7 @@ var profProfReviews = (function() {
 
 
     $section.fadeOut(() => {
-      $('body').append(successTmp).fadeIn();
+      $('body').append(successTmp).fadeIn(200);
     });
   }
 
