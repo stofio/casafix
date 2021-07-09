@@ -2030,13 +2030,14 @@ mark a {
   padding: 0;
 }
 
-#give-review span {
+#give-review a {
   font-family: Yantramanav-medium;
   color: #fb743e;
   padding: 6px 25px;
   border: solid 2px #fb743e;
   border-radius: 6px;
   cursor: pointer;
+  background-color: #fff;
 }
 
 #give-review span:hover {
