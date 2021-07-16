@@ -25,8 +25,17 @@ var chatSidebar = (function() {
   function _getAllRoomsFromUser() {}
 
 
-  function listRooms() {
-    //get rooms IDS, names, lastMsg, img prof 
+  function listRooms(rooms) {
+    console.log(rooms.length)
+    if (rooms.length < 1) {
+      $roomsBody.append(`<h4>Non hai ancora iniziato una conversazione. <a href="${lnk.pgCercaProf}"> Trova un professionista </a> e mandagli un messaggio.</h4>`);
+      _openRoomsBox();
+      return;
+    }
+    $.each(rooms, (i, room) => {
+      console.log(room)
+      $roomsBody.prepend(_getRoomTmp(room));
+    })
   }
 
 
@@ -42,16 +51,30 @@ var chatSidebar = (function() {
 
 
 
+  function _highlightCurrentRoom(uid) {
+    $roomsBody.find(`#${uid}`).addClass('chat-room-selected');
+  }
 
-
-
-  function _highlightCurrentRoom() {
-
+  function _getRoomTmp(room) {
+    console.log(room)
+    return `
+        <div class="single-chat" id="${room.receiverUid}">
+        <img src="${room.receiverImgUrl}" />
+        <div class="single-chat-info">
+          <div class="room-name-time">
+            <p>${room.receiverName}</p>
+            <span>${room.lastMessageTime}</span>
+          </div>
+          <p class="last-message">${room.lastMessage}</p>
+        </div>
+      </div>
+    `;
   }
 
   function _openCloseRoomsBox() {
     //if on mobile
     if ($(window).width() <= 768) {
+      //if room in url
       if ($roomsBody.hasClass('box-closed')) {
         _openRoomsBox();
       } else {
@@ -89,11 +112,28 @@ var chatSidebar = (function() {
     }
   }
 
+  function addTemporaryRoom(recUid, recInfo) {
+    var room = {
+      receiverUid: recUid,
+      receiverImgUrl: recInfo.profile.prof_img_url,
+      receiverName: recInfo.profile.name + ' ' + recInfo.profile.surname,
+      lastMessageTime: '',
+      lastMessage: '',
+    };
+    var tmp = _getRoomTmp(room);
+    console.log(recInfo)
+    $roomsBody.find('h4').remove();
+    $roomsBody.append(tmp);
+    _highlightCurrentRoom(recUid)
+  }
+
 
 
   return {
     initChatSidebar: initChatSidebar,
-    listRooms: listRooms
+    listRooms: listRooms,
+    selectRoom: selectRoom,
+    addTemporaryRoom: addTemporaryRoom
   }
 
 })();

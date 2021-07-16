@@ -36,6 +36,8 @@ var dbProfSett = (function() {
                 .then(resolve());
             });
         })
+      var user = firebase.auth().currentUser;
+      user.updateProfile({  displayName: obj.name + ' ' + obj.surname });
     })
   }
 
@@ -88,9 +90,12 @@ var dbProfSett = (function() {
     return new Promise((resolve) => {
       database.collection('professionals').doc(uid).update({
         "profile.prof_img_url": url
-      }).then(() => {
-        resolve();
-      })
+      }) 
+      var user = firebase.auth().currentUser;
+      user.updateProfile({  photoURL: url })
+        .then(function() { 
+          resolve();
+        });
     })
   }
 

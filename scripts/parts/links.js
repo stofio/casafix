@@ -12,7 +12,9 @@ var lnk = (function() {
     pgVerifyEmail: '/verifica-email.html',
     pgCercaProf: '/cerca-professionista.html',
     pgProfiloProf: '/profilo-professionista.html',
+    pgProfiloUser: '/profilo-utente.html',
     pgGiveReview: '/lascia-recensione.html',
+    pgMessages: '/messaggi.html',
   }
 
 })();

@@ -3,6 +3,8 @@ var profProfMainInfo = (function() {
   //cache dom
   $section = $('#prof-main-info');
 
+  $profUid = $section.find('.profuid');
+
   $profImg = $section.find('.prof-img-bg');
   $profProfession = $section.find('.prof-professions');
   $profName = $section.find('.prof-name');
@@ -10,7 +12,14 @@ var profProfMainInfo = (function() {
   $profStars = $section.find('.prof-prof-stars');
   $profDesc = $section.find('.full-description');
 
+
+  $btnContact = $section.find('.sendMessage');
+
+  $profUid = $section.find('.profuid');
+
+
   //bind events
+  $btnContact.on('click', _goToChat);
 
 
   //init
@@ -20,6 +29,12 @@ var profProfMainInfo = (function() {
 
   //functions
   function _fillData(data) {
+    var url_string = window.location.href
+    var url = new URL(url_string);
+    uid = url.searchParams.get("uid");
+
+    $profUid.val(uid);
+
     $profImg.css('background', `url(${data.profile.prof_img_url})`);
     $profProfession.html(data.professions.objProfService.map(prof => `<span>${prof._prof_name}</span>`).join("- &nbsp;"));
     $profName.html(data.profile.name + ' ' + data.profile.surname);
@@ -34,6 +49,12 @@ var profProfMainInfo = (function() {
       ratedFill: "#FBBB3E",
       normalFill: "#cdcdcd"
     });
+  }
+
+  function _goToChat() {
+    console.log(firebase.auth().currentUser.uid);
+    var room = firebase.auth().currentUser.uid + '-' + $profUid.val();
+    window.location.replace(lnk.pgMessages + `?room=${room}`);
   }
 
 

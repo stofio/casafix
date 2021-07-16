@@ -18,6 +18,10 @@ var profProfReviews = (function() {
     var url_string = window.location.href
     var url = new URL(url_string);
     uid = url.searchParams.get("uid");
+
+    var lasciaRecUrl = lnk.pgGiveReview + `?uid=` + uid;
+    $leaveRevBtn.find('a').attr('href', lasciaRecUrl);
+
     _getReviews()
       .then((reviews) => {
         if (reviews) {

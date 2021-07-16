@@ -51,8 +51,6 @@ var dbAuth = (function() {
   function isProfessional(uid, callback) {
     database.collection('professionals').doc(uid).get()
       .then((doc) => {
-        console.log(uid)
-        console.log(doc.exists)
         var isProf;
         if (!doc.exists) {
           isProf = false;

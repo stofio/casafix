@@ -36,7 +36,6 @@ var loadPage = (function() {
       });
       dbAuth.isUser(uid, (isUser) => {
         //USER
-        console.log(isUser)
         if (isUser) {
           if (userLinkRedir == false) {
             dbAuth.getUserNameAndImgUser(uid, (obj) => {

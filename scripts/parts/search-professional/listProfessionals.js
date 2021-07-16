@@ -95,28 +95,32 @@ var listProfessionals = (function() {
         let tmpCont = document.createElement('div');
         tmpCont.classList.add('prof-box');
         let tmp = `
-    <input class="profuid" type="text" value="${profObj.uid}" hidden />
-    <div class="prof-box-img">
-      <div class="prof-img-bg" style="background: url(${profObj.profile.prof_img_url})"></div>
-    </div>
-    <div class="prof-and-stars">
-      <div class="prof-professions">
-        ${ profObj.professions.objProfService.map(prof => `<span>${prof._prof_name}</span>`).join("- &nbsp;") }
-      </div>
-      <div class="prof-prof-stars">
-        <span>${profObj.reviews}</span>
-        <div class="number-stars"></div>
-      </div>
-    </div>
-    <div class="prof-info">
-      <p>${profObj.profile.name} ${profObj.profile.surname}</p>
-      <p>${profObj.profile.location.region}</p>
-      <p class="intro">${profObj.profile.description}</p>
-    </div>
-    <div class="distance-and-button">
-      <span class="distance">⇄ ${profObj.distance.toFixed(2)} km da te</span>
-      <button class="def-btn goToProfile">Profilo</button>
-    </div>`;
+        <a href="${lnk.pgProfiloProf}?uid=${profObj.uid}">
+        <input class="profuid" type="text" value="${profObj.uid}" hidden />
+        <div class="prof-box-img">
+          <div class="prof-img-bg" style="background: url(${profObj.profile.prof_img_url})"></div>
+        </div>
+        <div class="prof-and-stars">
+          <div class="prof-professions">
+            ${ profObj.professions.objProfService.map(prof => `<span>${prof._prof_name}</span>`).join("- &nbsp;") }
+          </div>
+          <div class="prof-prof-stars">
+            <span>${profObj.reviews}</span>
+            <div class="number-stars"></div>
+          </div>
+        </div>
+        <div class="prof-info">
+          <p>${profObj.profile.name} ${profObj.profile.surname}</p>
+          <p>${profObj.profile.location.region}</p>
+          <p class="intro">${profObj.profile.description}</p>
+        </div>
+        <div class="distance-and-button">
+          <span class="distance">⇄ ${profObj.distance.toFixed(2)} km da te</span>
+          <a href="${lnk.pgProfiloProf}?uid=${profObj.uid}">
+            <button class="def-btn goToProfile">Profilo</button>
+          </a>
+        </div>
+        </a>`;
 
     $(tmpCont).append(tmp);
 

@@ -27,6 +27,8 @@ var dbUserSett = (function() {
         .then(() => {
           resolve();
         })
+      var user = firebase.auth().currentUser;
+      user.updateProfile({  displayName: obj.name + ' ' + obj.surname });
     })
   }
 
@@ -57,9 +59,12 @@ var dbUserSett = (function() {
     return new Promise((resolve) => {
       database.collection('users').doc(uid).update({
         "profile.prof_img_url": url
-      }).then(() => {
-        resolve();
       })
+      var user = firebase.auth().currentUser;
+      user.updateProfile({  photoURL: url })
+        .then(function() { 
+          resolve();
+        });
     })
   }
 
