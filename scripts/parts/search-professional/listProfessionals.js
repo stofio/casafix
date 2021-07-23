@@ -95,7 +95,6 @@ var listProfessionals = (function() {
         let tmpCont = document.createElement('div');
         tmpCont.classList.add('prof-box');
         let tmp = `
-        <a href="${lnk.pgProfiloProf}?uid=${profObj.uid}">
         <input class="profuid" type="text" value="${profObj.uid}" hidden />
         <div class="prof-box-img">
           <div class="prof-img-bg" style="background: url(${profObj.profile.prof_img_url})"></div>
@@ -120,20 +119,25 @@ var listProfessionals = (function() {
             <button class="def-btn goToProfile">Profilo</button>
           </a>
         </div>
-        </a>`;
+        `;
 
-    $(tmpCont).append(tmp);
+        let linkWrap = document.createElement('a');
+        linkWrap.setAttribute('href', `${lnk.pgProfiloProf}?uid=${profObj.uid}`);
 
-    $(tmpCont).find('.number-stars').rateYo({
-      rating: profObj.stars,
-      starWidth: "18px",
-      spacing: "1px",
-      readOnly: true,
-      ratedFill: "#FBBB3E",
-      normalFill: "#cdcdcd"
-    });
+        $(linkWrap).html($(tmpCont).append(tmp));
 
-      return tmpCont;
+        $(tmpCont).find('.number-stars').rateYo({
+          rating: profObj.stars,
+          starWidth: "18px",
+          spacing: "1px",
+          readOnly: true,
+          ratedFill: "#FBBB3E",
+          normalFill: "#cdcdcd"
+        });
+
+      //`<a href="${lnk.pgProfiloProf}?uid=${profObj.uid}">`
+
+      return (linkWrap);
     }
 
   function _goToUserProfile() {

@@ -7,6 +7,8 @@ var chatSidebar = (function() {
   var $roomsHead = $chatSidebar.find('.rooms-box-head');
   var $roomsMobileArrow = $chatSidebar.find('.arrow-box-rooms');
 
+  var $singleRoom = $chatSidebar.find('.single-chat');
+
 
 
   //bind events
@@ -15,38 +17,90 @@ var chatSidebar = (function() {
   $(document).on('load', _openCloseRoomsBox());
   $roomsHead.on('click', _openCloseRoomsBox);
 
+  $(document).on('click', '.single-chat', _changeRoom);
+
 
   //init
   function initChatSidebar() {
     _openCloseRoomsBox();
   }
 
-  //functions
-  function _getAllRoomsFromUser() {}
 
-
-  function listRooms(rooms) {
-    console.log(rooms.length)
-    if (rooms.length < 1) {
-      $roomsBody.append(`<h4>Non hai ancora iniziato una conversazione. <a href="${lnk.pgCercaProf}"> Trova un professionista </a> e mandagli un messaggio.</h4>`);
-      _openRoomsBox();
-      return;
-    }
-    $.each(rooms, (i, room) => {
-      console.log(room)
-      $roomsBody.prepend(_getRoomTmp(room));
+  /**
+   * rooms listener
+   */
+  async function listRooms(currentUid) {
+    var roomsPath = firebase.firestore().collection('messages_meta').doc(currentUid).collection('my_rooms').orderBy("lastMessageTime", "asc");
+    roomsPath.onSnapshot(snapshot => {
+      console.log(snapshot)
+      if (snapshot.size == 0) {
+        $roomsBody.append(`<h4>Non hai ancora iniziato una conversazione. <a href="${lnk.pgCercaProf}"> Trova un professionista </a> e mandagli un messaggio.</h4>`);
+        _openRoomsBox();
+        return;
+      }
+      snapshot.docChanges().forEach((change) => {
+        if (change.type === "added") {
+          //get user name and img
+          dbChat.getUserInfo(change.doc.data().receiverUid)
+            .then(userInfo => {
+              removeTemporaryRoom();
+              $roomsBody.prepend(_getRoomTmp(change.doc.data(), userInfo));
+              _highlightCurrentRoom(change.doc.data().receiverUid)
+            })
+        }
+        if (change.type === "modified") {
+          console.log(change.doc.data())
+          _updateLastMessageAndTime(change.doc.data());
+          _updateUnreadMessages(change.doc.data());
+          _bringRoomOnTop(change.doc.data());
+        }
+      });
     })
   }
 
+  function _updateLastMessageAndTime(changes) {
+    var roomElement = $chatSidebar.find(`#${changes.receiverUid}`);
+    if (changes.lastMessageType === "text") {
+      roomElement.find('.last-message').html(changes.lastMessage);
+    }
+    roomElement.find('.room-name-time span').html(changes.lastMessageTime);
+  }
 
-  function selectRoom(id) {
+  function _bringRoomOnTop(changes) {
+    var roomElement = $chatSidebar.find(`#${changes.receiverUid}`);
+    roomElement.parent().prepend(roomElement);
+  }
+
+  function _updateUnreadMessages(changes) {
+    var roomElement = $chatSidebar.find(`#${changes.receiverUid}`);
+    if (changes._unreadMessages == 1) {
+      var unreadMessages = `<span class="sidebar-unread">${changes._unreadMessages}</span>`;
+      roomElement.prepend(unreadMessages);
+    } else {
+      roomElement.find('.sidebar-unread').html(changes._unreadMessages);
+    }
+  }
+
+  function removeTemporaryRoom() {
+    $roomsBody.find('.single-chat.temporary').remove();
+  }
+
+
+  function selectRoom(usersInfo) {
+    _highlightCurrentRoom(usersInfo.receiver.receiverUid);
+
+
     //if room exist
     //_highlightCurrentRoom(id)
-    //chatPanel.openChat(id)
     //else 
     //create new room
     //highlight room
     //chatPanel.openChat(id)
+  }
+
+  function _changeRoom(e) {
+    chatPanel.openChat($(this).find('input').val())
+      //console.log($(this).find('input').val())
   }
 
 
@@ -55,14 +109,24 @@ var chatSidebar = (function() {
     $roomsBody.find(`#${uid}`).addClass('chat-room-selected');
   }
 
-  function _getRoomTmp(room) {
-    console.log(room)
+  function _getRoomTmp(room, userInfo, temporary) {
+    if (userInfo == undefined || userInfo.profile.name == '') {
+      var name = userInfo.profile.contact_email;
+    } else {
+      var name = userInfo.profile.name + ' ' + userInfo.profile.surname;
+    }
+    if (room._unreadMessages > 0) {
+      var unreadMessages = `<span class="sidebar-unread">${room._unreadMessages}</span>`
+    }
+    temporary == true ? temporary = "temporary" : temporary = "";
     return `
-        <div class="single-chat" id="${room.receiverUid}">
-        <img src="${room.receiverImgUrl}" />
+        <div class="single-chat ${temporary}" id="${room.receiverUid}">
+        ${unreadMessages == undefined || 0 ? '' : unreadMessages}
+        <input type="text" value="${room.roomId}" hidden/>
+        <img src="${userInfo.profile.prof_img_url}" />
         <div class="single-chat-info">
           <div class="room-name-time">
-            <p>${room.receiverName}</p>
+            <p>${name}</p>
             <span>${room.lastMessageTime}</span>
           </div>
           <p class="last-message">${room.lastMessage}</p>
@@ -112,19 +176,19 @@ var chatSidebar = (function() {
     }
   }
 
-  function addTemporaryRoom(recUid, recInfo) {
+  function addTemporaryRoom(usersInfo) {
     var room = {
-      receiverUid: recUid,
-      receiverImgUrl: recInfo.profile.prof_img_url,
-      receiverName: recInfo.profile.name + ' ' + recInfo.profile.surname,
+      receiverUid: usersInfo.receiver.receiverUid,
+      receiverImgUrl: usersInfo.receiver.profile.prof_img_url,
+      receiverName: usersInfo.receiver.profile.name + ' ' + usersInfo.receiver.profile.surname,
       lastMessageTime: '',
       lastMessage: '',
     };
-    var tmp = _getRoomTmp(room);
-    console.log(recInfo)
+    console.log(usersInfo)
+    var tmp = _getRoomTmp(room, usersInfo.receiver, temporary = true);
     $roomsBody.find('h4').remove();
     $roomsBody.append(tmp);
-    _highlightCurrentRoom(recUid)
+    _highlightCurrentRoom(usersInfo.receiver.receiverUid)
   }
 
 
@@ -133,7 +197,8 @@ var chatSidebar = (function() {
     initChatSidebar: initChatSidebar,
     listRooms: listRooms,
     selectRoom: selectRoom,
-    addTemporaryRoom: addTemporaryRoom
+    addTemporaryRoom: addTemporaryRoom,
+    removeTemporaryRoom: removeTemporaryRoom
   }
 
 })();

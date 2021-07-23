@@ -11,15 +11,10 @@ var chatPanel = (function() {
   var $inputMsg = $chatPanel.find('#mgsInput');
 
   var chatVariables = {
+    temporary: false,
     roomId: '',
-    senderUid: '',
-    senderName: '',
-    senderImgUrl: '',
-    receiverUid: '',
-    receiverName: '',
-    receiverImgUrl: '',
-    receiverRole: '',
-    receiverProfileUrl: ''
+    sender: {},
+    receiver: {}
   };
 
   //bind events
@@ -30,75 +25,70 @@ var chatPanel = (function() {
   $(document).keypress(_sendMessageEnter);
 
 
-  //functions
-  function openChat(roomVar) {
-    if (roomVar.roomId == '') {
+  /**
+   * messages listener
+   */
+  function _listenMessagesFromRoom(roomId) {
+    var messagesPath = firebase.firestore().collection('rooms').doc(roomId).collection('messages').orderBy("time", "asc");
+    messagesPath.onSnapshot(snapshot => {
+      snapshot.docChanges().forEach((change) => {
+        if (change.type === "added") {
+          let msgTmp = _msgTmpList(change.doc.data());
+          $messagesWrap.append(msgTmp);
+          _slideOpenChat();
+        }
+      });
+      _scrollChatToBottom();
+    })
+  }
+
+
+  function openChat(roomUsersInfo) {
+    chatVariables = roomUsersInfo;
+    if (chatVariables.roomId == '') {
       _slideCloseChat();
       $chatPanelTitle.fadeOut('200', () => {
         $chatPanelTitle.html('Seleziona una conversazione').fadeIn('200');
         return;
       })
     } else {
-      //_setChatVariables(roomVar);
-      _getFullChat(roomVar.roomId)
+      _getFullChat(chatVariables.roomId)
         .then(fullChat => {
-          _listChat(fullChat);
+          // _listChat(fullChat);
+          _setReceiverLinkOnTop(chatVariables);
+          _listenMessagesFromRoom(chatVariables.roomId)
         })
     }
   }
 
+  //here just prepare variables for current new chat
+  function openTemporaryChat(roomUsersInfo) {
+    console.log(roomUsersInfo)
+    chatVariables = roomUsersInfo;
+    chatVariables.temporary = true;
+    _slideOpenChat();
+    _setReceiverLinkOnTop(chatVariables);
+    _listenMessagesFromRoom(roomUsersInfo.roomId);
+  }
+
   function _listChat(object) {
     $.each(object, (i, message) => {
-      let msgTmp = _getSenderMsgTmp(message);
+      let msgTmp = _msgTmpList(message);
       $messagesWrap.append(msgTmp);
     })
     _slideOpenChat();
+    _scrollChatToBottom()
   }
 
-  function _getSenderMsgTmp(message) {
-    return msgTmp = `
-        <div class="single-message msg-single-body">
-        <img src="${message.senderImgUrl}" class="msg-received-img" />
-        <div class="msg-single">
-           <p class="msg-sender-name">${message.senderName}</p>
-        <div class="msg-text">
-            ${message.text}
-        </div>
-        <div class="msg-time">
-            ${message.time}
-        </div>
-        </div>
-        </div>
-    `;
+  function _getFullChat(roomId) {
+    return new Promise((resolve, reject) => {
+      dbChat.getFullChat(roomId)
+        .then(fullChat => {
+          resolve(fullChat);
+        })
+    })
   }
 
-  function _getReceiverMsgTmp(message) {
-    return msgTmp = `
-        <div class="single-message msg-single-body">
-        <img src="${chatVariables.senderImgUrl}" class="msg-received-img" />
-        <div class="msg-single">
-           <p class="msg-sender-name">${chatVariables.senderName}</p>
-        <div class="msg-text">
-            ${message.text}
-        </div>
-        <div class="msg-time">
-            ${message.time}
-        </div>
-        </div>
-        </div>
-    `;
-  }
-
-  //here just prepare variables for current new chat
-  function openTemporaryChat(recUid, recInfo) {
-    console.log(chatVariables)
-    _setChatVariables(recUid, recInfo);
-    console.log(recInfo)
-    _slideOpenChat();
-    console.log(chatVariables)
-    $chatPanelTitle.html(`<h3><a href="${chatVariables.receiverProfileUrl}">${chatVariables.receiverName}</a></h3>`)
-
-  }
 
   function _sendMessage() {
     if ($inputMsg.val() == '') return;
@@ -113,16 +103,16 @@ var chatPanel = (function() {
       text: message,
     }
 
-    console.log(singleMessage)
-    console.log(chatVariables)
-
     var roomAndMessageData = {...singleMessage, ...chatVariables };
-    console.log(roomAndMessageData)
 
     dbChat.sendMessage(roomAndMessageData);
 
-    $messagesWrap.append(_getSenderMsgTmp(singleMessage));
+    if (chatVariables.temporary == true) {
+      chatVariables.temporary = false;
+    }
+
     $inputMsg.val('');
+    _scrollNextMessage();
   }
 
   function _sendMessageEnter(e) {
@@ -133,24 +123,16 @@ var chatPanel = (function() {
     }
   }
 
-
-  /**
-   * here we define 
-   */
-  function _setChatVariables(recUid, recInfo) {
-    chatVariables.receiverUid = recUid;
-    chatVariables.receiverName = recInfo.profile.name + ' ' + recInfo.profile.surname;
-    chatVariables.receiverImgUrl = recInfo.profile.prof_img_url;
-    chatVariables.receiverRole = recInfo._is_professional == 1 ? 'professional' : 'user';
-    chatVariables.senderUid = firebase.auth().currentUser.uid;
-    chatVariables.senderName = firebase.auth().currentUser.displayName;
-    chatVariables.roomId = firebase.auth().currentUser.uid + '-' + recUid;
-    chatVariables.senderImgUrl = firebase.auth().currentUser.photoURL;
-
-    //set receiver profile url based on role
-    var a = chatVariables.receiverRole == 'professional' ? lnk.pgProfiloProf + '?uid=' + recUid : lnk.pgProfiloUser + '?uid=' + recUid;
-    chatVariables.receiverProfileUrl = a;
+  function _setReceiverLinkOnTop(chatVariables) {
+    var recUid = chatVariables.receiver.receiverUid;
+    var receiverLink = chatVariables.receiver._is_professional == 1 ? lnk.pgProfiloProf + '?uid=' + recUid : lnk.pgProfiloUser + '?uid=' + recUid;
+    var receiverName = chatVariables.receiver.profile.name + ' ' + chatVariables.receiver.profile.surname;
+    $chatPanelTitle.html(`<h3><a href="${receiverLink}">${receiverName}</a></h3>`)
   }
+
+
+
+
 
 
   function _slideCloseChat() {
@@ -173,14 +155,59 @@ var chatPanel = (function() {
     }
   }
 
+  function _scrollNextMessage() {
+    $messagesWrap.stop().animate({ scrollTop: $messagesWrap[0].scrollHeight }, 1000);
+  }
 
-  function _getFullChat(roomId) {
-    return new Promise((resolve, reject) => {
-      dbChat.getFullChat(roomId)
-        .then(fullChat => {
-          resolve(fullChat);
-        })
-    })
+  function _scrollChatToBottom() {
+    var maxScrollPosition = $messagesWrap.prop('scrollHeight') - $messagesWrap.prop('clientHeight');
+    $messagesWrap.animate({ scrollTop: maxScrollPosition });
+  }
+
+
+
+  function _msgTmpList(messageInfo) {
+    var name = _getUserName(messageInfo.senderUid);
+    var imgUrl = _getUserImageUrl(messageInfo.senderUid);
+    return msgTmp = `
+        <div class="single-message msg-single-body">
+        <img src="${imgUrl}" class="msg-received-img" />
+        <div class="msg-single">
+           <p class="msg-sender-name">${name}</p>
+        <div class="msg-text">
+            ${messageInfo.text}
+        </div>
+        <div class="msg-time">
+            ${messageInfo.time}
+        </div>
+        </div>
+        </div>
+    `;
+  }
+
+
+  //return name of message sender, if name not set, return email
+  function _getUserName(senderUid) {
+    if (chatVariables.receiver.receiverUid === senderUid) {
+      if (chatVariables.receiver.profile.name == '' || chatVariables.receiver.profile.name == undefined) {
+        return chatVariables.receiver.profile.contact_email;
+      }
+      return chatVariables.receiver.profile.name + ' ' + chatVariables.receiver.profile.surname;
+    } else {
+      if (chatVariables.sender.profile.name == '' || chatVariables.sender.profile.name == undefined) {
+        return chatVariables.sender.profile.contact_email;
+      }
+      return chatVariables.sender.profile.name + ' ' + chatVariables.sender.profile.surname;
+    }
+  }
+
+  //return image url
+  function _getUserImageUrl(senderUid) {
+    if (chatVariables.receiver.receiverUid === senderUid) {
+      return chatVariables.receiver.profile.prof_img_url;
+    } else {
+      return chatVariables.sender.profile.prof_img_url;
+    }
   }
 
 
