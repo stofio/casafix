@@ -8,6 +8,7 @@ var chatPanel = (function() {
 
   var $sendMsgBtn = $chatPanel.find('#send-message');
   var $sendPhotoBtn = $chatPanel.find('#msg-send-image');
+  var $inputImage = $chatPanel.find('#imageMessage');
   var $inputMsg = $chatPanel.find('#mgsInput');
 
   var chatVariables = {
@@ -17,14 +18,25 @@ var chatPanel = (function() {
     receiver: {}
   };
 
+  var roomUsersInfo = {
+    roomId: '',
+    sender: {},
+    receiver: {}
+  };
+
+  var limitImageSize = 2097152; // 2 MiB for bytes.
+
   //bind events
-  $(document).on('load', _slideCloseChat());
+  $(document).on('load', _slideCloseChat(load = true));
   $sendMsgBtn.on('click', _sendMessage);
+  $sendPhotoBtn.on('click', _clickImage);
+  $inputImage.on('change', _sendImage);
   $inputMsg.on('input', _activateDeactivateBtn);
+  $(document).on('click', '.photo-message img', _fullScreenImage);
 
   $(document).keypress(_sendMessageEnter);
 
-
+  var previousMsgDate;
   /**
    * messages listener
    */
@@ -33,7 +45,10 @@ var chatPanel = (function() {
     messagesPath.onSnapshot(snapshot => {
       snapshot.docChanges().forEach((change) => {
         if (change.type === "added") {
+          var currentMsgDate = change.doc.data().time;
+          setDatesInChat(previousMsgDate, currentMsgDate);
           let msgTmp = _msgTmpList(change.doc.data());
+          previousMsgDate = currentMsgDate;
           $messagesWrap.append(msgTmp);
           _slideOpenChat();
         }
@@ -42,12 +57,28 @@ var chatPanel = (function() {
     })
   }
 
+  function setDatesInChat(previousMsgDate, currentMsgDate) {
+    if (previousMsgDate == undefined) {
+      var startingDate = new Date(currentMsgDate).toISOString().split('T')[0];
+      $messagesWrap.append(`<div class="chat-date">${startingDate}</div>`);
+      return;
+    };
+    var currentDate = new Date(previousMsgDate).toISOString().split('T')[0];
+    var nextDate = new Date(currentMsgDate).toISOString().split('T')[0];
+    if (currentDate !== nextDate) {
+      $messagesWrap.append(`<div class="chat-date">${nextDate}</div>`);
+    }
+
+  }
+
 
   function openChat(roomUsersInfo) {
+    console.log(roomUsersInfo)
     chatVariables = roomUsersInfo;
     if (chatVariables.roomId == '') {
       _slideCloseChat();
       $chatPanelTitle.fadeOut('200', () => {
+        console.log('asd')
         $chatPanelTitle.html('Seleziona una conversazione').fadeIn('200');
         return;
       })
@@ -55,8 +86,10 @@ var chatPanel = (function() {
       _getFullChat(chatVariables.roomId)
         .then(fullChat => {
           // _listChat(fullChat);
+          console.log(chatVariables)
           _setReceiverLinkOnTop(chatVariables);
-          _listenMessagesFromRoom(chatVariables.roomId)
+          _listenMessagesFromRoom(chatVariables.roomId);
+          _markMessageRead(chatVariables);
         })
     }
   }
@@ -71,14 +104,6 @@ var chatPanel = (function() {
     _listenMessagesFromRoom(roomUsersInfo.roomId);
   }
 
-  function _listChat(object) {
-    $.each(object, (i, message) => {
-      let msgTmp = _msgTmpList(message);
-      $messagesWrap.append(msgTmp);
-    })
-    _slideOpenChat();
-    _scrollChatToBottom()
-  }
 
   function _getFullChat(roomId) {
     return new Promise((resolve, reject) => {
@@ -123,11 +148,101 @@ var chatPanel = (function() {
     }
   }
 
+  function _clickImage() {
+    $inputImage.trigger('click');
+  }
+
+  function _sendImage() {
+    $sendPhotoBtn.attr('disabled', true);
+    var uploadedImage = this.files[0];
+    var fileType = uploadedImage["type"];
+    var validImageTypes = ["image/gif", "image/jpeg", "image/png"];
+
+    if ($.inArray(fileType, validImageTypes) < 0) {
+      $sendPhotoBtn.attr('disabled', false);
+      alert('Puoi inviare solo immagini, riprova!');
+      return;
+    }
+
+    if (uploadedImage.size > limitImageSize) {
+      $sendPhotoBtn.attr('disabled', false);
+      alert("La dimensione dell'immagine deve essere inferiore a 2MiB, riprova!");
+      return;
+    }
+
+
+    //save image
+    //put image in chat
+    //save url
+
+    dbChat.storeChatImage(chatVariables.sender.senderUid, uploadedImage)
+      .then((url) => {
+
+        var time = Date.now();
+        photoMessage = {
+          _type: 'image',
+          time: time,
+          text: url,
+        }
+        var roomAndMessageData = {...photoMessage, ...chatVariables };
+        _addImageToChat(url);
+        _saveMessageImage(roomAndMessageData)
+          .then(() => {
+            $sendPhotoBtn.attr('disabled', false);
+          })
+      })
+  }
+
+  function _saveMessageImage(roomAndMessageData) {
+    return new Promise((resolve) => {
+      dbChat.saveMessageImage(roomAndMessageData);
+      resolve();
+    })
+  }
+
+  function _addImageToChat(url) {
+    //chat append image
+  }
+
+
   function _setReceiverLinkOnTop(chatVariables) {
     var recUid = chatVariables.receiver.receiverUid;
     var receiverLink = chatVariables.receiver._is_professional == 1 ? lnk.pgProfiloProf + '?uid=' + recUid : lnk.pgProfiloUser + '?uid=' + recUid;
-    var receiverName = chatVariables.receiver.profile.name + ' ' + chatVariables.receiver.profile.surname;
+    if (chatVariables.receiver.profile.name == '') {
+      var receiverName = chatVariables.receiver.profile.contact_email;
+    } else {
+      var receiverName = chatVariables.receiver.profile.name + ' ' + chatVariables.receiver.profile.surname;
+    }
     $chatPanelTitle.html(`<h3><a href="${receiverLink}">${receiverName}</a></h3>`)
+  }
+
+  async function selectChat(roomId) {
+    _slideCloseChat();
+    $messagesWrap.empty();
+    var roomInfo = await dbChat.getRoomInfo(roomId);
+    var receiverUid;
+    var senderUid;
+    if (firebase.auth().currentUser.uid == roomInfo.senderUid) {
+      receiverUid = roomInfo.receiverUid;
+      senderUid = roomInfo.senderUid;
+    } else {
+      receiverUid = roomInfo.senderUid;
+      senderUid = roomInfo.receiverUid;
+    }
+
+    dbChat.getUserInfo(receiverUid)
+      .then(receiverInfo => {
+        roomUsersInfo.receiver = {...receiverInfo, receiverUid: receiverUid };
+        dbChat.getUserInfo(senderUid)
+          .then(senderInfo => {
+            roomUsersInfo.sender = {...senderInfo, senderUid: senderUid };
+            roomUsersInfo.roomId = roomId;
+            chatPanel.openChat(roomUsersInfo);
+            chatSidebar.selectRoom(roomUsersInfo);
+            _slideOpenChat()
+            return;
+          })
+      })
   }
 
 
@@ -135,7 +250,8 @@ var chatPanel = (function() {
 
 
 
-  function _slideCloseChat() {
+  function _slideCloseChat(load) {
+    if (!load) $chatPanelTitle.html('...');
     $messagesWrap.slideUp();
     $chatPanelFooter.slideUp()
   }
@@ -169,16 +285,21 @@ var chatPanel = (function() {
   function _msgTmpList(messageInfo) {
     var name = _getUserName(messageInfo.senderUid);
     var imgUrl = _getUserImageUrl(messageInfo.senderUid);
+    if (messageInfo._type == 'text') {
+      var message = `<p>${messageInfo.text}</p>`;
+    } else if (messageInfo._type == 'image') {
+      var message = `<div class="photo-message"><img src="${messageInfo.text}"/></div>`;
+    }
     return msgTmp = `
         <div class="single-message msg-single-body">
         <img src="${imgUrl}" class="msg-received-img" />
         <div class="msg-single">
            <p class="msg-sender-name">${name}</p>
         <div class="msg-text">
-            ${messageInfo.text}
+            ${message}
         </div>
         <div class="msg-time">
-            ${messageInfo.time}
+            ${_getTime(messageInfo.time)}
         </div>
         </div>
         </div>
@@ -211,10 +332,56 @@ var chatPanel = (function() {
   }
 
 
+  function _getTime(timestamp) {
+    var date = new Date(timestamp);
+    var time = (date.getHours() < 10 ? '0' : '') + date.getHours() + ':' + (date.getMinutes() < 10 ? '0' : '') + date.getMinutes();
+    return time;
+  }
+
+  function _markMessageRead(chatVariables) {
+    var currentUid = chatVariables.sender.senderUid;
+    var receiverUid = chatVariables.receiver.receiverUid;
+    var roomId = chatVariables.roomId;
+    dbChat.markMessageRead(currentUid, roomId);
+    chatSidebar.removeUnreadMessages(receiverUid);
+  }
+
+
+  function _fullScreenImage() {
+    var src = $(this).attr('src');
+    var modal;
+
+    function removeModal() {
+      modal.remove();
+      $('body').off('keyup.modal-close');
+    }
+    modal = $('<div>').css({
+      background: 'RGBA(0,0,0,.5) url(' + src + ') no-repeat center',
+      backgroundSize: 'contain',
+      width: '100%',
+      height: '100%',
+      position: 'fixed',
+      zIndex: '10000',
+      top: '0',
+      left: '0',
+      cursor: 'zoom-out'
+    }).click(function() {
+      removeModal();
+    }).appendTo('body');
+    //handling ESC
+    $('body').on('keyup.modal-close', function(e) {
+      if (e.key === 'Escape') {
+        removeModal();
+      }
+    });
+  }
+
+
 
   return {
     openChat: openChat,
-    openTemporaryChat: openTemporaryChat
+    openTemporaryChat: openTemporaryChat,
+    selectChat: selectChat
   }
 
 })();

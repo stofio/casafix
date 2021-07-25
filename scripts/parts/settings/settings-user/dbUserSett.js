@@ -42,7 +42,7 @@ var dbUserSett = (function() {
     })
   }
 
-  //return image url
+  //return image url 
   function uploadUserImage(uid, image) {
     return new Promise((resolve, reject) => {
       storage.ref('profileImage/' + uid).put(image)

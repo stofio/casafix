@@ -45,7 +45,7 @@ var chatSidebar = (function() {
             .then(userInfo => {
               removeTemporaryRoom();
               $roomsBody.prepend(_getRoomTmp(change.doc.data(), userInfo));
-              _highlightCurrentRoom(change.doc.data().receiverUid)
+              // _highlightCurrentRoom(change.doc.data().receiverUid)
             })
         }
         if (change.type === "modified") {
@@ -60,10 +60,11 @@ var chatSidebar = (function() {
 
   function _updateLastMessageAndTime(changes) {
     var roomElement = $chatSidebar.find(`#${changes.receiverUid}`);
+
     if (changes.lastMessageType === "text") {
       roomElement.find('.last-message').html(changes.lastMessage);
     }
-    roomElement.find('.room-name-time span').html(changes.lastMessageTime);
+    roomElement.find('.room-name-time span').html(_getTime(changes.lastMessageTime));
   }
 
   function _bringRoomOnTop(changes) {
@@ -88,24 +89,21 @@ var chatSidebar = (function() {
 
   function selectRoom(usersInfo) {
     _highlightCurrentRoom(usersInfo.receiver.receiverUid);
-
-
-    //if room exist
-    //_highlightCurrentRoom(id)
-    //else 
-    //create new room
-    //highlight room
-    //chatPanel.openChat(id)
   }
 
   function _changeRoom(e) {
-    chatPanel.openChat($(this).find('input').val())
-      //console.log($(this).find('input').val())
+    if ($(this).hasClass('chat-room-selected')) return;
+    $chatSidebar.css('pointer-events', 'none');
+    _highlightCurrentRoom(roomId);
+    var roomId = $(this).find('input').val();
+    chatPanel.selectChat(roomId);
+    $chatSidebar.css('pointer-events', 'auto');
   }
 
 
 
   function _highlightCurrentRoom(uid) {
+    $roomsBody.find('.single-chat').removeClass('chat-room-selected');
     $roomsBody.find(`#${uid}`).addClass('chat-room-selected');
   }
 
@@ -119,6 +117,16 @@ var chatSidebar = (function() {
       var unreadMessages = `<span class="sidebar-unread">${room._unreadMessages}</span>`
     }
     temporary == true ? temporary = "temporary" : temporary = "";
+    if (isToday(room.lastMessageTime)) {
+      var time = _getTime(room.lastMessageTime);
+    } else {
+      var time = new Date(room.lastMessageTime).toISOString().split('T')[0]
+    }
+    if (room.lastMessageType == 'image') {
+      var lastMessage = 'Foto';
+    } else {
+      var lastMessage = room.lastMessage;
+    }
     return `
         <div class="single-chat ${temporary}" id="${room.receiverUid}">
         ${unreadMessages == undefined || 0 ? '' : unreadMessages}
@@ -127,9 +135,9 @@ var chatSidebar = (function() {
         <div class="single-chat-info">
           <div class="room-name-time">
             <p>${name}</p>
-            <span>${room.lastMessageTime}</span>
+            <span>${time}</span>
           </div>
-          <p class="last-message">${room.lastMessage}</p>
+          <p class="last-message">${lastMessage}</p>
         </div>
       </div>
     `;
@@ -191,6 +199,23 @@ var chatSidebar = (function() {
     _highlightCurrentRoom(usersInfo.receiver.receiverUid)
   }
 
+  function _getTime(timestamp) {
+    var date = new Date(timestamp);
+    var time = (date.getHours() < 10 ? '0' : '') + date.getHours() + ':' + (date.getMinutes() < 10 ? '0' : '') + date.getMinutes();
+    return time;
+  }
+
+
+  function isToday(date) {
+    var today = new Date();
+    var theDate = new Date(date);
+    return (today.setHours(0, 0, 0, 0) == theDate.setHours(0, 0, 0, 0))
+  }
+
+  function removeUnreadMessages(receiverUid) {
+    $roomsBody.find(`#${receiverUid}`).find('.sidebar-unread').remove();
+  }
+
 
 
   return {
@@ -198,7 +223,8 @@ var chatSidebar = (function() {
     listRooms: listRooms,
     selectRoom: selectRoom,
     addTemporaryRoom: addTemporaryRoom,
-    removeTemporaryRoom: removeTemporaryRoom
+    removeTemporaryRoom: removeTemporaryRoom,
+    removeUnreadMessages: removeUnreadMessages
   }
 
 })();

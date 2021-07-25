@@ -131,57 +131,58 @@ var dbChat = (function() {
 
 
   function _updateMessageMeta(objMessage) {
+    return new Promise((resolve, reject) => {
+      console.log(objMessage)
+      var batch = database.batch();
 
-    console.log(objMessage)
-    var batch = database.batch();
+      var user1Uid = objMessage.receiver.receiverUid;
+      var user1Link = objMessage.receiver._is_professional == 1 ? lnk.pgProfiloProf + '?uid=' + user1Uid : lnk.pgProfiloUser + '?uid=' + user1Uid;
+      var user1 = database.collection("messages_meta").doc(objMessage.sender.senderUid).collection('my_rooms').doc(objMessage.roomId);
+      var user1RoomInfo = {
+        roomId: objMessage.roomId,
+        receiverUid: user1Uid,
+        receiverProfileUrl: user1Link,
+        receiverRole: objMessage.receiver._is_professional == 1 ? 'professional' : 'user',
+        lastMessage: objMessage.text,
+        lastMessageType: objMessage._type,
+        lastMessageTime: objMessage.time
+      }
 
-    var user1Uid = objMessage.receiver.receiverUid;
-    var user1Link = objMessage.receiver._is_professional == 1 ? lnk.pgProfiloProf + '?uid=' + user1Uid : lnk.pgProfiloUser + '?uid=' + user1Uid;
-    var user1 = database.collection("messages_meta").doc(objMessage.sender.senderUid).collection('my_rooms').doc(objMessage.roomId);
-    var user1RoomInfo = {
-      roomId: objMessage.roomId,
-      receiverUid: user1Uid,
-      receiverProfileUrl: user1Link,
-      receiverRole: objMessage.receiver._is_professional == 1 ? 'professional' : 'user',
-      lastMessage: objMessage.text,
-      lastMessageType: objMessage._type,
-      lastMessageTime: objMessage.time
-    }
+      var user2Uid = objMessage.sender.senderUid;
+      var user2Link = objMessage.sender._is_professional == 1 ? lnk.pgProfiloProf + '?uid=' + user2Uid : lnk.pgProfiloUser + '?uid=' + user2Uid;
+      var user2 = database.collection("messages_meta").doc(objMessage.receiver.receiverUid).collection('my_rooms').doc(objMessage.roomId);
+      var user2RoomInfo = {
+        roomId: objMessage.roomId,
+        receiverUid: user2Uid,
+        receiverProfileUrl: user2Link,
+        receiverRole: objMessage.sender._is_professional == 1 ? 'professional' : 'user',
+        lastMessage: objMessage.text,
+        lastMessageType: objMessage._type,
+        lastMessageTime: objMessage.time,
+      }
 
-    var user2Uid = objMessage.sender.senderUid;
-    var user2Link = objMessage.sender._is_professional == 1 ? lnk.pgProfiloProf + '?uid=' + user2Uid : lnk.pgProfiloUser + '?uid=' + user2Uid;
-    var user2 = database.collection("messages_meta").doc(objMessage.receiver.receiverUid).collection('my_rooms').doc(objMessage.roomId);
-    var user2RoomInfo = {
-      roomId: objMessage.roomId,
-      receiverUid: user2Uid,
-      receiverProfileUrl: user2Link,
-      receiverRole: objMessage.sender._is_professional == 1 ? 'professional' : 'user',
-      lastMessage: objMessage.text,
-      lastMessageType: objMessage._type,
-      lastMessageTime: objMessage.time,
-    }
+      if (objMessage.temporary) {
+        batch.set(user1, {
+          ...user1RoomInfo
+        });
+        user2RoomInfo._unreadMessages = 1;
+        batch.set(user2, {
+          ...user2RoomInfo
+        });
+      } else {
+        batch.update(user1, {
+          ...user1RoomInfo
+        });
+        user2RoomInfo._unreadMessages = firebase.firestore.FieldValue.increment(1);
+        batch.update(user2, {
+          ...user2RoomInfo
+        });
+      }
 
-    if (objMessage.temporary) {
-      batch.set(user1, {
-        ...user1RoomInfo
+      batch.commit().then(() => {
+        resolve();
       });
-      user2RoomInfo._unreadMessages = 1;
-      batch.set(user2, {
-        ...user2RoomInfo
-      });
-    } else {
-      batch.update(user1, {
-        ...user1RoomInfo
-      });
-      user2RoomInfo._unreadMessages = firebase.firestore.FieldValue.increment(1);
-      batch.update(user2, {
-        ...user2RoomInfo
-      });
-    }
-
-    batch.commit().then(() => {
-      // ...
-    });
+    })
   }
 
 
@@ -195,6 +196,42 @@ var dbChat = (function() {
     })
   }
 
+  function markMessageRead(currentUid, roomUid) {
+    var roomInfo = database.collection("messages_meta").doc(currentUid).collection('my_rooms').doc(roomUid)
+    roomInfo.update({
+        _unreadMessages: 0
+      })
+      .catch(e => {
+        console.log(e)
+      });
+  }
+
+  function uuidv4() {
+    return ([1e7] + -1e3 + -4e3 + -8e3 + -1e11).replace(/[018]/g, c =>
+      (c ^ crypto.getRandomValues(new Uint8Array(1))[0] & 15 >> c / 4).toString(16)
+    );
+  }
+
+  //return image url
+  function storeChatImage(uid, image) {
+    return new Promise((resolve, reject) => {
+      storage.ref('users/' + uid + '/images/chat_images/' + uuidv4()).put(image)
+        .then((snapshot) => {
+          resolve(snapshot.ref.getDownloadURL());
+        }).catch((e) => {
+          console.log(e);
+          reject();
+        })
+    })
+  }
+
+  function saveMessageImage(roomAndMessageData) {
+    return new Promise((resolve) => {
+      _updateRoomAndSaveMessage(roomAndMessageData);
+      _updateMessageMeta(roomAndMessageData)
+    })
+  }
+
 
 
   return {
@@ -205,7 +242,10 @@ var dbChat = (function() {
     sendMessage: sendMessage,
     getFullChat: getFullChat,
     createRoom: createRoom,
-    getRoomInfo: getRoomInfo
+    getRoomInfo: getRoomInfo,
+    markMessageRead: markMessageRead,
+    storeChatImage: storeChatImage,
+    saveMessageImage: saveMessageImage
   }
 
 

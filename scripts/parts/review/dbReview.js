@@ -56,7 +56,6 @@ var dbReview = (function() {
             c++;
             console.log(c)
             if (c == images.length) {
-              console.log('LAST')
               resolve(fileUrls);
             }
           })
