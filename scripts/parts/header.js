@@ -11,6 +11,8 @@ var header = (function() {
     "Preferiti": "link",
     "Messaggi": "link",
     "Notifiche": "link",
+    "Notifiche": "link",
+    "Notifiche": "link",
   };
 
   var professionalNavMenu = {

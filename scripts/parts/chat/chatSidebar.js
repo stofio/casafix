@@ -108,27 +108,21 @@ var chatSidebar = (function() {
   }
 
   function _getRoomTmp(room, userInfo, temporary) {
-    if (userInfo == undefined || userInfo.profile.name == '') {
-      var name = userInfo.profile.contact_email;
-    } else {
-      var name = userInfo.profile.name + ' ' + userInfo.profile.surname;
-    }
-    if (room._unreadMessages > 0) {
-      var unreadMessages = `<span class="sidebar-unread">${room._unreadMessages}</span>`
-    }
     temporary == true ? temporary = "temporary" : temporary = "";
-    if (isToday(room.lastMessageTime)) {
-      var time = _getTime(room.lastMessageTime);
-    } else {
-      var time = new Date(room.lastMessageTime).toISOString().split('T')[0]
-    }
-    if (room.lastMessageType == 'image') {
-      var lastMessage = 'Foto';
-    } else {
-      var lastMessage = room.lastMessage;
-    }
+
+    var name = getNameOrEmail(userInfo.profile);
+
+    var unreadMessages = room._unreadMessages > 0 ? `<span class="sidebar-unread">${room._unreadMessages}</span>` : '';
+
+    var time = getLastMessageTime(room.lastMessageTime);
+
+    var lastMessage = room.lastMessageType == 'image' ? 'Foto' : room.lastMessage;
+
+    _setOnlineStatus(room.receiverUid);
+
     return `
-        <div class="single-chat ${temporary}" id="${room.receiverUid}">
+      <div class="single-chat ${temporary}" id="${room.receiverUid}">
+        <div class="online-status"></div>
         ${unreadMessages == undefined || 0 ? '' : unreadMessages}
         <input type="text" value="${room.roomId}" hidden/>
         <img src="${userInfo.profile.prof_img_url}" />
@@ -141,6 +135,33 @@ var chatSidebar = (function() {
         </div>
       </div>
     `;
+  }
+
+  function getLastMessageTime(lastMessageTime) {
+    if (isToday(lastMessageTime)) {
+      return _getTime(lastMessageTime);
+    } else {
+      return new Date(lastMessageTime).toISOString().split('T')[0]
+    }
+  }
+
+  function _setOnlineStatus(receiverUid) {
+    onlineStatus.statusListener(receiverUid, state => {
+      if (state == 'online') {
+        $(`#${receiverUid}`).find('.online-status').css('background-color', '#3dd10c');
+      } else {
+        $(`#${receiverUid}`).find('.online-status').css('background-color', '#c7c7c7');
+      }
+    });
+  }
+
+  function getNameOrEmail(userProfile) {
+    if (userProfile == undefined || userProfile.name == '') {
+      return userProfile.contact_email;
+    } else {
+      return userProfile.name + ' ' + userProfile.surname;
+    }
+
   }
 
   function _openCloseRoomsBox() {
@@ -215,6 +236,9 @@ var chatSidebar = (function() {
   function removeUnreadMessages(receiverUid) {
     $roomsBody.find(`#${receiverUid}`).find('.sidebar-unread').remove();
   }
+
+
+
 
 
 

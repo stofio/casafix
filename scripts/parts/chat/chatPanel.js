@@ -3,7 +3,9 @@ var chatPanel = (function() {
   //cache dom
   var $chatPanel = $('#chat');
   var $messagesWrap = $chatPanel.find('.msg-box-wrap');
-  var $chatPanelTitle = $chatPanel.find('.msg-box-head h3');
+  var $chatHead = $chatPanel.find('.msg-box-head');
+  var $chatPanelTitle = $chatHead.find('h3');
+  var $statusDot = $chatHead.find('.chat-online-status');
   var $chatPanelFooter = $chatPanel.find('.msg-box-foot');
 
   var $sendMsgBtn = $chatPanel.find('#send-message');
@@ -73,7 +75,6 @@ var chatPanel = (function() {
 
 
   function openChat(roomUsersInfo) {
-    console.log(roomUsersInfo)
     chatVariables = roomUsersInfo;
     if (chatVariables.roomId == '') {
       _slideCloseChat();
@@ -83,14 +84,11 @@ var chatPanel = (function() {
         return;
       })
     } else {
-      _getFullChat(chatVariables.roomId)
-        .then(fullChat => {
-          // _listChat(fullChat);
-          console.log(chatVariables)
-          _setReceiverLinkOnTop(chatVariables);
-          _listenMessagesFromRoom(chatVariables.roomId);
-          _markMessageRead(chatVariables);
-        })
+      _setReceiverLinkOnTop(chatVariables);
+      _setUserOnlineStatus(chatVariables);
+      _listenUserOnlineStatus(chatVariables);
+      _listenMessagesFromRoom(chatVariables.roomId);
+      _markMessageRead(chatVariables);
     }
   }
 
@@ -101,6 +99,7 @@ var chatPanel = (function() {
     chatVariables.temporary = true;
     _slideOpenChat();
     _setReceiverLinkOnTop(chatVariables);
+    _listenUserOnlineStatus(chatVariables);
     _listenMessagesFromRoom(roomUsersInfo.roomId);
   }
 
@@ -171,10 +170,6 @@ var chatPanel = (function() {
     }
 
 
-    //save image
-    //put image in chat
-    //save url
-
     dbChat.storeChatImage(chatVariables.sender.senderUid, uploadedImage)
       .then((url) => {
 
@@ -216,6 +211,29 @@ var chatPanel = (function() {
     $chatPanelTitle.html(`<h3><a href="${receiverLink}">${receiverName}</a></h3>`)
   }
 
+  function _listenUserOnlineStatus(chatVariables) {
+    onlineStatus.statusListener(chatVariables.receiver.receiverUid, state => {
+      if (state == 'online') {
+        $statusDot.css('background-color', '#3dd10c');
+      } else {
+        $statusDot.css('background-color', '#c7c7c7');
+      }
+    });
+  }
+
+  function _setUserOnlineStatus(chatVariables) {
+    $statusDot.css('background-color', '#c7c7c7');
+    onlineStatus.isOnline(chatVariables.receiver.receiverUid, state => {
+      if (state == 'online') {
+        $statusDot.css('background-color', '#3dd10c');
+      } else {
+        $statusDot.css('background-color', '#c7c7c7');
+      }
+    });
+  }
+
+
+
   async function selectChat(roomId) {
     _slideCloseChat();
     $messagesWrap.empty();
@@ -249,8 +267,8 @@ var chatPanel = (function() {
 
 
 
-
   function _slideCloseChat(load) {
+    $statusDot.css('background-color', '#c7c7c7');
     if (!load) $chatPanelTitle.html('...');
     $messagesWrap.slideUp();
     $chatPanelFooter.slideUp()
