@@ -35,6 +35,7 @@ var chatPanel = (function() {
   $inputImage.on('change', _sendImage);
   $inputMsg.on('input', _activateDeactivateBtn);
   $(document).on('click', '.photo-message img', _fullScreenImage);
+  $chatPanel.on('click', _readMessage);
 
   $(document).keypress(_sendMessageEnter);
 
@@ -392,6 +393,10 @@ var chatPanel = (function() {
         removeModal();
       }
     });
+  }
+
+  function _readMessage() {
+    _markMessageRead(chatVariables);
   }
 
 

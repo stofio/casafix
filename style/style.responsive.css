@@ -136,6 +136,19 @@
   .prof-box-full .prof-professions {
     float: initial;
   }
+  #footer .footer-wrap {
+    flex-direction: column;
+  }
+  .register-as-prof-banner,
+  .add-announcement-banner {
+    width: 100%;
+  }
+  #home-page h1 {
+    font-size: 29px;
+  }
+  .most-searched-wrap .row {
+    justify-content: center;
+  }
 }
 
 @media(max-width:767px) {
@@ -305,5 +318,17 @@
   .portfolio-front-img .mod-port-item {
     opacity: 1;
     background-color: rgba(29, 29, 29, .14);
+  }
+  .add-announcement-banner .banner-wrap,
+  .register-as-prof-banner .banner-wrap {
+    flex-direction: column;
+    text-align: center;
+  }
+  .add-announcement-banner .banner-button,
+  .register-as-prof-banner .banner-button {
+    margin-top: 15px;
+  }
+  #list-favourites {
+    width: 100%;
   }
 }

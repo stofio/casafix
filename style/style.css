@@ -45,8 +45,15 @@ body * {
 }
 
 body {
-  padding-bottom: 100px;
   background: #f4f4f4;
+  display: flex;
+  flex-direction: column;
+}
+
+html,
+body {
+  height: 100%;
+  min-height: 100%;
 }
 
 label {
@@ -86,6 +93,9 @@ label {
 
 #header .nav li {
   margin: 0 30px;
+  position: relative;
+  display: flex;
+  align-items: center;
 }
 
 #header .nav li.announc a {
@@ -251,6 +261,40 @@ label {
   right: -80px;
 }
 
+#footer {
+  background-color: #fff;
+  border-top: solid 1px #e0e0e0;
+  text-align: center;
+  padding: 10px 15px;
+  margin-top: 100px;
+}
+
+#footer .footer-wrap {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+#footer ul {
+  list-style: none;
+  display: flex;
+  justify-content: center;
+  padding: 0;
+  margin-bottom: 3px;
+}
+
+#footer li {
+  margin: 0 10px;
+}
+
+#footer li a:hover {
+  color: initial;
+}
+
+#footer .copyright {
+  font-size: 15px;
+}
+
 .back-btn {
   position: absolute;
   margin-top: -10px;
@@ -272,6 +316,7 @@ section.container {
 
 section.top-sec {
   margin-top: 50px;
+  flex-grow: 1;
 }
 
 button.def-btn {
@@ -1619,15 +1664,8 @@ button.sendMessage .msg-icon {
 }
 
 @keyframes size {
-  0% {
-    padding: 10px 12px 8px;
-  }
   50% {
-    padding: 14px 16px 12px;
     margin-top: -4px;
-  }
-  100% {
-    padding: 10px 12px 8px;
   }
 }
 
@@ -2422,4 +2460,127 @@ mark a {
   height: 15px;
   border-radius: 100px;
   background-color: #c7c7c7;
+}
+
+.header-unread {
+  right: -19px;
+  font-size: 17px;
+  color: #fb743e;
+  font-weight: 600;
+  padding: 0 4px;
+}
+
+.register-as-prof-banner {
+  margin: 50px 0;
+  background-color: #fff;
+  border: solid 1px rgba( 0 0 0 / 8%);
+  padding: 30px;
+  border-radius: 10px;
+  width: 70%;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.register-as-prof-banner .banner-wrap {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.register-as-prof-banner .banner-text p {
+  margin-bottom: 0;
+  font-weight: 600;
+  font-size: 21px;
+}
+
+.register-as-prof-banner .banner-text p span {
+  color: #FB743E;
+  font-weight: 600;
+  font-size: 21px;
+}
+
+.register-as-prof-banner .banner-button button {
+  margin: 0;
+}
+
+.home-divider {
+  width: 100%;
+  border-bottom: solid 1px #C1C1C1;
+  margin: 30px 0;
+}
+
+#home-page h1 {
+  text-align: center;
+  font-size: 31px;
+  font-weight: 600;
+  margin-bottom: 30px;
+}
+
+.most-searched h3 {
+  font-size: 23px;
+  font-weight: 600;
+  margin-bottom: 30px;
+}
+
+.most-searched h4 {
+  font-size: 21px;
+  font-weight: 600;
+  text-align: center;
+  margin-bottom: 30px;
+}
+
+.most-searched .search-card {
+  background: url(images/elettricista.jpg), #C4C4C4;
+  height: 160px;
+  width: 250px;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+  border: solid 1px rgba( 0 0 0 / 8%);
+  border-radius: 10px;
+  margin-bottom: 15px;
+}
+
+.most-searched-wrap .row {
+  justify-content: space-between;
+}
+
+.add-announcement-banner {
+  margin: 50px 0;
+  background-color: #fff;
+  border: solid 1px rgba( 0 0 0 / 8%);
+  padding: 30px;
+  border-radius: 10px;
+  width: 80%;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.add-announcement-banner .banner-wrap {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.add-announcement-banner .banner-text {
+  padding-right: 20px;
+}
+
+.add-announcement-banner .banner-text p {
+  margin-bottom: 0;
+  font-weight: 600;
+  font-size: 21px;
+}
+
+.add-announcement-banner .banner-button button {
+  margin: 0;
+  white-space: nowrap;
+}
+
+#list-favourites {
+  width: 70%;
+}
+
+#favourites .row {
+  justify-content: center;
 }

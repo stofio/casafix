@@ -15,6 +15,9 @@ var lnk = (function() {
     pgProfiloUser: '/profilo-utente.html',
     pgGiveReview: '/lascia-recensione.html',
     pgMessages: '/messaggi.html',
+    pgNuovoAnnuncio: '/inserisci-annuncio.html',
+    pgNotification: '/notifiche.html',
+    pgFavourites: '/preferiti.html',
   }
 
 })();

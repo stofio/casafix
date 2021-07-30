@@ -8,17 +8,15 @@ var header = (function() {
   };
 
   var userNavMenu = {
-    "Preferiti": "link",
-    "Messaggi": "link",
-    "Notifiche": "link",
-    "Notifiche": "link",
-    "Notifiche": "link",
+    "Preferiti": lnk.pgFavourites,
+    "Messaggi": lnk.pgMessages,
+    "Notifiche": lnk.pgNotification,
   };
 
   var professionalNavMenu = {
-    "Preferiti": "link",
-    "Messaggi": "link",
-    "Notifiche": "link",
+    "Preferiti": lnk.pgFavourites,
+    "Messaggi": lnk.pgMessages,
+    "Notifiche": lnk.pgNotification,
   };
 
   var announc = {
@@ -33,7 +31,6 @@ var header = (function() {
     register_link: lnk.pgRegistration
   };
 
-  var profileLink = 'link';
 
   var tmpHeader = `
     <div class="container">
@@ -139,12 +136,24 @@ var header = (function() {
     _createNavigation(userNavMenu, false);
     _createAccess(false, userInfo);
     _createProfileMenu(lnk.pgSettUser);
+    firebase.auth().onAuthStateChanged(loggedUser => {
+      if (loggedUser) {
+        _listenOnlineStatus(loggedUser);
+        _listenMessage(loggedUser);
+      }
+    })
   }
 
   function _createProfHeader(userInfo) {
     _createNavigation(professionalNavMenu, true);
     _createAccess(false, userInfo);
     _createProfileMenu(lnk.pgSettProf);
+    firebase.auth().onAuthStateChanged(loggedUser => {
+      if (loggedUser) {
+        _listenOnlineStatus(loggedUser);
+        _listenMessage(loggedUser);
+      }
+    })
   }
 
 
@@ -161,7 +170,7 @@ var header = (function() {
                </ul>`;
     var arrayOfLi = [];
     $.each(navMenu, (key, val) => {
-        arrayOfLi.push(`<li><a href="${val}">${key}</a></li>`);
+        arrayOfLi.push(`<li class="${key}"><a href="${val}">${key}</a></li>`);
       })
       //button annunci
     if (hasAnnunci) {
@@ -239,6 +248,46 @@ var header = (function() {
 
   function _logout() {
     firebaseAuth.signOut();
+  }
+
+  function _listenOnlineStatus(loggedUser) {
+    if (typeof onlineStatus === 'undefined') return; //if script is not included
+    onlineStatus.statusListener(loggedUser.uid);
+  }
+
+  async function _listenMessage(loggedUser) {
+
+    var rooms = firebase.firestore().collection('messages_meta').doc(loggedUser.uid).collection('my_rooms');
+    rooms.onSnapshot(snapshot => {
+      snapshot.docChanges().forEach((change) => {
+        if (change.type === "added") {
+          _getTotalUnread(loggedUser.uid)
+            .then(total => { _showUnreadMessages(total) })
+        }
+        if (change.type === "modified") {
+          _getTotalUnread(loggedUser.uid)
+            .then(total => { _showUnreadMessages(total) })
+        }
+      });
+    })
+  }
+
+  function _showUnreadMessages(number) {
+    var $headerMessages = $el.find('.Messaggi');
+    $headerMessages.find('.header-unread').remove();
+    if (number !== 0) {
+      $headerMessages.find('a').append(`<span class="header-unread">${number}</span>`)
+    }
+  }
+
+  function _getTotalUnread(uid) {
+    return new Promise((resolve, reject) => {
+      var rooms = firebase.firestore().collection('messages_meta').doc(uid);
+      rooms.get()
+        .then(snapshot => {
+          resolve(snapshot.data().total_unread_messages);
+        })
+    })
   }
 
 

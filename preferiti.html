@@ -4,7 +4,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Nuovo annuncio</title>
+  <title>Preferiti</title>
   <link rel="stylesheet" type="text/css" href="/style/bootstrap.min.css">
   <link rel="stylesheet" type="text/css" href="/style/style.css">
   <link rel="stylesheet" type="text/css" href="/style/style.responsive.css">
@@ -14,13 +14,15 @@
 
   <nav id="header"></nav>
 
-  <section class="top-sec" id="announce">
+  <section class="top-sec" id="favourites">
     <div class="container">
       <div class="title-big">
-        <h1>Nuovo annuncio</h1>
+        <h1>Preferiti</h1>
       </div>
       <div class="row">
+        <div id="list-favourites">
 
+        </div>
       </div>
     </div>
   </section>
@@ -41,14 +43,18 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/oj.mustache/0.7.2/oj.mustache.min.js" integrity="sha512-+KQDdWwfzb3UZ0sEt1Op66MoQ9NKs6bE02+NpPnsQxZ6ylUP3Fd8L3yf1CsYPD2vndRIbOCzWk2RUfOJ9bsOcA==" crossorigin="anonymous"></script>
 
 <!--scripts/main.js-->
+<script type="text/javascript" src="/scripts/parts/progressBar.js"></script>
 <script type="text/javascript" src="/scripts/parts/links.js"></script>
 <script type="text/javascript" src="/scripts/parts/auth/firebaseAuth.js"></script>
 <script type="text/javascript" src="/scripts/parts/auth/dbAuth.js"></script>
-<script type="text/javascript" src="scripts/parts/header.js"></script>
+<script type="text/javascript" src="/scripts/parts/header.js"></script>
 <script type="text/javascript" src="/scripts/parts/loadPage.js"></script>
 <script type="text/javascript" src="scripts/parts/onlineStatus.js"></script>
 
-<script type="text/javascript" src="scripts/page-announce.js"></script>
+<script type="text/javascript" src="scripts/parts/favourites.js"></script>
+
+<script type="text/javascript" src="scripts/page-favourites.js"></script>
+
 
 
 </html>

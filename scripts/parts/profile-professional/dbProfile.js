@@ -72,6 +72,46 @@ var dbProfile = (function() {
   }
 
 
+  function addToFavourite(uid) {
+    return new Promise((resolve, reject) => {
+      var currentUid = firebase.auth().currentUser.uid;
+
+      var myFavourite = database.collection('favourites').doc(currentUid).collection('my_favourites');
+      myFavourite.doc(uid).set({});
+
+
+      var iAmFavourite = database.collection('favourites').doc(uid).collection('i_am_favourite');
+      iAmFavourite.doc(currentUid).set({})
+        .then(resolve());
+    })
+  }
+
+  function removeFromFavourite(uid) {
+    return new Promise((resolve, reject) => {
+      var currentUid = firebase.auth().currentUser.uid;
+
+
+      var myFavourite = database.collection('favourites').doc(currentUid).collection('my_favourites');
+      myFavourite.doc(uid).delete();
+
+
+      var iAmFavourite = database.collection('favourites').doc(uid).collection('i_am_favourite');
+      iAmFavourite.doc(currentUid).delete()
+        .then(resolve());
+    })
+  }
+
+  function isMyFavourite(uid) {
+    return new Promise((resolve, reject) => {
+      var currentUid = firebase.auth().currentUser.uid;
+      var myFavourite = database.collection('favourites').doc(currentUid).collection('my_favourites');
+      myFavourite.doc(uid).get()
+        .then(doc => {
+          var favourite = doc.exists ? true : false;
+          resolve(favourite);
+        })
+    })
+  }
 
 
 
@@ -83,7 +123,10 @@ var dbProfile = (function() {
     getPortfolioImg: getPortfolioImg,
     getProfProfileData: getProfProfileData,
     getReviewsData: getReviewsData,
-    getUserProfileImageAndName: getUserProfileImageAndName
+    getUserProfileImageAndName: getUserProfileImageAndName,
+    addToFavourite: addToFavourite,
+    removeFromFavourite: removeFromFavourite,
+    isMyFavourite: isMyFavourite
   }
 
 })();

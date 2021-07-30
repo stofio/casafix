@@ -49,7 +49,6 @@ var chatSidebar = (function() {
             })
         }
         if (change.type === "modified") {
-          console.log(change.doc.data())
           _updateLastMessageAndTime(change.doc.data());
           _updateUnreadMessages(change.doc.data());
           _bringRoomOnTop(change.doc.data());

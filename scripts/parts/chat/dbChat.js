@@ -130,7 +130,8 @@ var dbChat = (function() {
   }
 
 
-  function _updateMessageMeta(objMessage) {
+  async function _updateMessageMeta(objMessage) {
+    var totalUnreadMessages = await getTotalUnreadMessages(objMessage.receiver.receiverUid);
     return new Promise((resolve, reject) => {
       console.log(objMessage)
       var batch = database.batch();
@@ -161,6 +162,11 @@ var dbChat = (function() {
         lastMessageTime: objMessage.time,
       }
 
+      var myRoomRef = database.collection("messages_meta").doc(objMessage.receiver.receiverUid);
+      batch.set(myRoomRef, {
+        total_unread_messages: totalUnreadMessages + 1
+      });
+
       if (objMessage.temporary) {
         batch.set(user1, {
           ...user1RoomInfo
@@ -179,9 +185,26 @@ var dbChat = (function() {
         });
       }
 
+
       batch.commit().then(() => {
         resolve();
       });
+    })
+  }
+
+  function getTotalUnreadMessages(receiverUid) {
+    return new Promise((resolve, reject) => {
+      var myRoomRef = database.collection("messages_meta").doc(receiverUid);
+      myRoomRef.get('total_unread_messages')
+        .then((doc) => {
+          const data = doc.data();
+          if (data === undefined) {
+            resolve(0);
+          } else {
+            resolve(data.total_unread_messages);
+          }
+
+        });
     })
   }
 
@@ -196,14 +219,39 @@ var dbChat = (function() {
     })
   }
 
-  function markMessageRead(currentUid, roomUid) {
-    var roomInfo = database.collection("messages_meta").doc(currentUid).collection('my_rooms').doc(roomUid)
-    roomInfo.update({
-        _unreadMessages: 0
-      })
-      .catch(e => {
-        console.log(e)
-      });
+  async function markMessageRead(currentUid, roomUid) {
+    var roomInfo = database.collection("messages_meta").doc(currentUid);
+    var totalUnreadMessages = await getTotalUnreadMessages(currentUid);
+    var previousUnreadMessages = await getRoomMessagesUnread(currentUid, roomUid);
+
+    var batch = database.batch();
+
+    batch.update(roomInfo, {
+      total_unread_messages: totalUnreadMessages - previousUnreadMessages
+    });
+
+    batch.update(roomInfo.collection('my_rooms').doc(roomUid), {
+      _unreadMessages: 0
+    });
+
+    batch.commit();
+  }
+
+  function getRoomMessagesUnread(currentUid, roomUid) {
+    return new Promise((resolve, reject) => {
+      var room = database.collection("messages_meta").doc(currentUid).collection('my_rooms').doc(roomUid)
+      room.get()
+        .then((doc) => {
+          const data = doc.data()._unreadMessages;
+          console.log(data);
+          if (data === undefined) {
+            resolve(0);
+          } else {
+            resolve(data);
+          }
+
+        });
+    })
   }
 
   function uuidv4() {
