@@ -3,47 +3,60 @@ var dbAuth = (function() {
   var database = firebase.firestore();
 
   //create new PROFESSIONAL in db
-  function createNewProfe(uid, email, provider, photoUrl, callback) {
-    database.collection('professionals').doc(uid).set({
-      _is_professional: 1,
-      _email: email,
-      created: $.now(),
-      reviews: 0,
-      stars: 0,
-      profile: {
-        contact_email: email,
-        prof_img_url: photoUrl,
+  function createNewProfe(user, provider) {
+    return new Promise((resolve, reject) => {
+      if (user.user.photoURL !== '' || user.user.photoURL !== null) {
+        //get better resolution of image
+        var photo = user.user.photoURL.replace('s96-c', 's400-c');
+      } else {
+        var photo = '';
       }
-    }).then(() => {
-      saveUserRoleAndProvider(uid, 'professionals', email, provider, () => {
-        if (typeof(callback) == 'function') {
-          callback();
+      database.collection('professionals').doc(user.user.uid).set({
+        _is_professional: 1,
+        _email: user.user.email,
+        created: $.now(),
+        reviews: 0,
+        stars: 0,
+        profile: {
+          contact_email: user.user.email,
+          prof_img_url: photo,
         }
-      })
-    }).catch((error) => {
-      console.log("create prof, error: " + error);
-    })
+      }).then(() => {
+        saveUserRoleAndProvider(user.user.uid, 'professionals', user.user.email, provider, () => {
+          resolve();
+        });
+      }).catch((error) => {
+        console.log("create prof, error: " + error);
+      });
+    });
   }
 
   //create new USER in db
-  function createNewUser(uid, email, provider, photoUrl, callback) {
-    database.collection('users').doc(uid).set({
-      _is_user: 1,
-      _email: email,
-      created: $.now(),
-      profile: {
-        contact_email: email,
-        prof_img_url: photoUrl,
+  function createNewUser(user, provider) {
+    return new Promise((resolve, reject) => {
+      if (user.user.photoURL !== '' || user.user.photoURL !== null) {
+        //get better resolution of image
+        var photo = user.user.photoURL.replace('s96-c', 's400-c');
+      } else {
+        var photo = '';
       }
-    }).then(() => {
-      saveUserRoleAndProvider(uid, 'users', email, provider, () => {
-        if (typeof(callback) == 'function') {
-          callback();
+      database.collection('users').doc(user.user.uid).set({
+        _is_user: 1,
+        _email: user.user.email,
+        created: $.now(),
+        profile: {
+          contact_email: user.user.email,
+          prof_img_url: photo,
         }
+      }).then(() => {
+        saveUserRoleAndProvider(user.user.uid, 'users', user.user.email, provider, () => {
+          resolve();
+        })
+      }).catch((error) => {
+        console.log("create prof, error: " + error);
       })
-    }).catch((error) => {
-      console.log("create prof, error: " + error);
     })
+
   }
 
   function isProfessional(uid) {
@@ -223,5 +236,10 @@ var dbAuth = (function() {
     saveUserRoleAndProvider: saveUserRoleAndProvider,
     isRegistered: isRegistered
   }
+
+
+
+
+
 
 })();

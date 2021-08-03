@@ -2,25 +2,164 @@
 <html>
 
 <head>
-  <meta charset="utf-8">
+  <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Welcome to Firebase Hosting</title>
-
+  <title>Casafix</title>
+  <link rel="stylesheet" type="text/css" href="/style/bootstrap.min.css">
+  <link rel="stylesheet" type="text/css" href="/style/style.css">
+  <link rel="stylesheet" type="text/css" href="/style/style.responsive.css">
+  <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
 </head>
 
 <body>
 
-  <h1>Test</h1>
+  <nav id="header"></nav>
+
+  <section class="top-sec" id="home-page">
+    <div class="container">
+      <h1>Cerca un professionista nella tua zona</h1>
+      <!-- search -->
+      <div class="search-bar" id="searchBar">
+        <div class="row m-0">
+          <div class="row m-0 search-inputs">
+            <div class="inp-service">
+              <img src="/images/search-icon.svg" />
+              <select id="sel-search-prof">
+                <option value="0" selected disabled>Servizio / Professionista</option>
+              </select>
+            </div>
+            <div class="inp-location">
+              <img src="/images/search-place.svg" />
+              <div class="autocomplete-input">
+                <input type="text" class="location-inp" id="location" data-lat='' data-lng='' data-region='' placeholder="Dove?" />
+                <div class="rmv rmvActive"><img src="images/close-menu.svg"></div>
+              </div>
+            </div>
+          </div>
+          <button id="searchBtn" class="def-btn mt-0" type="submit"><img src="/images/search-icon-white.svg" /></button>
+        </div>
+      </div>
+
+      <div class="home-divider"></div>
+
+      <div class="register-as-prof-banner">
+        <div class="banner-wrap">
+          <div class="banner-icon">
+            <img src="images/worker-icon.svg" />
+          </div>
+          <div class="banner-text">
+            <p>Registrati come <span>professionista</span> su CASAFIX</p>
+          </div>
+          <div class="banner-button">
+            <button class="def-btn">Registrati ora</button>
+          </div>
+        </div>
+      </div>
+
+
+      <div class="most-searched">
+        <h3>CATEGORIE PIÙ CERCATE</h3>
+        <div class="most-searched-wrap">
+          <div class="row m-0">
+            <a href="#" class="search-card-wrap">
+              <div class="search-card" style="background: url(images/elettricista.jpg), #C4C4C4;"></div>
+              <h4>Elettricista</h4>
+            </a>
+            <a href="#" class="search-card-wrap">
+              <div class="search-card" style="background: url(images/elettricista.jpg), #C4C4C4;"></div>
+              <h4>Elettricista</h4>
+            </a>
+            <a href="#" class="search-card-wrap">
+              <div class="search-card" style="background: url(images/elettricista.jpg), #C4C4C4;"></div>
+              <h4>Elettricista</h4>
+            </a>
+            <a href="#" class="search-card-wrap">
+              <div class="search-card" style="background: url(images/elettricista.jpg), #C4C4C4;"></div>
+              <h4>Elettricista</h4>
+            </a>
+
+            <a href="#" class="search-card-wrap">
+              <div class="search-card" style="background: url(images/elettricista.jpg), #C4C4C4;"></div>
+              <h4>Elettricista</h4>
+            </a>
+            <a href="#" class="search-card-wrap">
+              <div class="search-card" style="background: url(images/elettricista.jpg), #C4C4C4;"></div>
+              <h4>Elettricista</h4>
+            </a>
+            <a href="#" class="search-card-wrap">
+              <div class="search-card" style="background: url(images/elettricista.jpg), #C4C4C4;"></div>
+              <h4>Elettricista</h4>
+            </a>
+            <a href="#" class="search-card-wrap">
+              <div class="search-card" style="background: url(images/elettricista.jpg), #C4C4C4;"></div>
+              <h4>Elettricista</h4>
+            </a>
+          </div>
+        </div>
+      </div>
+
+
+      <div class="add-announcement-banner">
+        <div class="banner-wrap">
+          <div class="banner-text">
+            <p>NON TROVI IL PROFESSIONISTA?</p>
+            <span>Inserisci un annuncio e varrai contattato dal professionista che fa per te</span>
+          </div>
+          <div class="banner-button">
+            <button class="def-btn">Inserisci annuncio</button>
+          </div>
+        </div>
+      </div>
+
+
+
+    </div>
+    <!--container-->
+  </section>
+
+
+  <footer id="footer">
+    <div class="footer-wrap">
+      <ul>
+        <li><a href="/piattaforma-casafix.html">Cos'è Casafix</a></li>
+        <li><a href="/come-funziona.html">Come funziona</a></li>
+      </ul>
+      <div class="copyright">Tutti i diritti riservati © 2021 Casafix</div>
+    </div>
+  </footer>
 
 
 
   <!--firebase-->
   <script src="https://www.gstatic.com/firebasejs/8.5.0/firebase-app.js"></script>
   <script src="https://www.gstatic.com/firebasejs/8.5.0/firebase-auth.js"></script>
-  <script src="https://www.gstatic.com/firebasejs/8.5.0/firebase-functions.js"></script>
   <script src="https://www.gstatic.com/firebasejs/8.5.0/firebase-firestore.js"></script>
   <script src="https://www.gstatic.com/firebasejs/8.5.0/firebase-database.js"></script>
   <script src="scripts/_firebaseConn.js"></script>
+
+  <!--scripts/vendor-->
+  <script type="text/javascript" src="/scripts/vendor/jquery.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/oj.mustache/0.7.2/oj.mustache.min.js" integrity="sha512-+KQDdWwfzb3UZ0sEt1Op66MoQ9NKs6bE02+NpPnsQxZ6ylUP3Fd8L3yf1CsYPD2vndRIbOCzWk2RUfOJ9bsOcA==" crossorigin="anonymous"></script>
+
+  <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js "></script>
+  <script src="https://unpkg.com/@mapbox/mapbox-sdk/umd/mapbox-sdk.min.js "></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/rsvp/4.8.5/rsvp.min.js" integrity="sha512-HFmmKqGaLV2NYgTKWTLxKYsreelx/C5mZLO5kgcA00If59U0YbjAdOpVsoSAb6YTi5K11nVtotiQnSHkltN2XQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+  <script src="https://cdn.firebase.com/libs/geofire/5.0.1/geofire.min.js"></script>
+
+  <!--scripts/main.js-->
+  <script type="text/javascript" src="/scripts/parts/loadingProgressBar.js"></script>
+  <script type="text/javascript" src="/scripts/parts/links.js"></script>
+  <script type="text/javascript" src="/scripts/parts/auth/firebaseAuth.js"></script>
+  <script type="text/javascript" src="/scripts/parts/auth/dbAccount.js"></script>
+  <script type="text/javascript" src="/scripts/parts/header.js"></script>
+  <script type="text/javascript" src="/scripts/parts/loadPage.js"></script>
+  <script type="text/javascript" src="/scripts/parts/autoInputLocation.js"></script>
+  <script type="text/javascript" src="scripts/parts/onlineStatus.js"></script>
+
+  <script type="text/javascript" src="scripts/page-home.js"></script>
+
+  <script type="text/javascript" src="/scripts/parts/searchBar.js"></script>
+
 </body>
 
 </html>

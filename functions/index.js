@@ -12,3 +12,13 @@ exports.checkOnLoginIfRegistered = functions.https.onCall((data, context) => {
     }
   });
 });
+
+
+exports.getUserIfRegistered = functions.https.onCall((data, context) => {
+  return new Promise((resolve, reject) => {
+    const accounts = admin.firestore().collection("registered_accounts");
+    accounts.doc(data.uid).get().then((doc) => {
+      resolve(doc.data());
+    });
+  });
+});
