@@ -1,8 +1,5 @@
 (function() {
 
-  $(window).on('load', () => {
-    loadPage.animateProgressBar();
-  });
 
   $(document).on('click', 'button.resend', () => {
     firebaseAuth.sendVerificationEmail();
@@ -26,7 +23,7 @@
     //set email on page
     $('#user-email').html(firebaseAuth.getCurrentUserEmail);
     //check the role, get header, show page per id or redirect
-    loadPage.loadPageOnAuth(isLoggedOrUid, '#verification-email"', lnk.pgSettProf, false, lnk.pgLogin);
+    loadPage.loadPageOnAuth(isLoggedOrUid, lnk.pgSettProf, false, lnk.pgLogin);
 
   });
 

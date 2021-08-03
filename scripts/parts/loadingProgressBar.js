@@ -1,5 +1,6 @@
 (function() {
 
+
   var bar = `
     <div class="progress-bar-container">
         <div class='progress-page-bar' id="progress_div">
@@ -7,10 +8,10 @@
             <div class='percent' id='percent1'></div>
         </div>  
         <input type="hidden" id="progress_width" value="0">
-    </div>
-    `;
+      </div>
+      `;
 
-  $('body').append(bar);
+  $('html').append(bar);
 
 
 
@@ -20,6 +21,8 @@
       for (var i = 0, max = all.length; i < max; i++) {
         set_ele(all[i]);
       }
+      $('body').css('opacity', 1);
+      $('body').fadeOut().fadeIn();
     }
   }
 
@@ -47,7 +50,6 @@
 
 
 
-
-
-
 })();
+
+//loadThePage

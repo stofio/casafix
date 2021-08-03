@@ -1,78 +1,81 @@
 var loadPage = (function() {
 
   /**
-   * //check the role -> get header -> show page per sectionId or redirect
+   * //check the role -> get header -> or redirect
    * @param {string} uid - the uid
-   * @param {string} sectionId - section id '#section'
    * @param {string} profLinkRed - link redirect if professional is logged, or false
    * @param {string} userLinkRed - link redirect if user is logged, or false
    * @param {string} notLoggedLinkRed - link redirect if not logged, or false
    */
-  function loadPageOnAuth(uid, sectionId, profLinkRedir = false, userLinkRedir = false, notLoggedLinkRed = false) {
+  async function loadPageOnAuth(uid, profLinkRedir = false, userLinkRedir = false, notLoggedLinkRed = false) {
+    //if is logged and not verified
+
     if (uid !== false) {
-      //IF IS LOGGED
       var isEmailAuth = firebaseAuth.isEmailAuthenticated();
       if (!isEmailAuth) {
-        if (window.location.pathname == lnk.pgVerifyEmail) return; //prevent continous reload 
+        if (window.location.pathname == lnk.pgVerifyEmail) {
+          _showPageContent();
+          return; //prevent continous reload 
+        }
         window.location.replace(lnk.pgVerifyEmail);
         return;
       }
     }
-    if (isEmailAuth) {
-      dbAuth.isProfessional(uid, (isProf) => {
-        //PROFESSIONAL
-        if (isProf) {
-          if (profLinkRedir == false) {
-            dbAuth.getUserNameAndImgProf(uid, (obj) => {
-              header.getHeader('prof', obj);
-              $(sectionId).fadeIn(500);
-              return;
-            });
-          } else {
-            window.location.replace(profLinkRedir);
-            return;
-          }
-        }
-      });
-      dbAuth.isUser(uid, (isUser) => {
-        //USER
-        if (isUser) {
-          if (userLinkRedir == false) {
-            dbAuth.getUserNameAndImgUser(uid, (obj) => {
-              header.getHeader('user', obj);
-              $(sectionId).fadeIn(500);
-              return;
-            });
-          } else {
-            window.location.replace(userLinkRedir);
-            return;
-          }
-        }
-      });
-    } else {
+
+    if (uid == false) {
+      //not logged in
       if (notLoggedLinkRed == false) {
-        //NOT LOGGED
         header.getHeader('def');
-        $(sectionId).fadeIn(500);
+        _showPageContent();
         return;
       }
-      window.location.replace(notLoggedLinkRed);
-      return;
     }
+
+    //professional
+    var isProf = await dbAuth.isProfessional(uid)
+    if (isProf) {
+      if (profLinkRedir == false) {
+        var imgAndName = await dbAuth.getUserNameAndImgProf(uid);
+        header.getHeader('prof', imgAndName);
+        _showPageContent();
+        return;
+      } else {
+        window.location.replace(profLinkRedir);
+        return;
+      }
+    }
+
+
+    //user
+    var isUser = await dbAuth.isUser(uid);
+    if (isUser) {
+      if (userLinkRedir == false) {
+        var imgAndName = await dbAuth.getUserNameAndImgUser(uid);
+        header.getHeader('user', imgAndName);
+        _showPageContent()
+        return;
+      } else {
+        window.location.replace(userLinkRedir);
+        return;
+      }
+    }
+
+
+    //return;
+    window.location.replace(notLoggedLinkRed);
+    return;
+
+    function _showPageContent() {
+      $('body nav').css('display', 'block');
+      $('body section').css('display', 'block');
+      $('body footer').css('display', 'block');
+    }
+
   }
 
-  function animateProgressBar() {
-    if ($("#progress").length === 0) {
-      $("body").append($("<div><b></b><i></i></div>").attr("id", "progress"));
-      $("#progress").width("101%").delay(800).fadeOut(500, function() {
-        $(this).remove();
-      });
-    }
-  }
 
   return {
-    loadPageOnAuth: loadPageOnAuth,
-    animateProgressBar: animateProgressBar
+    loadPageOnAuth: loadPageOnAuth
   }
 
 

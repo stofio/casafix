@@ -18,6 +18,7 @@ var lnk = (function() {
     pgNuovoAnnuncio: '/inserisci-annuncio.html',
     pgNotification: '/notifiche.html',
     pgFavourites: '/preferiti.html',
+    pgContact: '/contatti.html',
   }
 
 })();

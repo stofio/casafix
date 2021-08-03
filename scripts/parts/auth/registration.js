@@ -28,6 +28,9 @@
     popup.showPopup('#email-reg-popup');
   }
 
+  /**********
+   * Email registration
+   ***********/
   function _registerWithEmail() {
     firebaseAuth.emailSignUp($inputEmail.val(), $inputPass.val(), $inputRePassw.val(), (error, uid) => {
       if (error == 'passw-unequal') {
@@ -72,15 +75,22 @@
     });
   }
 
+
+  /**********
+   * Google registration
+   ***********/
   function _registerWithGoogle() {
     firebaseAuth.googleSignin((user) => {
       if ($userRole.val() === 'professionals') {
         //IF IS PROFESSIONAL
-        dbAuth.isUserExistent(user.uid, (exist) => {
+        dbAuth.isUserExistent(user.user.uid, (exist) => {
           //IF PROFILE ALREADY CREATED
           if (exist) {
             //check if is a professional
-            dbAuth.isProfessional(user.uid, (isProf) => {
+
+
+            dbAuth.isProfessional(uid).
+            then(isProf => {
               if (isProf) {
                 window.location.replace(lnk.pgSettProf);
               } else {
@@ -93,24 +103,25 @@
           } else {
             //CREATE PROFILE
             var photo;
-            if (user.photoURL !== '' || user.photoURL !== null) {
+            if (user.user.photoURL !== '' || user.user.photoURL !== null) {
               //get better resolution of image
               photo = user.photoURL.replace('s96-c', 's400-c');
             } else {
               photo = '';
             }
-            dbAuth.createNewProfe(user.uid, user.email, 'google', photo, () => {
+            dbAuth.createNewProfe(user.user.uid, user.user.email, 'google', photo, () => {
               window.location.replace(lnk.pgSettProf);
             });
           }
         })
       } else if ($userRole.val() === 'users') {
         //IF IS USER
-        dbAuth.isUserExistent(user.uid, (exist) => {
+        dbAuth.isUserExistent(user.user.uid, (exist) => {
           //IF PROFILE ALREADY CREATED
           if (exist) {
             //check if is a user
-            dbAuth.isUser(user.uid, (isUser) => {
+            dbAuth.isUser(uid).
+            then(isUser => {
               if (isUser) {
                 window.location.replace(lnk.pgSettUser);
               } else {
@@ -123,13 +134,13 @@
           } else {
             //CREATE PROFILE
             var photo;
-            if (user.photoURL !== '' || user.photoURL !== null) {
+            if (user.user.photoURL !== '' || user.user.photoURL !== null) {
               //get better resolution of image
               photo = user.photoURL.replace('s96-c', 's400-c');
             } else {
               photo = '';
             }
-            dbAuth.createNewUser(user.uid, user.email, 'google', photo, () => {
+            dbAuth.createNewUser(user.user.uid, user.user.email, 'google', photo, () => {
               window.location.replace(lnk.pgSettUser);
             });
           }
@@ -138,6 +149,10 @@
     })
   }
 
+
+  /**********
+   * Facebook registration
+   ***********/
   function _registerWithFacebook() {
     firebaseAuth.facebookSignin((error, user) => {
       if (error == "auth/account-exists-with-different-credential") {
@@ -150,7 +165,8 @@
           //IF PROFILE ALREADY CREATED
           if (exist) {
             //check if is a professional
-            dbAuth.isProfessional(user.uid, (isProf) => {
+            dbAuth.isProfessional(uid).
+            then(isProf => {
               if (isProf) {
                 window.location.replace(lnk.pgSettProf);
               } else {
@@ -159,7 +175,7 @@
                 firebase.auth().signOut();
                 return;
               }
-            })
+            });
           } else {
             //CREATE PROFILE
             var photo;
@@ -182,7 +198,9 @@
           //IF PROFILE ALREADY CREATED
           if (exist) {
             //check if is a user
-            dbAuth.isUser(user.uid, (isUser) => {
+
+            dbAuth.isUser(uid).
+            then(isUser => {
               if (isUser) {
                 window.location.replace(lnk.pgSettUser);
               } else {

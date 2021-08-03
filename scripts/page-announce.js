@@ -1,9 +1,5 @@
 (function() {
 
-  $(window).on('load', () => {
-    loadPage.animateProgressBar();
-  });
-
   var unsubscribe = firebase.auth().onAuthStateChanged((loggedUser) => {
     var isLoggedOrUid;
     if (loggedUser) {
@@ -11,8 +7,8 @@
     } else {
       isLoggedOrUid = false;
     }
-    //check the role, get header, show page per id or redirect
-    loadPage.loadPageOnAuth(isLoggedOrUid, '#announce');
+    //check the role, get header, or redirect
+    loadPage.loadPageOnAuth(isLoggedOrUid);
     unsubscribe();
   });
 

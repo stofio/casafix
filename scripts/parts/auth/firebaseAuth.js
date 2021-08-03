@@ -5,29 +5,18 @@ var firebaseAuth = (function() {
 
   function googleSignin(callback) {
     firebase.auth().signInWithPopup(googleProvider)
-      .then((user) => {
-        // This gives a Google Access Token for Google API.
-        var token = user.credential.accessToken;
-        var user = user.user;
-        var uid = user.uid;
-        var email = user.email;
+      .then(user => {
         if (typeof(callback) == 'function') {
-          //if doesnt exist, return uid & email to save in db
           callback(user); //ADD USER IMAGEE!!
         }
       })
       .catch((error) => {
-        console.log(error)
-        var errorCode = error.code;
-        var errorMessage = error.message;
-        var email = error.email;
-        var credential = error.credential;
-        console.log("Error: " + errorMessage);
+        console.log("Error: " + error);
       });
   }
 
   function facebookSignin(callback) {
-    firebase.auth().signInWithPopup(facebookProvider)
+    firebase.auth().signInWithRedirect(facebookProvider)
       .then((user) => {
         var token = user.credential.accessToken;
         var user = user.user;

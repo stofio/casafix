@@ -23,18 +23,13 @@ html {
   scroll-behavior: smooth;
 }
 
-#registration,
-#registration-prof,
-#registration-user,
-#login,
-#home,
-#announce,
-#settings-user,
-#settings-prof,
-#search-page,
-#profile-professional,
-#leave-review,
-#messages {
+body {
+  opacity: 0;
+}
+
+body nav,
+body section,
+body footer {
   display: none;
 }
 
@@ -2583,4 +2578,54 @@ mark a {
 
 #favourites .row {
   justify-content: center;
+}
+
+.spinning-circle-bar {
+  position: relative;
+  width: 30px;
+  height: 30px;
+  margin: 0 auto;
+}
+
+.spinning-circle {
+  height: 100%;
+  right: 0px;
+  position: absolute;
+  border: solid 5px #a9a9a9;
+  border-top-color: #FB743E;
+  border-radius: 50%;
+}
+
+.circle-border {
+  width: 100%;
+  transform: rotate(135deg);
+  animation: spin 1.3s steps(2) .2s infinite;
+  -webkit-animation: spin 1.3s linear infinite;
+}
+
+@keyframes spin {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+.registration-error p {
+  padding: 10px;
+  font-size: 17px;
+  background-color: rgb(254, 245, 245);
+  border: 1px solid rgb(244, 72, 72);
+  text-align: left;
+}
+
+.registration-error a {
+  color: #FB743E;
+  font-size: 17px;
+  font-weight: 600;
+}
+
+.registration-error span {
+  color: rgb(244, 72, 72);
 }
