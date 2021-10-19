@@ -23,10 +23,12 @@ var favourites = (function() {
       async function _listFavourites(current_uid) {
         var myFavourites = await _getMyFavourites(current_uid);
         console.log(myFavourites)
+        if(myFavourites.length == 0) {
+          $favouritesList.append(`<h4 class="no-results" style="margin-top:0">Cerca un professionista e aggiungilo ai preferiti.</h4>`);
+        }
         $.each(myFavourites, (i, uid) => {
           _getUserData(uid)
             .then(data => {
-              console.log(data)
               var tmp = _getTemplate(data, uid);
               $favouritesList.append(tmp);
 

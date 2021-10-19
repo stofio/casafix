@@ -12,6 +12,10 @@
   display: none;
 }
 
+#header #mobile-header-navigation .searchHeaderSection li {
+  border-bottom: 0;
+}
+
 #header #mobile-header-logo img {
   width: 120px;
 }

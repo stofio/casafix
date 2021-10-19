@@ -5,11 +5,11 @@ var dbAuth = (function() {
   //create new PROFESSIONAL in db
   function createNewProfe(user, provider) {
     return new Promise((resolve, reject) => {
-      if (user.user.photoURL !== '' || user.user.photoURL !== null) {
+      if (user.user.photoURL !== '' && user.user.photoURL !== undefined) {
         //get better resolution of image
         var photo = user.user.photoURL.replace('s96-c', 's400-c');
       } else {
-        var photo = '';
+        var photo = '/images/placeholder-prof-img.png';
       }
       database.collection('professionals').doc(user.user.uid).set({
         _is_professional: 1,
@@ -22,9 +22,8 @@ var dbAuth = (function() {
           prof_img_url: photo,
         }
       }).then(() => {
-        saveUserRoleAndProvider(user.user.uid, 'professionals', user.user.email, provider, () => {
-          resolve();
-        });
+        saveUserRoleAndProvider(user, 'professionals', provider).
+        then(() => resolve());
       }).catch((error) => {
         console.log("create prof, error: " + error);
       });
@@ -34,11 +33,13 @@ var dbAuth = (function() {
   //create new USER in db
   function createNewUser(user, provider) {
     return new Promise((resolve, reject) => {
-      if (user.user.photoURL !== '' || user.user.photoURL !== null) {
+      console.log(user.user)
+      console.log(user.user.photoURL)
+      if (user.user.photoURL !== '' && user.user.photoURL !== undefined) {
         //get better resolution of image
         var photo = user.user.photoURL.replace('s96-c', 's400-c');
       } else {
-        var photo = '';
+        var photo = '/images/placeholder-prof-img.png';
       }
       database.collection('users').doc(user.user.uid).set({
         _is_user: 1,
@@ -49,9 +50,8 @@ var dbAuth = (function() {
           prof_img_url: photo,
         }
       }).then(() => {
-        saveUserRoleAndProvider(user.user.uid, 'users', user.user.email, provider, () => {
-          resolve();
-        })
+        saveUserRoleAndProvider(user, 'user', provider).
+        then(() => resolve());
       }).catch((error) => {
         console.log("create prof, error: " + error);
       })
@@ -169,43 +169,29 @@ var dbAuth = (function() {
 
 
 
-  // function getUserNameAndImgUser(uid, callback) {
-  //   database.collection('users').doc(uid).get()
-  //     .then((doc) => {
-  //       const data = doc.data();
-  //       var name = data.profile.name;
-  //       var imgLink = data.profile.prof_img_url;
-  //       if (name == '' || name == null) {
-  //         name = 'Profilo';
-  //       }
-  //       if (imgLink == '' || imgLink == null) {
-  //         imgLink = '/images/placeholder-prof-img.png';
-  //       }
-  //       var obj = {
-  //         name: name,
-  //         imgLink: imgLink
-  //       }
-  //       if (typeof(callback) == 'function') {
-  //         callback(obj);
-  //       }
-  //     });
-  // }
-
-
-
-
-  function saveUserRoleAndProvider(uid, role, email, provider, callback) {
-    database.collection('registered_accounts').doc(uid).set({
-      _role: role,
-      email: email,
-      provider: provider
-    }).then(() => {
-      if (typeof(callback) == 'function') {
-        callback();
-      }
-    }).catch((error) => {
-      console.log("create prof, error: " + error);
+  function saveUserRoleAndProvider(user, role, provider) {
+    return new Promise((resolve, reject) => {
+      database.collection('registered_accounts').doc(user.user.uid).set({
+        _role: role,
+        email: user.user.email,
+        provider: provider
+      }).then(() => {
+        resolve();
+      }).catch((error) => {
+        console.log("create prof, error: " + error);
+      })
     })
+    // database.collection('registered_accounts').doc(uid).set({
+    //   _role: role,
+    //   email: email,
+    //   provider: provider
+    // }).then(() => {
+    //   if (typeof(callback) == 'function') {
+    //     callback();
+    //   }
+    // }).catch((error) => {
+    //   console.log("create prof, error: " + error);
+    // })
   }
 
   function isUserExistent(uid, callback) {

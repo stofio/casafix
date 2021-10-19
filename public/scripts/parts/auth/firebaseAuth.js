@@ -80,7 +80,7 @@ var firebaseAuth = (function() {
   function signOut() {
     firebase.auth().signOut()
       .then(() => {
-        window.location.replace('/registrazione.html');
+        window.location.replace(lnk.pgHome);
       }).catch((error) => {
         console.log('Sign out failed:' + error);
       });
@@ -88,7 +88,7 @@ var firebaseAuth = (function() {
 
   function sendVerificationEmail(callback) {
     actionCodeSettings = {
-      // url: 'localhost/'
+      //  url: ''
     }
     firebase.auth().currentUser.sendEmailVerification(actionCodeSettings)
       .then(() => {

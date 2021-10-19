@@ -236,6 +236,7 @@
 
   function _fillData(myProfession) {
     _emptyData();
+    if(myProfession == undefined) return;
     $.each(myProfession.objProfService, (i, prof) => {
       currProfBox = $box.find('.prof-box-body-profession')[i];
       if (!$(currProfBox).is(':visible')) $(currProfBox).show();

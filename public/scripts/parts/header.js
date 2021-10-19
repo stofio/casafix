@@ -19,8 +19,13 @@ var header = (function() {
     "Notifiche": lnk.pgNotification,
   };
 
-  var announc = {
-    label: "Annunci",
+  var announcSearch = {
+    label: "🔎︎ Annunci",
+    link: lnk.pgAnnounce
+  }
+
+  var profSearch = {
+    label: "🔎︎ Cerca Professionisti",
     link: lnk.pgAnnounce
   }
 
@@ -86,7 +91,7 @@ var header = (function() {
   //bind events
   $(window).on('resize', _render);
   $(document).on('click', '#menu-icon', _openCloseMenu);
-  $(document).on('click', '.h-prof-img, #header-access', _openProfileMenu);
+  $(document).on('click', '.h-prof-img, .header-prof-name', '#header-access', _openProfileMenu);
   $(document).on('click', '.logout', _logout);
   document.onclick = function(e) {
     if (!e.target.matches('.profileMenu, .profileMenu *, .header-prof-info, .header-prof-info *, .h-prof-img')) {
@@ -160,9 +165,9 @@ var header = (function() {
   /**
    * set the navigation in {obj} headerContent 
    * @param {obj} navMenu - object of nav items
-   * @param {bool} hasAnnunci - true if has btn annunci
+   * @param {bool} hasAnnunciAndProfessionalSearch - true if has btn annunci
    */
-  function _createNavigation(navMenu, hasAnnunci) {
+  function _createNavigation(navMenu, hasAnnunciAndProfessionalSearch) {
     var nav = `<ul class="nav">
                 {{#navig}}
                   {{{.}}}
@@ -173,8 +178,12 @@ var header = (function() {
         arrayOfLi.push(`<li class="${key}"><a href="${val}">${key}</a></li>`);
       })
       //button annunci
-    if (hasAnnunci) {
-      arrayOfLi.push(`<li class="announc"><a href="${announc.link}">${announc.label}</a></li>`);
+    if (hasAnnunciAndProfessionalSearch) {
+      var searchHeaderSection = `<div class="searchHeaderSection">
+        <li class="announc"><a href="${announcSearch.link}">${announcSearch.label}</a></li>
+        <li class="announc"><a href="${profSearch.link}">${profSearch.label}</a></li>
+      </div> `;
+      arrayOfLi.push(searchHeaderSection);
     }
     var data = {
       navig: arrayOfLi

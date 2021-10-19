@@ -1,6 +1,3 @@
-/**
- * here we use PHP to save SESSION of the search
- */
 var searchBar = (function() {
 
   var servicesJson = {};
@@ -61,6 +58,14 @@ var searchBar = (function() {
         })
       })
       window.location.href = lnk.pgCercaProf + `?lat=${lat}&lng=${lng}&pl=${pl}&srv=${srv}&prf=${prf}`;
+    }
+  }
+
+  function _sendMessageEnter(e) {
+    if (e.keyCode == 13) {
+      if ($inputMsg.is(":focus")) {
+        _sendMessage();
+      }
     }
   }
 

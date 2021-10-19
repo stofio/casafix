@@ -162,7 +162,9 @@
       return;
     } else {
       _loadingButtonOn();
+      console.log(1)
       await dbProfSett.saveProfMainInfo(uid, obj);
+      console.log(2)
       currentData = obj;
       _fillData(obj);
       _changeToTextMode();

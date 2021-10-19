@@ -15,8 +15,8 @@
   var $inputEmail = $popup.find('#email');
   var $inputPass = $popup.find('#password');
   var $inputRePassw = $popup.find('#re-password');
-  var $errorForEmail = $popup.find('.form-error').find('span');
-  var $errorForGoogleAndFb = $section.find('.box-error').find('span');
+  var $errorForEmail = $popup.find('.form-error').find('p');
+  var $errorForGoogleAndFb = $section.find('.box-error').find('p');
 
   //bind events
   $emailRegBtn.on('click', _showEmailRegPopup);
@@ -24,6 +24,8 @@
   $googleRegBtn.on('click', _registerWithGoogle);
   $fbRegBtn.on('click', _registerWithFacebook);
   $inputs.on('input', _removeError);
+
+   $(document).keypress(_registerWithEmailEnter);
 
 
   function _showEmailRegPopup() {
@@ -36,46 +38,60 @@
   function _registerWithEmail() {
     firebaseAuth.emailSignUp($inputEmail.val(), $inputPass.val(), $inputRePassw.val(), (error, uid) => {
       if (error == 'passw-unequal') {
-        $errorForEmail.html('Le password non coincidono. Riprova.');
+        $errorForEmail.html('<span>⚠</span> Le password non coincidono. Riprova.').show();
         $inputPass.val('');
         $inputRePassw.val('');
         return;
       }
       if (error == 'auth/weak-password') {
-        $errorForEmail.html('Password minima di 6 caratteri.');
+        $errorForEmail.html('<span>⚠</span> Password minima di 6 caratteri.').show();
         $inputPass.val('');
         $inputRePassw.val('');
         return;
       }
       if (error == 'auth/invalid-email') {
-        $errorForEmail.html('Email invalida. Riprova.');
+        $errorForEmail.html('<span>⚠</span> Email invalida. Riprova.').show();
         $inputPass.val('');
         $inputRePassw.val('');
         return;
       }
       if (error == 'auth/email-already-in-use') {
-        $errorForEmail.html(`Email '${$inputEmail.val()}' esistente. Riprova.`);
+        $errorForEmail.html(`<span>⚠</span> Email '${$inputEmail.val()}' esistente. Riprova.`).show();
         $inputPass.val('');
         $inputRePassw.val('');
         return;
       } else {
         //CREATE PROFILE
+        var user = {
+          uid: uid,
+          email: $inputEmail.val(),
+          photoURL: '',
+        };
         if ($userRole.val() === 'professionals') {
-          dbAuth.createNewProfe({ user: { uid: uid } }, 'email')
+          dbAuth.createNewProfe({ user: user }, 'email')
             .then(() => {
               firebaseAuth.sendVerificationEmail(() => {
                 window.location.replace(lnk.pgSettProf);
               });
             });
         } else if ($userRole.val() === 'users') {
-          dbAuth.createNewUser(uid, $inputEmail.val(), 'email', '', () => {
-            firebaseAuth.sendVerificationEmail(() => {
-              window.location.replace(lnk.pgSettUser);
+          dbAuth.createNewUser({ user: user }, 'email')
+            .then(() => {
+              firebaseAuth.sendVerificationEmail(() => {
+                window.location.replace(lnk.pgSettUser);
+              });
             });
-          });
         }
       }
     });
+  }
+
+  function _registerWithEmailEnter(e) {
+    if (e.keyCode == 13) {
+      if ($inputs.is(":focus")) {
+        _registerWithEmail();
+      }
+    }
   }
 
 
@@ -118,37 +134,6 @@
             _createUserOrError(savedUser, loggedUser, 'google');
 
           })
-
-
-        // dbAuth.isUserExistent(user.user.uid, (exist) => {
-        //   //IF PROFILE ALREADY CREATED
-        //   if (exist) {
-        //     //check if is a user
-        //     dbAuth.isUser(uid).
-        //     then(isUser => {
-        //       if (isUser) {
-        //         window.location.replace(lnk.pgSettUser);
-        //       } else {
-        //         //error
-        //         $errorForGoogleAndFb.html("L'Account google già registrato come professionista, scegli un'altro account.");
-        //         firebase.auth().signOut();
-        //         return;
-        //       }
-        //     })
-        //   } else {
-        //     //CREATE PROFILE
-        //     var photo;
-        //     if (user.user.photoURL !== '' || user.user.photoURL !== null) {
-        //       //get better resolution of image
-        //       photo = user.photoURL.replace('s96-c', 's400-c');
-        //     } else {
-        //       photo = '';
-        //     }
-        //     dbAuth.createNewUser(user.user.uid, user.user.email, 'google', photo, () => {
-        //       window.location.replace(lnk.pgSettUser);
-        //     });
-        //   }
-        // })
       }
     })
   }
@@ -292,12 +277,9 @@
 
 
 
-
-
-
-
   function _removeError() {
-    $errorForEmail.html('');
+    $errorForEmail.html('').hide();
+    _removeErrors();
   }
 
   function _getLoadingCircle() {
@@ -327,5 +309,6 @@
   function _removeErrors() {
     $('.registration-error').remove();
   }
+
 
 })();

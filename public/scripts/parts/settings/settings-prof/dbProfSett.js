@@ -189,33 +189,42 @@ var dbProfSett = (function() {
     })
   }
 
-
+  /**
+   * Check if profile is eligible to be listed in search then set
+   */
   function _checkIfProfileCanBeListed(uid) {
     return new Promise((resolve, reject) => {
       database.collection('professionals').doc(uid).get()
         .then(doc => {
           var prof = doc.data();
-          if (prof.professions) {
-            if (prof.professions.length == 0) {
-              _setProfileCompleted(uid, 0);
-              return;
+          if (prof.professions !== undefined) {
+            if (prof.professions.length) {
+              if (prof.professions.length == 0) {
+                _setProfileCompleted(uid, 0)
+                  .then(resolve());
+              }
+            } else if (prof.profile.name == '' || prof.profile.surname == '') {
+              _setProfileCompleted(uid, 0)
+                .then(resolve());
+            } else if (prof.profile.location.address == '') {
+              _setProfileCompleted(uid, 0)
+                .then(resolve());
+            } else {
+              _setProfileCompleted(uid, 1)
+                .then(resolve());
             }
-          } else if (prof.profile.name == '' || prof.profile.surname == '') {
-            _setProfileCompleted(uid, 0);
-            return;
-          } else if (prof.profile.location.address == '') {
-            _setProfileCompleted(uid, 0);
-            return;
           } else {
-            _setProfileCompleted(uid, 1)
-              .then(resolve());
+            resolve();
           }
         })
     })
   }
 
+  /**
+   * Set if profile is eligible to be listed in search
+   */
   function _setProfileCompleted(uid, completed) {
-    return new Promise((resolve) => {
+    return new Promise((resolve, reject) => {
       database.collection('professionals').doc(uid).update({
         "_profile_completed": completed
       }).then(() => {

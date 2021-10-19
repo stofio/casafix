@@ -93,17 +93,31 @@ label {
   align-items: center;
 }
 
+#header .searchHeaderSection {
+  display: flex;
+}
+
+#header .searchHeaderSection li {
+  margin: 0 15px !important;
+}
+
 #header .nav li.announc a {
   color: #FB743E;
-  padding: 6px 25px;
+  padding: 1px 15px;
   border: solid 3px #FB743E;
   border-radius: 6px;
+}
+
+#header .nav li.announc a:hover {
+  color: #fff;
+  background-color: #FB743E;
 }
 
 #header .nav li a {
   color: #3c4858;
   font-family: 'Yantramanav-medium';
   font-weight: 500;
+  font-size: 17px;
 }
 
 #header .nav li a:hover {
@@ -542,12 +556,20 @@ button.def-btn:hover {
   text-align: left;
 }
 
+.form-error p,
+.box-error p {
+  padding: 10px;
+  font-size: 17px;
+  background-color: rgb(254, 245, 245);
+  border: 1px solid rgb(244, 72, 72);
+  text-align: left;
+  width: 100%;
+  display: none;
+}
+
 .form-error span,
 .box-error span {
-  margin: 0;
-  color: #e80e0e;
-  font-size: 17px;
-  text-align: left;
+  color: rgb(244, 72, 72);
 }
 
 #login .row {
@@ -820,6 +842,7 @@ button.def-btn:hover {
 
 .saveContainer {
   align-items: center;
+  z-index: 10;
 }
 
 .saveContainer .cancel-btn {
@@ -952,8 +975,8 @@ li.select2-results__option {
 }
 
 .other-services input.active {
-  border-color: #FB743E;
-  background-color: #f9f9f9;
+  border-color: #C4C4C4;
+  background-color: #fff;
 }
 
 .set-counter,
@@ -1540,6 +1563,8 @@ li.select2-results__option {
 .loc-err {
   text-align: right;
   color: #ef2f2f;
+  line-height: 16px;
+  margin-top: 16px;
 }
 
 #profile-professional {
@@ -1883,6 +1908,7 @@ mark a {
 
 .prof-info .prof-name {
   font-family: Yantramanav-bold;
+  font-size: 28px;
 }
 
 .review-box {
@@ -2585,6 +2611,7 @@ mark a {
   width: 30px;
   height: 30px;
   margin: 0 auto;
+  margin-bottom: 10px;
 }
 
 .spinning-circle {

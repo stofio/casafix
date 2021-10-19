@@ -13,8 +13,8 @@
 
   var $regBox = $section.find('.registration-box');
 
-  var $errorForEmail = $section.find('.form-error span');
-  var $errorForGoogleAndFb = $section.find('.box-error span');
+  var $errorForEmail = $section.find('.form-error p');
+  var $errorForGoogleAndFb = $section.find('.box-error p');
 
   var $inpEmail = $section.find('#email');
   var $inputPass = $section.find('#password');
@@ -23,22 +23,23 @@
   $emailLogBtn.on('click', _emailLogin);
   $googleLogBtn.on('click', _googleLogin);
   $fbLogBtn.on('click', _facebookLogin);
+  $section.on('input', _removeAllErrors);
 
 
   async function _emailLogin() {
     firebaseAuth.loginWithEmail($inpEmail.val(), $inputPass.val(), (error, uid) => {
       if (error == 'auth/invalid-email') {
-        $errorForEmail.html('Email invalida. Riprova.');
+        $errorForEmail.html('<span>⚠</span> Email invalida. Riprova.').show();
         $inputPass.val('');
         return;
       }
       if (error == 'auth/wrong-password') {
-        $errorForEmail.html('Password invalida. Riprova.');
+        $errorForEmail.html('<span>⚠</span> Password invalida. Riprova.').show();
         $inputPass.val('');
         return;
       }
       if (error == 'auth/user-not-found') {
-        $errorForEmail.html('Account non esiste. Riprova o registrati.');
+        $errorForEmail.html('<span>⚠</span> Account non esiste. Riprova o registrati.').show();
         $inputPass.val('');
         return;
       }
@@ -157,6 +158,11 @@
 
   function _removeErrorAccountDoesntExist() {
     $('.registration-error').remove();
+  }
+
+  function _removeAllErrors() {
+    _removeErrorAccountDoesntExist();
+    $errorForEmail.html('').hide();
   }
 
 
