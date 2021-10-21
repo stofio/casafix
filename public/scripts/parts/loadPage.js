@@ -9,7 +9,6 @@ var loadPage = (function() {
    */
   async function loadPageOnAuth(uid, profLinkRedir = false, userLinkRedir = false, notLoggedLinkRed = false) {
     //if is logged and not verified
-
     if (uid !== false) {
       var isEmailAuth = firebaseAuth.isEmailAuthenticated();
       if (!isEmailAuth) {

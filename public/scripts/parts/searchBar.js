@@ -17,6 +17,7 @@ var searchBar = (function() {
     }
   });
 
+
   //init
   function _loadSearch() {
     if ($bar.hasClass('mobile-closing')) _closeSearch();
@@ -58,14 +59,6 @@ var searchBar = (function() {
         })
       })
       window.location.href = lnk.pgCercaProf + `?lat=${lat}&lng=${lng}&pl=${pl}&srv=${srv}&prf=${prf}`;
-    }
-  }
-
-  function _sendMessageEnter(e) {
-    if (e.keyCode == 13) {
-      if ($inputMsg.is(":focus")) {
-        _sendMessage();
-      }
     }
   }
 

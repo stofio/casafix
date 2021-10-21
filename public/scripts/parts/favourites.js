@@ -23,8 +23,9 @@ var favourites = (function() {
       async function _listFavourites(current_uid) {
         var myFavourites = await _getMyFavourites(current_uid);
         console.log(myFavourites)
-        if(myFavourites.length == 0) {
+        if (myFavourites.length == 0) {
           $favouritesList.append(`<h4 class="no-results" style="margin-top:0">Cerca un professionista e aggiungilo ai preferiti.</h4>`);
+          return;
         }
         $.each(myFavourites, (i, uid) => {
           _getUserData(uid)
@@ -52,7 +53,7 @@ var favourites = (function() {
       async function _getUserData(uid) {
         var role = await _getRole(uid);
         return new Promise((resolve, reject) => {
-          var user = firebase.firestore().collection(role).doc(uid).get()
+          firebase.firestore().collection(role + 's').doc(uid).get()
             .then(snapshot => {
               resolve(snapshot.data());
             })
@@ -62,7 +63,7 @@ var favourites = (function() {
       function _getRole(uid) {
         return new Promise((resolve, reject) => {
           firebase.firestore().collection('registered_accounts').doc(uid).get()
-            .then((doc) => {
+            .then(doc => {
               const data = doc.data();
               resolve(data._role);
             })
@@ -78,60 +79,63 @@ var favourites = (function() {
         let tmpCont = document.createElement('div');
         tmpCont.classList.add('prof-box-full');
         var tmp = `
-          <input class="profuid" type="text" value="${profObj.uid}" hidden="">
-          <div class="prof-box-img">
-            <div class="prof-img-bg" style="background: url(${profObj.profile.prof_img_url})"></div>
+        <input class="profuid" type="text" value="${profObj.uid}" hidden="">
+        <div class="prof-box-img">
+          <div class="prof-img-bg" style="background: url(${profObj.profile.prof_img_url})"></div>
+        </div>
+        <div class="prof-professions">
+          ${ profObj.professions.objProfService.map(prof => `<span>${prof._prof_name}</span>`).join(" - &nbsp;") }
+        </div>
+        <div class="prof-prof-stars">
+          <button class="def-btn sendMessage">Profilo</button>
+          <div class="save-to-favorite">
+            <i></i>
+            <span>Preferiti</span>
           </div>
-          <div class="prof-professions">
-           ${ profObj.professions.objProfService.map(prof => `<span>${prof._prof_name}</span>`).join(" - &nbsp;") }
-          </div>
-          <div class="prof-prof-stars">
-            <button class="def-btn sendMessage">Profilo <div class="msg-icon" style="content: url(images/contact-arrow.svg); width: 20px; height: 20px;"></div></button>
-            <div class="save-to-favorite">
-              <i></i>
-              <span>Preferiti</span>
-            </div>
-          </div><br>
-          <div class="prof-info">
-            <p class="prof-name">${profObj.profile.name} ${profObj.profile.surname}</p>
-            <p class="prof-location">${profObj.profile.location.region}</p>
-          </div>
-          <div class="rating-full">
-          </div>
-          <div class="full-description">
-          </div>
-      `;
+        </div><br>
+        <div class="prof-info">
+          <p class="prof-name">${profObj.profile.name} ${profObj.profile.surname}</p>
+          <p class="prof-location">${profObj.profile.location.region}</p>
+        </div>
+        <div class="rating-full">
+        </div>
+        <div class="full-description">
+        </div>
+    `;
 
-      var fav = $(tmpCont).append(tmp);
+    var fav = $(tmpCont).append(tmp);
 
-      $(fav).find('.sendMessage').on('click', () => {
-        window.location.href = lnk.pgProfiloProf + `?uid=${uid}`;
-      })
+    $(fav).find('.sendMessage').on('click', () => {
+      window.location.href = lnk.pgProfiloProf + `?uid=${uid}`;
+    })
 
-  
-        $(fav).find('i').addClass('press');
 
-        $(fav).find('i').on('click', () => {
+      $(fav).find('i').addClass('press');
+
+      $(fav).find('i').on('click', () => {
+        if (confirm('Vuoi rimuovere il professionista dai preferiti?')) {
           _removeFromFavourite(uid)
           $(fav).slideUp().remove();
-        })
+        }
+      })
 
 
-      return (fav);
-  }
+    return (fav);
+}
 
-  function _removeFromFavourite(uid) {
-    return new Promise((resolve, reject) => {
-      var currentUid = firebase.auth().currentUser.uid;
+function _removeFromFavourite(uid) {
+  return new Promise((resolve, reject) => {
+    var currentUid = firebase.auth().currentUser.uid;
 
-      var myFavourite = firebase.firestore().collection('favourites').doc(currentUid).collection('my_favourites');
-      myFavourite.doc(uid).delete();
+    var myFavourite = firebase.firestore().collection('favourites').doc(currentUid).collection('my_favourites');
+    myFavourite.doc(uid).delete();
 
-      var iAmFavourite = firebase.firestore().collection('favourites').doc(uid).collection('i_am_favourite');
-      iAmFavourite.doc(currentUid).delete()
-        .then(resolve());
-    })
-  }
+    var iAmFavourite = firebase.firestore().collection('favourites').doc(uid).collection('i_am_favourite');
+    iAmFavourite.doc(currentUid).delete()
+      .then(resolve());
+  })
+}
+
 
 
 

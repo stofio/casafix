@@ -20,7 +20,7 @@ var chatMain = (function() {
   async function initChat(currentUid) {
     var url_string = window.location.href
     var url = new URL(url_string);
-    roomId = url.searchParams.get("room");
+    var roomId = url.searchParams.get("room");
 
     var roomUsersInfo = {
       roomId: '',
@@ -37,10 +37,10 @@ var chatMain = (function() {
     if (roomId == '' || roomId == null) return;
 
 
-    var checkedRoomId = getRoomIfInverted(myRooms, roomId);
+    var checkedRoomId = checkIfRoomIsInverted(myRooms, roomId);
 
 
-    //open chat
+    //open existing chat
     if (checkedRoomId !== false) {
       roomUsersInfo.roomId = checkedRoomId;
       //set current sender and receiver
@@ -53,7 +53,6 @@ var chatMain = (function() {
         var sendUid = roomInfo.receiverUid;
         var recUid = roomInfo.senderUid;
       }
-
       dbChat.getUserInfo(recUid)
         .then(receiverInfo => {
           //receiverInfo
@@ -70,7 +69,7 @@ var chatMain = (function() {
     }
 
 
-    //create new room
+    //create new temporary room
     var valid = await dbChat.checkIfRoomIdValid(roomId);
     if (valid) {
       roomUsersInfo.roomId = roomId;
@@ -97,7 +96,7 @@ var chatMain = (function() {
 
   //check if the room exist uid1-uid2 or uid2-uid1 
   // return the uid of the room or false
-  function getRoomIfInverted(rooms, roomId) {
+  function checkIfRoomIsInverted(rooms, roomId) {
     if (rooms.map(room => room.id).includes(roomId) == true) return roomId;
     var roomInverted = roomId.split('-')[1] + '-' + roomId.split('-')[0];
     if (rooms.map(room => room.id).includes(roomInverted) == true) return roomInverted;

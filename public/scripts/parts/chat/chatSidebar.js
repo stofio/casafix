@@ -137,6 +137,7 @@ var chatSidebar = (function() {
   }
 
   function getLastMessageTime(lastMessageTime) {
+    if (lastMessageTime == '') return '';
     if (isToday(lastMessageTime)) {
       return _getTime(lastMessageTime);
     } else {
@@ -188,8 +189,6 @@ var chatSidebar = (function() {
     $('.rooms-box-head').css('cursor', 'pointer');
     $roomsMobileArrow.css('transform', 'rotate(90deg)');
   }
-
-
 
   //on mobile
   function _openRoomsBox() {

@@ -22,7 +22,7 @@ var dbAuth = (function() {
           prof_img_url: photo,
         }
       }).then(() => {
-        saveUserRoleAndProvider(user, 'professionals', provider).
+        saveUserRoleAndProvider(user, 'professional', provider).
         then(() => resolve());
       }).catch((error) => {
         console.log("create prof, error: " + error);
@@ -101,23 +101,6 @@ var dbAuth = (function() {
   }
 
 
-
-  function isRegistered(uid) {
-    return new Promise((resolve, reject) => {
-      database.collection('registered_accounts').doc(uid).get()
-        .then(doc => {
-          var isReg;
-          if (!doc.exists) {
-            isReg = false;
-          } else {
-            isReg = true;
-          }
-          resolve(isReg);
-        });
-    })
-
-  }
-
   /**
    * return object with 'name' and 'imgLink' 
    */
@@ -142,7 +125,6 @@ var dbAuth = (function() {
         });
     })
   }
-
 
 
   function getUserNameAndImgUser(uid) {
@@ -181,34 +163,7 @@ var dbAuth = (function() {
         console.log("create prof, error: " + error);
       })
     })
-    // database.collection('registered_accounts').doc(uid).set({
-    //   _role: role,
-    //   email: email,
-    //   provider: provider
-    // }).then(() => {
-    //   if (typeof(callback) == 'function') {
-    //     callback();
-    //   }
-    // }).catch((error) => {
-    //   console.log("create prof, error: " + error);
-    // })
   }
-
-  function isUserExistent(uid, callback) {
-    database.collection('registered_accounts').doc(uid).get()
-      .then((doc) => {
-        var isExistent;
-        if (!doc.exists) {
-          isExistent = false;
-        } else {
-          isExistent = true;
-        }
-        if (typeof(callback) == 'function') {
-          callback(isExistent);
-        }
-      })
-  }
-
 
 
   return {
@@ -218,9 +173,7 @@ var dbAuth = (function() {
     isUser: isUser,
     getUserNameAndImgProf: getUserNameAndImgProf,
     getUserNameAndImgUser: getUserNameAndImgUser,
-    isUserExistent: isUserExistent,
-    saveUserRoleAndProvider: saveUserRoleAndProvider,
-    isRegistered: isRegistered
+    saveUserRoleAndProvider: saveUserRoleAndProvider
   }
 
 

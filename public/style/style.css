@@ -2089,20 +2089,6 @@ mark a {
   padding: 0;
 }
 
-#give-review a {
-  font-family: Yantramanav-medium;
-  color: #fb743e;
-  padding: 6px 25px;
-  border: solid 2px #fb743e;
-  border-radius: 6px;
-  cursor: pointer;
-  background-color: #fff;
-}
-
-#give-review span:hover {
-  box-shadow: 1px 1px 1px 1px rgb(33 33 33 / 20%);
-}
-
 #give-review {
   margin: 15px 0;
 }
@@ -2537,10 +2523,11 @@ mark a {
   margin-bottom: 30px;
 }
 
-.most-searched h3 {
-  font-size: 23px;
-  font-weight: 600;
+.most-searched h2 {
+  font-size: 29px;
+  font-weight: 700;
   margin-bottom: 30px;
+  text-align: center;
 }
 
 .most-searched h4 {
@@ -2655,4 +2642,9 @@ mark a {
 
 .registration-error span {
   color: rgb(244, 72, 72);
+}
+
+#verification-email p a {
+  color: #FB743E;
+  font-weight: 600;
 }

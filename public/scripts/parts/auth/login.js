@@ -18,12 +18,15 @@
 
   var $inpEmail = $section.find('#email');
   var $inputPass = $section.find('#password');
+  var $inputs = $section.find('#email-login').find('input');
 
   //bind events
   $emailLogBtn.on('click', _emailLogin);
   $googleLogBtn.on('click', _googleLogin);
   $fbLogBtn.on('click', _facebookLogin);
   $section.on('input', _removeAllErrors);
+
+  $(document).keypress(_loginWithEmailEnter);
 
 
   async function _emailLogin() {
@@ -134,6 +137,14 @@
       })
 
     })
+  }
+
+  function _loginWithEmailEnter(e) {
+    if (e.keyCode == 13) {
+      if ($inputs.is(":focus")) {
+        _emailLogin();
+      }
+    }
   }
 
   function _getLoadingCircle() {

@@ -19,7 +19,7 @@ var dbReview = (function() {
       var currUserId = firebase.auth().currentUser.uid;
       _getCurrentUserRole(currUserId)
         .then(userRole => {
-          database.collection(userRole).doc(currUserId).get()
+          database.collection(userRole + 's').doc(currUserId).get()
             .then((doc) => {
               const data = doc.data();
               data.uid = currUserId;

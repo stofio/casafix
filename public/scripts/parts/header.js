@@ -26,7 +26,7 @@ var header = (function() {
 
   var profSearch = {
     label: "🔎︎ Cerca Professionisti",
-    link: lnk.pgAnnounce
+    link: lnk.pgHome
   }
 
   var defAccessMenu = {
@@ -133,14 +133,14 @@ var header = (function() {
 
   function _createDefaultHeader() {
     _createNavigation(defaultNavMenu, true);
-    _createAccess(true);
+    _generateLoginOrProfileBox(true);
   }
 
 
   function _createUsertHeader(userInfo) {
-    _createNavigation(userNavMenu, false);
-    _createAccess(false, userInfo);
-    _createProfileMenu(lnk.pgSettUser);
+    _createNavigation(userNavMenu, false, false, true);
+    _generateLoginOrProfileBox(false, userInfo);
+    _createProfileSubmenu(lnk.pgSettUser);
     firebase.auth().onAuthStateChanged(loggedUser => {
       if (loggedUser) {
         _listenOnlineStatus(loggedUser);
@@ -150,9 +150,9 @@ var header = (function() {
   }
 
   function _createProfHeader(userInfo) {
-    _createNavigation(professionalNavMenu, true);
-    _createAccess(false, userInfo);
-    _createProfileMenu(lnk.pgSettProf);
+    _createNavigation(professionalNavMenu, false, true, false);
+    _generateLoginOrProfileBox(false, userInfo);
+    _createProfileSubmenu(lnk.pgSettProf);
     firebase.auth().onAuthStateChanged(loggedUser => {
       if (loggedUser) {
         _listenOnlineStatus(loggedUser);
@@ -167,7 +167,7 @@ var header = (function() {
    * @param {obj} navMenu - object of nav items
    * @param {bool} hasAnnunciAndProfessionalSearch - true if has btn annunci
    */
-  function _createNavigation(navMenu, hasAnnunciAndProfessionalSearch) {
+  function _createNavigation(navMenu, hasAnnunciAndProfessionalSearch, hasAnnunciSearch, hasProfessionalSearch) {
     var nav = `<ul class="nav">
                 {{#navig}}
                   {{{.}}}
@@ -185,6 +185,18 @@ var header = (function() {
       </div> `;
       arrayOfLi.push(searchHeaderSection);
     }
+    if (hasAnnunciSearch) {
+      var searchHeaderSection = `<div class="searchHeaderSection">
+        <li class="announc"><a href="${announcSearch.link}">${announcSearch.label}</a></li>
+      </div> `;
+      arrayOfLi.push(searchHeaderSection);
+    }
+    if (hasProfessionalSearch) {
+      var searchHeaderSection = `<div class="searchHeaderSection">
+        <li class="announc"><a href="${profSearch.link}">${profSearch.label}</a></li>
+      </div> `;
+      arrayOfLi.push(searchHeaderSection);
+    }
     var data = {
       navig: arrayOfLi
     }
@@ -197,7 +209,7 @@ var header = (function() {
    * @param {bool} hasAccessMenu - true for login/signup, false for profile menu
    * @param {obj} objUserInfo - object with 'name' and 'imgLink' of user
    */
-  function _createAccess(hasAccessMenu, objUserInfo) {
+  function _generateLoginOrProfileBox(hasAccessMenu, objUserInfo) {
     if (hasAccessMenu) {
       var acc = `<ul class="access">
                   <li><a href="${defAccessMenu.register_link}">${defAccessMenu.register}</a></li>
@@ -216,7 +228,7 @@ var header = (function() {
     }
   }
 
-  function _createProfileMenu(linkProfile) {
+  function _createProfileSubmenu(linkProfile) {
     var acc = `<ul class="profileMenu">
                 <li>
                   <a href="${linkProfile}">

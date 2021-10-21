@@ -11,7 +11,7 @@ var listProfessionals = (function() {
       function renderList(dataFilter) {
         return new Promise((resolve, reject) => {
           $profList.empty();
-          $profList.append(_loadingList())
+          $profList.append(_loadingList());
           _getFilteredProfessionals(dataFilter)
             .then(profObj => {
               if (profObj.length !== 0) {

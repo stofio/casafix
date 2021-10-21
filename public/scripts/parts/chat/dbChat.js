@@ -39,7 +39,7 @@ var dbChat = (function() {
     return new Promise((resolve, reject) => {
       _getUserRole(uid)
         .then(userRole => {
-          database.collection(userRole).doc(uid).get()
+          database.collection(userRole + 's').doc(uid).get()
             .then((doc) => {
               const data = doc.data();
               var obj = {
@@ -133,7 +133,6 @@ var dbChat = (function() {
   async function _updateMessageMeta(objMessage) {
     var totalUnreadMessages = await getTotalUnreadMessages(objMessage.receiver.receiverUid);
     return new Promise((resolve, reject) => {
-      console.log(objMessage)
       var batch = database.batch();
 
       var user1Uid = objMessage.receiver.receiverUid;

@@ -16,10 +16,6 @@ var main = (function() {
     sort: 'distance',
   };
 
-  $('h1').on('click', function() {
-    console.log(dataFilter)
-  })
-
   //cache dom
   $section = $('#search-page');
   $professionFilter = $section.find('#sel-side-prof');
@@ -50,7 +46,7 @@ var main = (function() {
       $('.searched-location').remove();
       $('#sort-prof').remove();
       $('#sidebarFilter').remove();
-      $('#listProf').append('<h4 class="no-results">Per visualizzare i professionisti, <br> seleziona prima una località   nella barra di ricerca in alto</h4>');
+      $('#listProf').append('<h4 class="no-results">Per visualizzare i professionisti, <br> seleziona prima una località nella barra di ricerca in alto</h4>');
       return;
     }
 

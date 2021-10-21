@@ -25,7 +25,7 @@
   $fbRegBtn.on('click', _registerWithFacebook);
   $inputs.on('input', _removeError);
 
-   $(document).keypress(_registerWithEmailEnter);
+  $(document).keypress(_registerWithEmailEnter);
 
 
   function _showEmailRegPopup() {
@@ -101,7 +101,6 @@
   function _registerWithGoogle() {
     firebaseAuth.googleSignin((user) => {
       var getUserIfRegistered = firebase.functions().httpsCallable('getUserIfRegistered');
-
       _removeErrors();
       $section.css('pointer-events', 'none');
       $regBox.prepend(_getLoadingCircle());
@@ -227,18 +226,19 @@
   function _createProfessionalOrError(savedUser, loggedUser, provider) {
     if (savedUser.data == null) { //if user not registered
       //create account
+      console.log(loggedUser)
       dbAuth.createNewProfe(loggedUser, provider)
         .then(() => {
           window.location.replace(lnk.pgSettProf);
         });
       return;
 
-    } else if (savedUser.data._role == 'professionals') {
+    } else if (savedUser.data._role == 'professional') {
       //there is already an account with this email. Login or try with another email
       firebase.auth().signOut();
       $regBox.prepend(_getErrorAccountExist());
       return;
-    } else if (savedUser.data._role == 'users') {
+    } else if (savedUser.data._role == 'user') {
       //this email is already used for an USER account. Try with another email
       firebase.auth().signOut();
       $regBox.prepend(_getErrorAccountExist('UTENTE'));
@@ -258,12 +258,12 @@
         });
       return;
 
-    } else if (savedUser.data._role == 'users') {
+    } else if (savedUser.data._role == 'user') {
       //there is already an account with this email. Login or try with another email
       firebase.auth().signOut();
       $regBox.prepend(_getErrorAccountExist());
       return;
-    } else if (savedUser.data._role == 'professionals') {
+    } else if (savedUser.data._role == 'professional') {
       //this email is already used for an USER account. Try with another email
       firebase.auth().signOut();
       $regBox.prepend(_getErrorAccountExist('PROFESSIONISTA'));

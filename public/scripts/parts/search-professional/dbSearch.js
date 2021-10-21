@@ -34,7 +34,6 @@ var dbSearch = (function() {
   }
 
   function getFilteredProfessionals(dataFil) {
-    console.log(dataFil.location.lat)
     return new Promise((resolve, reject) => {
       loadProfInRange([dataFil.location.lat, dataFil.location.lng], dataFil.range)
         .then(geoProfs => {
@@ -45,6 +44,7 @@ var dbSearch = (function() {
           let uidsInRange = geoProfs.map(prof => prof.key);
           var ref = database.collection('professionals').where("_profile_completed", "==", 1);
           var ref = database.collection('professionals').where(firebase.firestore.FieldPath.documentId(), "in", uidsInRange);
+
 
           if (dataFil.profession !== null) {
             if (dataFil.profession.length !== 0) {
@@ -59,7 +59,6 @@ var dbSearch = (function() {
               }
             }
           }
-
 
 
           ref.get()
@@ -94,6 +93,7 @@ var dbSearch = (function() {
         center: arrCenter,
         radius: range
       });
+
       var keysEntered = false;
       var arrayOfProfInRange = [];
       geoQuery.on("key_entered", function(key, location, distance) {
@@ -107,6 +107,7 @@ var dbSearch = (function() {
         resolve(arrayOfProfInRange)
       })
       geoQuery.on("ready", function() {
+        console.log(64564)
         if (!keysEntered) {
           resolve(null);
         }

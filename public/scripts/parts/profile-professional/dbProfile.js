@@ -42,7 +42,7 @@ var dbProfile = (function() {
     return new Promise((resolve, reject) => {
       _getCurrentUserRole(uid)
         .then(userRole => {
-          database.collection(userRole).doc(uid).get()
+          database.collection(userRole + 's').doc(uid).get()
             .then((doc) => {
               const data = doc.data();
               var obj = {

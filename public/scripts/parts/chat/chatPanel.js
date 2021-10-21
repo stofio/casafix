@@ -26,7 +26,7 @@ var chatPanel = (function() {
     receiver: {}
   };
 
-  var limitImageSize = 2097152; // 2 MiB for bytes.
+  var limitImageSize = 2097152; // 2 MiB
 
   //bind events
   $(document).on('load', _slideCloseChat(load = true));
@@ -95,7 +95,6 @@ var chatPanel = (function() {
 
   //here just prepare variables for current new chat
   function openTemporaryChat(roomUsersInfo) {
-    console.log(roomUsersInfo)
     chatVariables = roomUsersInfo;
     chatVariables.temporary = true;
     _slideOpenChat();

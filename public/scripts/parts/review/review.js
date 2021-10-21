@@ -127,6 +127,7 @@ var profProfReviews = (function() {
     $text.attr('disabled', true);
     $section.find('p').css('pointer-events', 'none');
     $section.find('a').css('pointer-events', 'none');
+    $newImage.css('pointer-events', 'none');
   }
 
   function _loadingButtonOn() {
