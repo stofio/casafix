@@ -89,14 +89,14 @@ var dbSearch = (function() {
 
   function loadProfInRange(arrCenter, range) {
     return new Promise((resolve, reject) => {
-      var geoQuery = geoFire.query({
+      var circle = geoFire.query({
         center: arrCenter,
         radius: range
       });
 
       var keysEntered = false;
       var arrayOfProfInRange = [];
-      geoQuery.on("key_entered", function(key, location, distance) {
+      circle.on("key_entered", function(key, location, distance) {
         var keysEntered = true;
         arrayOfProfInRange.push({
           key: key,
@@ -106,7 +106,7 @@ var dbSearch = (function() {
         console.log(34324342)
         resolve(arrayOfProfInRange)
       })
-      geoQuery.on("ready", function() {
+      circle.on("ready", function() {
         console.log(64564)
         if (!keysEntered) {
           resolve(null);

@@ -234,6 +234,29 @@ var dbProfSett = (function() {
   }
 
 
+  function setVerifiedPhone(uid) {
+    return new Promise((resolve, reject) => {
+      database.collection('registered_accounts').doc(uid).update({
+          "phoneVerified": 1
+        })
+        .then(() => {
+          resolve();
+        })
+    })
+  }
+
+  function checkIfPhoneIsVerified(uid) {
+    return new Promise((resolve, reject) => {
+      database.collection('registered_accounts').doc(uid).get()
+        .then((doc) => {
+          const data = doc.data();
+          resolve(data.phoneVerified);
+        });
+    })
+  }
+
+
+
   return {
     getTheUid: getTheUid,
     saveProfMainInfo: saveProfMainInfo,
@@ -247,7 +270,9 @@ var dbProfSett = (function() {
     getPortfolioData: getPortfolioData,
     deleteImage: deleteImage,
     deleteImgId: deleteImgId,
-    modifyTitlePortImg: modifyTitlePortImg
+    modifyTitlePortImg: modifyTitlePortImg,
+    setVerifiedPhone: setVerifiedPhone,
+    checkIfPhoneIsVerified: checkIfPhoneIsVerified
   }
 
 })();

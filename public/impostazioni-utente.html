@@ -50,9 +50,9 @@
                     <input id="email" type="text" placeholder="Contatto Email" />
                   </div>
                   <div class="input-with-label">
-                    <label>Telefono</label> <span class="opt">(opzionale)</span><br>
+                    <label>Telefono</label> <span class="opt">(senza +39, trattini o spazi)</span><br>
                     <span class="inp-text"></span>
-                    <input id="phone" type="text" placeholder="Telefono" />
+                    <input id="phone" type="text" placeholder="Es: 3401234567" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');" />
                   </div>
                 </div>
                 <div class="row m-0">

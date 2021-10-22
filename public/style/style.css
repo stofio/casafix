@@ -544,7 +544,7 @@ button.def-btn:hover {
 
 .input-with-label .opt {
   color: #616161;
-  font-size: 11px;
+  font-size: 14px;
 }
 
 .box-error {
@@ -2647,4 +2647,57 @@ mark a {
 #verification-email p a {
   color: #FB743E;
   font-weight: 600;
+}
+
+.verify-phone-label {
+  color: #ffffff !important;
+  background-color: #fb743e;
+  float: right;
+  padding: 0 12px;
+  border-radius: 6px;
+  margin-top: 3px;
+  cursor: pointer;
+}
+
+.verify-phone-label:hover {
+  box-shadow: 1px 1px 1px 1px rgb(33 33 33 / 20%);
+}
+
+.loc-err.numberVerErr {
+  font-size: 17px;
+  text-align: left;
+  margin-top: 5px;
+}
+
+.verify-code-box {
+  display: flex;
+  width: 100%;
+  padding-top: 3px;
+  justify-content: space-between;
+}
+
+.verify-code-box a,
+.verify-code-box input {
+  margin: 0;
+  width: 49%;
+}
+
+.verify-code-box a {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: #8bc34a;
+  opacity: .8;
+}
+
+.verify-code {
+  padding-top: 30px;
+}
+
+.verifiedBadge {
+  width: 16px;
+}
+
+.input-with-label .verifiedBadge {
+  margin-left: 6px;
 }

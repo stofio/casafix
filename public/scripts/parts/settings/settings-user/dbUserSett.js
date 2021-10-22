@@ -105,6 +105,27 @@ var dbUserSett = (function() {
     });
   }
 
+  function setVerifiedPhone(uid) {
+    return new Promise((resolve, reject) => {
+      database.collection('registered_accounts').doc(uid).update({
+          "phoneVerified": 1
+        })
+        .then(() => {
+          resolve();
+        })
+    })
+  }
+
+  function checkIfPhoneIsVerified(uid) {
+    return new Promise((resolve, reject) => {
+      database.collection('registered_accounts').doc(uid).get()
+        .then((doc) => {
+          const data = doc.data();
+          resolve(data.phoneVerified);
+        });
+    })
+  }
+
 
 
   return {
@@ -113,7 +134,9 @@ var dbUserSett = (function() {
     getUserProfileData: getUserProfileData,
     uploadUserImage: uploadUserImage,
     saveUserImageUrl: saveUserImageUrl,
-    saveUserDescInfo: saveUserDescInfo
+    saveUserDescInfo: saveUserDescInfo,
+    setVerifiedPhone: setVerifiedPhone,
+    checkIfPhoneIsVerified: checkIfPhoneIsVerified
   }
 
 })();
