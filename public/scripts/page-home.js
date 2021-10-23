@@ -7,6 +7,7 @@
       // hide registration buttons
       $('.register-as-prof-banner').hide();
       $('.add-announcement-banner').hide();
+      $('.banner-hai-gia-provato').hide();
     } else {
       isLoggedOrUid = false;
     }

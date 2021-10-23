@@ -59,7 +59,15 @@ var main = (function() {
     }
 
     selectProfession(prf);
-    setPlace(pl)
+
+    //tutta italia
+    if (pl == 'Italia') {
+      setTuttaItalia();
+      listProfessionals._hideDistanceOnProfessionals();
+      sortDropdown.disableSortByDistance();
+    } else {
+      setPlace(pl);
+    }
     listProfessionals.renderList(dataFilter);
   }
 
@@ -79,6 +87,10 @@ var main = (function() {
     } else {
       $placeName.html(place.replace('Italia', ''));
     }
+  }
+
+  function setTuttaItalia() {
+    $section.find('.searched-location h1').html('Professionisti in Italia');
   }
 
 

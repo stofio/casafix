@@ -36,10 +36,17 @@ var sortDropdown = (function() {
     $sort.removeAttr('disabled').css('pointer-events', 'auto');
   }
 
+  function disableSortByDistance() {
+    $sort.val('stars');
+    $sort.trigger('change');
+    $sort.find("option[value='distance']").remove();
+  }
+
 
   return {
     blockSortDropdown: blockSortDropdown,
-    unblockSortDropdown: unblockSortDropdown
+    unblockSortDropdown: unblockSortDropdown,
+    disableSortByDistance: disableSortByDistance
   }
 
 })();

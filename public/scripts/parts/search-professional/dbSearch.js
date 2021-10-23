@@ -35,7 +35,9 @@ var dbSearch = (function() {
 
   function getFilteredProfessionals(dataFil) {
     return new Promise((resolve, reject) => {
-      loadProfInRange([dataFil.location.lat, dataFil.location.lng], dataFil.range)
+      var range = dataFil.range;
+      if (dataFilter.location.place == 'Italia') range = 100000;
+      loadProfInRange([dataFil.location.lat, dataFil.location.lng], range)
         .then(geoProfs => {
           if (geoProfs == null) {
             resolve([])
@@ -103,11 +105,9 @@ var dbSearch = (function() {
           location: location,
           distance: distance
         });
-        console.log(34324342)
         resolve(arrayOfProfInRange)
       })
       circle.on("ready", function() {
-        console.log(64564)
         if (!keysEntered) {
           resolve(null);
         }

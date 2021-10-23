@@ -1,6 +1,5 @@
 var profProfReviews = (function() {
 
-  //var professionalUid = 'QXH2GMtvtSOpk1qAaDjVuMriQtS2';
   var professionalUid;
   var currentUserUid;
 
@@ -113,7 +112,6 @@ var profProfReviews = (function() {
       $imagesContainer.append(imgTmp);
       arrayPhotos.push(file);
     });
-
   }
 
   function _removeImg() {
@@ -151,26 +149,48 @@ var profProfReviews = (function() {
     _blockInputs();
     _loadingButtonOn();
 
-    //upload images
-    dbReview.uploadReviewImages(professionalUid, arrayPhotos)
-      .then(urls => {
-        //upload review
-        var reviewObj = {
-          review: $text.val(),
-          stars: $starsNum.html() * 1,
-          images: urls,
-          toUid: professionalUid,
-          fromUid: currentUserUid,
-          created: $.now()
-        }
-        console.log(reviewObj.images)
-        dbReview.saveReview(reviewObj)
-          .then(() => {
-            console.log('Save revuew')
-            _showSuccess();
-            console.log('Done')
-          });
-      })
+    console.log(arrayPhotos)
+
+    if (arrayPhotos === undefined || arrayPhotos.length == 0) {
+      //review without images
+      var reviewObj = {
+        review: $text.val(),
+        stars: $starsNum.html() * 1,
+        images: [],
+        toUid: professionalUid,
+        fromUid: currentUserUid,
+        created: $.now()
+      }
+      console.log(reviewObj.images)
+      dbReview.saveReview(reviewObj)
+        .then(() => {
+          console.log('Save revuew')
+          _showSuccess();
+          console.log('Done')
+        });
+    } else {
+      //upload images
+      dbReview.uploadReviewImages(professionalUid, arrayPhotos)
+        .then(urls => {
+          //upload review
+          var reviewObj = {
+            review: $text.val(),
+            stars: $starsNum.html() * 1,
+            images: urls,
+            toUid: professionalUid,
+            fromUid: currentUserUid,
+            created: $.now()
+          }
+          console.log(reviewObj.images)
+          dbReview.saveReview(reviewObj)
+            .then(() => {
+              console.log('Save revuew')
+              _showSuccess();
+              console.log('Done')
+            });
+        })
+    }
+
   }
 
   function _showSuccess() {

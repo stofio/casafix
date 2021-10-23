@@ -16,7 +16,9 @@ var listProfessionals = (function() {
             .then(profObj => {
               if (profObj.length !== 0) {
                 $profList.empty();
-                _sortProfessionals(profObj, dataFilter.sort)
+                var sort = dataFilter.sort;
+                if (dataFilter.location.place == 'Italia') sort = 'stars';
+                _sortProfessionals(profObj, sort)
                   .then(sorted => {
                     sorted.forEach(prof => $profList.append(getTemplate(prof)));
                   })
@@ -155,12 +157,17 @@ var listProfessionals = (function() {
       return tmp;
   }
 
+  function _hideDistanceOnProfessionals() {
+    $('.distance-and-button .distance').css('display', 'none');
+  }
+
 
 
 
 
   return {
-    renderList: renderList
+    renderList: renderList,
+    _hideDistanceOnProfessionals:_hideDistanceOnProfessionals
   }
 
 })();

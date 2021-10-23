@@ -153,6 +153,10 @@
   .most-searched-wrap .row {
     justify-content: center;
   }
+  .banner-hai-gia-provato .banner-col.with-image {
+    width: 100% !important;
+    margin-bottom: 30px;
+  }
 }
 
 @media(max-width:767px) {
@@ -340,5 +344,33 @@
 @media(min-width:750px) {
   .container {
     min-width: 700px !important;
+  }
+}
+
+@media(max-width:975px) {
+  .register-as-prof-banner .banner-image img {
+    margin: 0;
+    margin-top: -15px;
+    margin-bottom: 15px;
+  }
+  .register-as-prof-banner .banner-text {
+    padding-right: 0;
+  }
+  .add-announcement-banner .banner-image img {
+    margin: 0;
+    margin-top: -30px;
+    border-radius: 0;
+    margin-bottom: 15px;
+  }
+  .add-announcement-banner .banner-text {
+    padding-right: 0;
+  }
+  .banner-hai-gia-provato .banner-col.text-left {
+    width: 100% !important;
+    margin-bottom: 30px !important;
+    text-align: center !important;
+  }
+  .banner-hai-gia-provato .banner-col.with-image {
+    width: 49%;
   }
 }

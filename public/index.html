@@ -8,6 +8,7 @@
   <link rel="stylesheet" type="text/css" href="/style/bootstrap.min.css">
   <link rel="stylesheet" type="text/css" href="/style/style.css">
   <link rel="stylesheet" type="text/css" href="/style/style.responsive.css">
+  <link rel="stylesheet" type="text/css" href="/scripts/vendor/splide/dist/css/splide.min.css">
   <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
 </head>
 
@@ -44,11 +45,12 @@
 
       <div class="register-as-prof-banner">
         <div class="banner-wrap">
-          <div class="banner-icon">
-            <img src="images/worker-icon.svg" />
+          <div class="banner-image">
+            <img src="images/worker.jpg" />
           </div>
           <div class="banner-text">
-            <p>Registrati come <span>professionista</span> su CASAFIX</p>
+            <p>COMINCIA A GUADAGNARE</p>
+            <p class="banner-small-text">diventa un <span>professionista</span> e fai in modo che contattino proprio te</p>
           </div>
           <div class="banner-button">
             <a href="/registrazione">
@@ -57,58 +59,88 @@
           </div>
         </div>
       </div>
+    </div>
 
-
+    <div class="container-fluid stripe-background">
       <div class="most-searched">
         <h2>CATEGORIE PIÙ CERCATE</h2>
-        <div class="most-searched-wrap">
-          <div class="row m-0">
-            <a href="#" class="search-card-wrap">
-              <div class="search-card" style="background: url(images/elettricista.jpg), #C4C4C4;"></div>
-              <h4>Elettricista</h4>
-            </a>
-            <a href="#" class="search-card-wrap">
-              <div class="search-card" style="background: url(images/elettricista.jpg), #C4C4C4;"></div>
-              <h4>Elettricista</h4>
-            </a>
-            <a href="#" class="search-card-wrap">
-              <div class="search-card" style="background: url(images/elettricista.jpg), #C4C4C4;"></div>
-              <h4>Elettricista</h4>
-            </a>
-            <a href="#" class="search-card-wrap">
-              <div class="search-card" style="background: url(images/elettricista.jpg), #C4C4C4;"></div>
-              <h4>Elettricista</h4>
-            </a>
+        <div class="splide">
+          <div class="splide__track">
+            <div class="splide__list">
+              <a href="/cerca-professionista?lat=42.5041539170675&lng=12.6463610364431&pl=Italia&srv=&prf=Elettricista" class="search-card-wrap splide__slide">
+                <div class="search-card" style="background: url(images/home-works/elettricistaa.jpg), #C4C4C4;"></div>
+                <h4>Elettricista</h4>
+              </a>
+              <a href="/cerca-professionista?lat=42.5041539170675&lng=12.6463610364431&pl=Italia&srv=&prf=Imbianchino/%20Pittore" class="search-card-wrap splide__slide">
+                <div class="search-card" style="background: url(images/home-works/inbianchino.jpg), #C4C4C4;"></div>
+                <h4>Imbianchino</h4>
+              </a>
+              <a href="/cerca-professionista?lat=42.5041539170675&lng=12.6463610364431&pl=Italia&srv=&prf=Falegname" class="search-card-wrap splide__slide">
+                <div class="search-card" style="background: url(images/home-works/falegname.jpg), #C4C4C4;"></div>
+                <h4>Falegname</h4>
+              </a>
+              <a href="/cerca-professionista?lat=42.5041539170675&lng=12.6463610364431&pl=Italia&srv=&prf=Idraulico" class="search-card-wrap splide__slide">
+                <div class="search-card" style="background: url(images/home-works/idraulico.jpg), #C4C4C4;"></div>
+                <h4>Idraulico</h4>
+              </a>
 
-            <a href="#" class="search-card-wrap">
-              <div class="search-card" style="background: url(images/elettricista.jpg), #C4C4C4;"></div>
-              <h4>Elettricista</h4>
+              <a href="/cerca-professionista?lat=42.5041539170675&lng=12.6463610364431&pl=Italia&srv=&prf=Esperto%20Elettrodomestici%20/%20TV" class="search-card-wrap splide__slide">
+                <div class="search-card" style="background: url(images/home-works/elettrodom\ tv.jpg), #C4C4C4;"></div>
+                <h4>Esperto Elettrodomestici / TV</h4>
+              </a>
+              <a href="/cerca-professionista?lat=42.5041539170675&lng=12.6463610364431&pl=Italia&srv=&prf=Pavimenti%20/%20Piastrellista" class="search-card-wrap splide__slide">
+                <div class="search-card" style="background: url(images/home-works/pavimenti.jpg), #C4C4C4;"></div>
+                <h4>Pavimenti / Piastrellista</h4>
+              </a>
+              <a href="/cerca-professionista?lat=42.5041539170675&lng=12.6463610364431&pl=Italia&srv=&prf=Vetraio" class="search-card-wrap splide__slide">
+                <div class="search-card" style="background: url(images/home-works/vetraio.jpg), #C4C4C4;"></div>
+                <h4>Vetraio</h4>
+              </a>
+              <a href="/cerca-professionista?lat=42.5041539170675&lng=12.6463610364431&pl=Italia&srv=&prf=Meccanico" class="search-card-wrap splide__slide">
+                <div class="search-card" style="background: url(images/home-works/meccanico.jpg), #C4C4C4;"></div>
+                <h4>Meccanico</h4>
+              </a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="container">
+      <div class="banner-hai-gia-provato">
+        <div class="banner-wrap">
+          <div class="banner-col text-left">
+            <h3>HAI GIA PROVATO CASAFIX?</h3>
+            <p>Un servizio che permette di trovare il professionista che fa per te. Contatti il professionista e in un lampo arriva da te, nulla di più facile</p>
+          </div>
+          <div class="banner-col with-image">
+            <img src="images/home-works/diventa-prof.jpg" />
+            <a href="/registrazione-professionista">
+              <button class="def-btn">Diventa professionista</button>
             </a>
-            <a href="#" class="search-card-wrap">
-              <div class="search-card" style="background: url(images/elettricista.jpg), #C4C4C4;"></div>
-              <h4>Elettricista</h4>
-            </a>
-            <a href="#" class="search-card-wrap">
-              <div class="search-card" style="background: url(images/elettricista.jpg), #C4C4C4;"></div>
-              <h4>Elettricista</h4>
-            </a>
-            <a href="#" class="search-card-wrap">
-              <div class="search-card" style="background: url(images/elettricista.jpg), #C4C4C4;"></div>
-              <h4>Elettricista</h4>
+          </div>
+          <div class="banner-col with-image">
+            <img src="images/home-works/cerca-contatta.jpg" />
+            <a href="/registrazione-utente">
+              <button class="def-btn">Cerca e contatta</button>
             </a>
           </div>
         </div>
       </div>
 
-
       <div class="add-announcement-banner">
         <div class="banner-wrap">
-          <div class="banner-text">
-            <p>NON TROVI IL PROFESSIONISTA?</p>
-            <span>Inserisci un annuncio e varrai contattato dal professionista che fa per te</span>
+          <div class="banner-image">
+            <img src="images/rullo.jpg">
           </div>
-          <div class="banner-button">
-            <button class="def-btn">Inserisci annuncio</button>
+          <div class="banner-text">
+            <p><b>NON HAI VOGLIA DI CERCARE?</b></p>
+            <span>Scrivici di cosa hai bisogno e il professionista perfetto ti contatterà subito!</span><br>
+            <a href="/annunci">
+              <button class="def-btn btn-white">Inserisci annuncio</button>
+            </a>
+            <!-- <div class="banner-button">
+          </div> -->
           </div>
         </div>
       </div>
@@ -141,6 +173,7 @@
 
   <!--scripts/vendor-->
   <script type="text/javascript" src="/scripts/vendor/jquery.min.js"></script>
+  <script type="text/javascript" src="/scripts/vendor/splide/dist/js/splide.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/oj.mustache/0.7.2/oj.mustache.min.js" integrity="sha512-+KQDdWwfzb3UZ0sEt1Op66MoQ9NKs6bE02+NpPnsQxZ6ylUP3Fd8L3yf1CsYPD2vndRIbOCzWk2RUfOJ9bsOcA==" crossorigin="anonymous"></script>
 
   <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js "></script>
@@ -161,6 +194,36 @@
   <script type="text/javascript" src="scripts/page-home.js"></script>
 
   <script type="text/javascript" src="/scripts/parts/searchBar.js"></script>
+
+  <script>
+    document.addEventListener('DOMContentLoaded', function() {
+      var splide = new Splide('.splide', {
+        type: 'loop',
+        perPage: 5,
+        perMove: 1,
+        breakpoints: {
+          1350: {
+            perPage: 4,
+          },
+          1182: {
+            perPage: 3,
+          },
+          975: {
+            perPage: 2,
+
+          },
+          640: {
+            perPage: 1,
+
+          }
+        },
+        autoplay: true,
+        interval: 3000,
+        pauseOnHover: true
+      });
+      splide.mount();
+    });
+  </script>
 
 </body>
 

@@ -340,6 +340,12 @@ button.def-btn {
   margin-top: 15px;
 }
 
+button.def-btn.btn-white {
+  border: solid 3px #FB743E;
+  background: #fff;
+  color: #FB743E;
+}
+
 button.def-btn:hover {
   box-shadow: 1px 1px 1px 1px rgba(33, 33, 33, .2);
 }
@@ -2483,7 +2489,7 @@ mark a {
   border: solid 1px rgba( 0 0 0 / 8%);
   padding: 30px;
   border-radius: 10px;
-  width: 70%;
+  width: 90%;
   margin-left: auto;
   margin-right: auto;
 }
@@ -2492,6 +2498,26 @@ mark a {
   display: flex;
   justify-content: space-between;
   align-items: center;
+}
+
+.register-as-prof-banner .banner-text .banner-small-text {
+  font-weight: 400;
+  font-size: 19px;
+}
+
+.register-as-prof-banner .banner-image {
+  width: 100px;
+}
+
+.register-as-prof-banner .banner-image img {
+  width: 100px;
+  margin: -15px;
+  margin-bottom: -30px;
+  margin-right: -80px;
+}
+
+.register-as-prof-banner .banner-text {
+  padding-right: 30px;
 }
 
 .register-as-prof-banner .banner-text p {
@@ -2510,6 +2536,38 @@ mark a {
   margin: 0;
 }
 
+.banner-hai-gia-provato {
+  padding: 50px 0;
+}
+
+.banner-hai-gia-provato .banner-wrap {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+}
+
+.banner-hai-gia-provato .banner-col {
+  width: 31%;
+  text-align: center;
+}
+
+.banner-hai-gia-provato .banner-col.text-left h3 {
+  margin-bottom: 0;
+  font-weight: 600;
+  font-size: 21px;
+  margin-bottom: 15px !important;
+}
+
+.banner-hai-gia-provato .banner-col img {
+  width: 100%;
+}
+
+.container-fluid.stripe-background {
+  background-color: #efefef;
+  padding: 50px 0;
+}
+
 .home-divider {
   width: 100%;
   border-bottom: solid 1px #C1C1C1;
@@ -2521,6 +2579,10 @@ mark a {
   font-size: 31px;
   font-weight: 600;
   margin-bottom: 30px;
+}
+
+.most-searched {
+  padding: 50px 0;
 }
 
 .most-searched h2 {
@@ -2538,19 +2600,31 @@ mark a {
 }
 
 .most-searched .search-card {
-  background: url(images/elettricista.jpg), #C4C4C4;
   height: 160px;
   width: 250px;
-  background-position: center;
-  background-repeat: no-repeat;
-  background-size: cover;
+  background-position: center !important;
+  background-repeat: no-repeat !important;
+  background-size: cover !important;
   border: solid 1px rgba( 0 0 0 / 8%);
   border-radius: 10px;
+  margin: 0 auto;
   margin-bottom: 15px;
 }
 
 .most-searched-wrap .row {
   justify-content: space-between;
+}
+
+.splide__arrow {
+  opacity: 1 !important;
+}
+
+.splide__arrow svg {
+  fill: #fb743e !important;
+}
+
+.splide__pagination {
+  display: none;
 }
 
 .add-announcement-banner {
@@ -2564,6 +2638,13 @@ mark a {
   margin-right: auto;
 }
 
+.add-announcement-banner .banner-image img {
+  max-width: 300px;
+  margin: -30px;
+  margin-right: 25px;
+  border-radius: 10px 0 0 10px;
+}
+
 .add-announcement-banner .banner-wrap {
   display: flex;
   justify-content: space-between;
@@ -2574,13 +2655,7 @@ mark a {
   padding-right: 20px;
 }
 
-.add-announcement-banner .banner-text p {
-  margin-bottom: 0;
-  font-weight: 600;
-  font-size: 21px;
-}
-
-.add-announcement-banner .banner-button button {
+.add-announcement-banner .banner-text p .add-announcement-banner .banner-button button {
   margin: 0;
   white-space: nowrap;
 }
