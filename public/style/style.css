@@ -2776,3 +2776,13 @@ mark a {
 .input-with-label .verifiedBadge {
   margin-left: 6px;
 }
+
+.two-btn-row {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+}
+
+.two-btn-row a {
+  width: 49%;
+}

@@ -63,7 +63,6 @@ var main = (function() {
     //tutta italia
     if (pl == 'Italia') {
       setTuttaItalia();
-      listProfessionals._hideDistanceOnProfessionals();
       sortDropdown.disableSortByDistance();
     } else {
       setPlace(pl);

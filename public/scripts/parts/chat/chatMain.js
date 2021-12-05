@@ -18,6 +18,8 @@ var chatMain = (function() {
 
   //init
   async function initChat(currentUid) {
+
+
     var url_string = window.location.href
     var url = new URL(url_string);
     var roomId = url.searchParams.get("room");
@@ -27,6 +29,7 @@ var chatMain = (function() {
       sender: {},
       receiver: {}
     };
+
 
     //get rooms
     var myRooms = await dbChat.getMyRooms(currentUid);
@@ -104,9 +107,40 @@ var chatMain = (function() {
   }
 
 
+  function showNeedToLoginFirst() {
+
+    $section = $('section.top-sec');
+
+    var needToRegister = `<section class="top-sec" id="review-success">
+        <div class="container">
+        <div class="review-box-body">
+            <h2>Registrati in 1 click e contatta il professionista</h2>
+            <div class="two-btn-row">
+              <a href="${lnk.pgRegistrationProf}">
+                <button class="def-btn">Registrati come professionista</button>
+              </a>
+              <a href="${lnk.pgRegistrationUser}">
+                <button class="def-btn">Registrati come utente</button>
+              </a>
+            </div>
+        </div>
+        </div>
+    </section>`;
+
+
+    $section.fadeOut(() => {
+      $section.find('.container').remove();
+      $section.append(needToRegister).fadeIn(200);
+      $section.find('.container').fadeIn(200);
+      $('body section').css('display', 'block');
+    });
+  }
+
+
 
   return {
-    initChat: initChat
+    initChat: initChat,
+    showNeedToLoginFirst: showNeedToLoginFirst
   }
 
 })();

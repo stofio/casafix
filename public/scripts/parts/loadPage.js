@@ -2,7 +2,7 @@ var loadPage = (function() {
 
   /**
    * //check the role -> get header -> or redirect
-   * @param {string} uid - the uid
+   * @param {string} uid - the uid 
    * @param {string} profLinkRed - link redirect if professional is logged, or false
    * @param {string} userLinkRed - link redirect if user is logged, or false
    * @param {string} notLoggedLinkRed - link redirect if not logged, or false
@@ -20,13 +20,15 @@ var loadPage = (function() {
         return;
       }
     }
-
+    console.log(uid)
     if (uid == false) {
       //not logged in
       if (notLoggedLinkRed == false) {
         header.getHeader('def');
         _showPageContent();
         return;
+      } else {
+        window.location.replace(notLoggedLinkRed);
       }
     }
 

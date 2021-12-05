@@ -1,6 +1,5 @@
 (function() {
 
-
   var unsubscribe = firebase.auth().onAuthStateChanged((loggedUser) => {
     var isLoggedOrUid;
     if (loggedUser) {
@@ -9,10 +8,7 @@
       isLoggedOrUid = false;
     }
     //check the role, get header, show page per id or redirect
-    loadPage.loadPageOnAuth(isLoggedOrUid, lnk.pgAnnounce, false, lnk.pgHome);
-
-
-
+    loadPage.loadPageOnAuth(isLoggedOrUid, false, lnk.pgFavouritesProfessionals, lnk.pgRegistrationUser);
     unsubscribe();
   });
 

@@ -3,6 +3,18 @@ var dbReview = (function() {
   var database = firebase.firestore();
   var storage = firebase.storage();
 
+  function checkIfProfessionalExist(uid) {
+    return new Promise((resolve, reject) => {
+      database.collection('professionals').doc(uid).get()
+        .then((doc) => {
+          if (doc.exists) {
+            resolve(true);
+          } else {
+            resolve(false);
+          }
+        });
+    })
+  }
 
   function getProfProfileData(uid) {
     return new Promise((resolve, reject) => {
@@ -19,7 +31,7 @@ var dbReview = (function() {
       var currUserId = firebase.auth().currentUser.uid;
       _getCurrentUserRole(currUserId)
         .then(userRole => {
-          database.collection(userRole + 's').doc(currUserId).get()
+          database.collection(userRole).doc(currUserId).get()
             .then((doc) => {
               const data = doc.data();
               data.uid = currUserId;
@@ -35,7 +47,7 @@ var dbReview = (function() {
       database.collection('registered_accounts').doc(uid).get()
         .then((doc) => {
           const data = doc.data();
-          resolve(data._role);
+          resolve(data._role + 's');
         });
     })
   }
@@ -73,6 +85,7 @@ var dbReview = (function() {
   function saveReview(reviewObj) {
     return new Promise((resolve, reject) => {
       console.log('save to prof')
+      _saveUserGivedReview(reviewObj.fromUid, reviewObj.toUid);
       _saveReviewToProfessional(reviewObj)
         .then(() => {
           console.log('save to reviewr')
@@ -106,6 +119,7 @@ var dbReview = (function() {
     return new Promise((resolve) => {
       _getCurrentUserRole(reviewObj.fromUid)
         .then(userRole => {
+          console.log(userRole)
           database.collection(userRole).doc(reviewObj.fromUid).collection('reviews_given').add({
             "review": reviewObj.review,
             "stars": reviewObj.stars,
@@ -117,6 +131,15 @@ var dbReview = (function() {
           })
         })
     })
+  }
+
+  function _saveUserGivedReview(from, to) {
+    return new Promise((resolve) => {
+      database.collection('users').doc(from).update({
+        "last_review_to": to,
+        "last_review_time": Date.now()
+      });
+    });
   }
 
   function _updateProfessionalStarsAndReviews(reviewObj) {
@@ -153,6 +176,45 @@ var dbReview = (function() {
   }
 
 
+  function isLastReviewMoreThenLimitedTime(limit) {
+    return new Promise((resolve) => {
+      var currentUid = firebase.auth().currentUser.uid;
+      database.collection('users').doc(currentUid).get()
+        .then(doc => {
+          var lastReview = doc.data().last_review_time;
+          var timeNow = Date.now();
+
+          //calculate how much is passed since last review
+          var timePassedSinceLastReview = timeNow - lastReview;
+
+          if (timePassedSinceLastReview > limit || lastReview == undefined) {
+            //last review was long enough
+            resolve(true);
+          } else {
+            resolve(false);
+          }
+        });
+    })
+  }
+
+  function isPhoneVerified() {
+    return new Promise((resolve) => {
+      var currentUid = firebase.auth().currentUser.uid;
+      database.collection('registered_accounts').doc(currentUid).get()
+        .then(doc => {
+
+          if (doc.data().phoneVerified == undefined) resolve(false);
+
+          var phoneVerified = doc.data().phoneVerified;
+          if (phoneVerified == 1) {
+            //last review was long enough
+            resolve(true);
+          }
+        });
+    })
+  }
+
+
 
 
 
@@ -163,7 +225,10 @@ var dbReview = (function() {
     getCurrentUserData: getCurrentUserData,
     uploadReviewImages: uploadReviewImages,
     saveReview: saveReview,
-    getAllReviews: getAllReviews
+    getAllReviews: getAllReviews,
+    checkIfProfessionalExist: checkIfProfessionalExist,
+    isLastReviewMoreThenLimitedTime: isLastReviewMoreThenLimitedTime,
+    isPhoneVerified: isPhoneVerified
   }
 
 })();

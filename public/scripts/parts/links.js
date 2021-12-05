@@ -39,8 +39,11 @@ var lnk = (function() {
     pgMessages: '/messaggi',
     pgNuovoAnnuncio: '/inserisci-annuncio',
     pgNotification: '/notifiche',
-    pgFavourites: '/preferiti',
+    pgFavouritesProfessionals: '/preferiti-professionisti',
+    pgFavouritesAnnounces: '/preferiti-annunci',
     pgContact: '/contatti',
+    pgHowItWorks: '/come-funziona',
+    pgWhatIsIt: '/piattaforma-casafix',
   }
 
 })();

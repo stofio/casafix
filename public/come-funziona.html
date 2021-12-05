@@ -4,7 +4,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Preferiti</title>
+  <title>Annunci</title>
   <link rel="stylesheet" type="text/css" href="/style/bootstrap.min.css">
   <link rel="stylesheet" type="text/css" href="/style/style.css">
   <link rel="stylesheet" type="text/css" href="/style/style.responsive.css">
@@ -14,15 +14,13 @@
 
   <nav id="header"></nav>
 
-  <section class="top-sec" id="favourites">
+  <section class="top-sec" id="announce">
     <div class="container">
       <div class="title-big">
-        <h1>Preferiti</h1>
+        <h1>Come funziona?</h1>
       </div>
       <div class="row">
-        <div id="list-favourites">
 
-        </div>
       </div>
     </div>
   </section>
@@ -39,12 +37,12 @@
   </footer>
 
 
-
 </body>
 
 <!--firebase-->
 <script src="https://www.gstatic.com/firebasejs/8.5.0/firebase-app.js"></script>
 <script src="https://www.gstatic.com/firebasejs/8.5.0/firebase-auth.js"></script>
+<script src="https://www.gstatic.com/firebasejs/8.5.0/firebase-functions.js"></script>
 <script src="https://www.gstatic.com/firebasejs/8.5.0/firebase-firestore.js"></script>
 <script src="https://www.gstatic.com/firebasejs/8.5.0/firebase-database.js"></script>
 <script src="scripts/_firebaseConn.js"></script>
@@ -54,18 +52,15 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/oj.mustache/0.7.2/oj.mustache.min.js" integrity="sha512-+KQDdWwfzb3UZ0sEt1Op66MoQ9NKs6bE02+NpPnsQxZ6ylUP3Fd8L3yf1CsYPD2vndRIbOCzWk2RUfOJ9bsOcA==" crossorigin="anonymous"></script>
 
 <!--scripts/main.js-->
-<script type="text/javascript" src="/scripts/parts/loadingProgressBar.js"></script>
 <script type="text/javascript" src="/scripts/parts/links.js"></script>
 <script type="text/javascript" src="/scripts/parts/auth/firebaseAuth.js"></script>
 <script type="text/javascript" src="/scripts/parts/auth/dbAccount.js"></script>
-<script type="text/javascript" src="/scripts/parts/header.js"></script>
+<script type="text/javascript" src="scripts/parts/header.js"></script>
 <script type="text/javascript" src="/scripts/parts/loadPage.js"></script>
+<script type="text/javascript" src="/scripts/parts/loadingProgressBar.js"></script>
 <script type="text/javascript" src="scripts/parts/onlineStatus.js"></script>
 
-<script type="text/javascript" src="scripts/parts/favourites.js"></script>
-
-<script type="text/javascript" src="scripts/page-favourites.js"></script>
-
+<script type="text/javascript" src="scripts/page-announce.js"></script>
 
 
 </html>

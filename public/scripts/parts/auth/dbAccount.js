@@ -63,7 +63,6 @@ var dbAuth = (function() {
     return new Promise((resolve, reject) => {
       database.collection('professionals').doc(uid).get()
         .then(doc => {
-          console.log(uid)
           if (!doc.exists) {
             resolve(false);
             return;

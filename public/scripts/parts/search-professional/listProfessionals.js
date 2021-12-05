@@ -21,6 +21,7 @@ var listProfessionals = (function() {
                 _sortProfessionals(profObj, sort)
                   .then(sorted => {
                     sorted.forEach(prof => $profList.append(getTemplate(prof)));
+                    listProfessionals.hideDistanceOnProfessionals();
                   })
               } else {
                 $profList.empty();
@@ -157,7 +158,7 @@ var listProfessionals = (function() {
       return tmp;
   }
 
-  function _hideDistanceOnProfessionals() {
+  function hideDistanceOnProfessionals() {
     $('.distance-and-button .distance').css('display', 'none');
   }
 
@@ -167,7 +168,7 @@ var listProfessionals = (function() {
 
   return {
     renderList: renderList,
-    _hideDistanceOnProfessionals:_hideDistanceOnProfessionals
+    hideDistanceOnProfessionals:hideDistanceOnProfessionals
   }
 
 })();

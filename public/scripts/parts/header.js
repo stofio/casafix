@@ -3,18 +3,18 @@ var header = (function() {
   var logoLink = "/images/casafix_logo.svg";
 
   var defaultNavMenu = {
-    "Cos'è Casafix": "link",
-    "Come funziona": "link"
+    "Cos'è Casafix": lnk.pgWhatIsIt,
+    "Come funziona": lnk.pgHowItWorks
   };
 
   var userNavMenu = {
-    "Preferiti": lnk.pgFavourites,
+    "Preferiti": lnk.pgFavouritesProfessionals,
     "Messaggi": lnk.pgMessages,
     "Notifiche": lnk.pgNotification,
   };
 
   var professionalNavMenu = {
-    "Preferiti": lnk.pgFavourites,
+    "Preferiti": lnk.pgFavouritesAnnounces,
     "Messaggi": lnk.pgMessages,
     "Notifiche": lnk.pgNotification,
   };
@@ -26,7 +26,7 @@ var header = (function() {
 
   var profSearch = {
     label: "🔎︎ Cerca Professionisti",
-    link: lnk.pgHome
+    link: lnk.pgCercaProf
   }
 
   var defAccessMenu = {

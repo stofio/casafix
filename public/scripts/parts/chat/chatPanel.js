@@ -13,6 +13,7 @@ var chatPanel = (function() {
   var $inputImage = $chatPanel.find('#imageMessage');
   var $inputMsg = $chatPanel.find('#mgsInput');
 
+
   var chatVariables = {
     temporary: false,
     roomId: '',
@@ -25,6 +26,11 @@ var chatPanel = (function() {
     sender: {},
     receiver: {}
   };
+
+
+  $(document).on('click', 'h3', () => {
+    console.log(roomUsersInfo)
+  });
 
   var limitImageSize = 2097152; // 2 MiB
 
@@ -50,9 +56,12 @@ var chatPanel = (function() {
         if (change.type === "added") {
           var currentMsgDate = change.doc.data().time;
           setDatesInChat(previousMsgDate, currentMsgDate);
-          let msgTmp = _msgTmpList(change.doc.data());
           previousMsgDate = currentMsgDate;
-          $messagesWrap.append(msgTmp);
+          console.log(change.doc.data())
+          if (chatVariables.roomId == roomId) { //if this chat is opened
+            let msgTmp = _msgTmpList(change.doc.data());
+            $messagesWrap.append(msgTmp);
+          }
           _slideOpenChat();
         }
       });
@@ -80,7 +89,6 @@ var chatPanel = (function() {
     if (chatVariables.roomId == '') {
       _slideCloseChat();
       $chatPanelTitle.fadeOut('200', () => {
-        console.log('asd')
         $chatPanelTitle.html('Seleziona una conversazione').fadeIn('200');
         return;
       })
