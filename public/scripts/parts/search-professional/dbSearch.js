@@ -96,10 +96,12 @@ var dbSearch = (function() {
         radius: range
       });
 
+      console.log(circle)
+
       var keysEntered = false;
       var arrayOfProfInRange = [];
       circle.on("key_entered", function(key, location, distance) {
-        var keysEntered = true;
+        keysEntered = true;
         arrayOfProfInRange.push({
           key: key,
           location: location,

@@ -11,30 +11,20 @@ var firebaseAuth = (function() {
         }
       })
       .catch((error) => {
-        console.log("Error: " + error);
+        console.log("Error google sign in: " + error);
       });
   }
 
   function facebookSignin(callback) {
-    firebase.auth().signInWithRedirect(facebookProvider)
+    firebase.auth().signInWithPopup(facebookProvider)
       .then((user) => {
-        var token = user.credential.accessToken;
-        var user = user.user;
-        var uid = user.uid;
-        var email = user.email;
         if (typeof(callback) == 'function') {
-          //if doesnt exist, return uid & email to save in db
+          //
+
           callback(e = false, user); //ADD USER IMAGEE!!
         }
       }).catch((error) => {
-        console.log(error)
-        var errorCode = error.code;
-        var errorMessage = error.message;
-        console.log("Error: " + errorMessage)
-        console.log(errorCode);
-        if (typeof(callback) == 'function') {
-          callback(errorCode);
-        }
+        console.log("Error facebook sign in: " + error);
       });
   }
 

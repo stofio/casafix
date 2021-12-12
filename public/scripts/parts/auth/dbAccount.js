@@ -7,7 +7,11 @@ var dbAuth = (function() {
     return new Promise((resolve, reject) => {
       if (user.user.photoURL !== '' && user.user.photoURL !== undefined) {
         //get better resolution of image
-        var photo = user.user.photoURL.replace('s96-c', 's400-c');
+        if (provider == 'google') {
+          var photo = user.user.photoURL.replace('s96-c', 's400-c');
+        } else {
+          var photo = user.user.photoURL;
+        }
       } else {
         var photo = '/images/placeholder-prof-img.png';
       }
@@ -37,7 +41,11 @@ var dbAuth = (function() {
       console.log(user.user.photoURL)
       if (user.user.photoURL !== '' && user.user.photoURL !== undefined) {
         //get better resolution of image
-        var photo = user.user.photoURL.replace('s96-c', 's400-c');
+        if (provider == 'google') {
+          var photo = user.user.photoURL.replace('s96-c', 's400-c');
+        } else {
+          var photo = user.user.photoURL;
+        }
       } else {
         var photo = '/images/placeholder-prof-img.png';
       }

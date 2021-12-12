@@ -15,6 +15,18 @@ var profProfReviews = (function() {
 
   //init
   function _loadReviews() {
+    firebase.auth().onAuthStateChanged(function(user) {
+      if (user) {
+        // User is signed in.
+      } else {
+        if (firebase.auth().currentUser == null) {
+          //hide hearth
+          $('#give-review').html('<a href="/registrazione">Registrati per lasciare una recensione</a>');
+          return;
+        }
+      }
+    });
+
     var url_string = window.location.href
     var url = new URL(url_string);
     uid = url.searchParams.get("uid");

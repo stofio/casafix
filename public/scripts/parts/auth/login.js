@@ -1,9 +1,5 @@
 (function() {
 
-  /**
-   * CHECK DIGITAL OCEAN FOR THE FUNCTIONALITIES OF LOGIN (IF USER EXIST.. GOOGLE LOGIN(IF DOESN EXIST))
-   * 
-   */
 
   //cache dom
   var $section = $('#login');
@@ -98,46 +94,80 @@
             return;
           }
         })
-
     })
   }
+
 
   function _facebookLogin() {
     firebaseAuth.facebookSignin((error, user) => {
-      if (error == "auth/account-exists-with-different-credential") {
-        $errorForGoogleAndFb.html("L'Account è già registrato con email o google. Riprova");
-        return;
-      }
-      dbAuth.isRegistered(user.uid)
-        .then(isRegistered => {
-          if (!isRegistered) {
-            user.delete()
-              .then(() => {
-                window.location.replace(lnk.pgRegistration);
-                return;
-              })
+      _removeErrorAccountDoesntExist();
+      $section.css('pointer-events', 'none');
+      $regBox.prepend(_getLoadingCircle());
+      //check if exist
+      //if not, delete user, and show error
+      var isUserRegistered = firebase.functions().httpsCallable('checkOnLoginIfRegistered');
+      isUserRegistered({ uid: user.user.uid })
+        .catch(error => {
+          console.log(error)
+          _removeLoadingCircle();
+          $regBox.prepend(_getErrorAccountDoesntExist());
+          $section.css('pointer-events', 'auto');
+          return;
+        })
+      dbAuth.isProfessional(user.user.uid)
+        .then(isProf => {
+          if (isProf) {
+            window.location.replace(lnk.pgAnnounce);
+            return;
           }
         })
 
-      dbAuth.isProfessional(uid).
-      then(isProf => {
-        if (isProf) {
-          window.location.replace(lnk.pgAnnounce);
-          return;
-        }
-      })
-
-
-      dbAuth.isUser(uid).
-      then(isUser => {
-        if (isUser) {
-          window.location.replace(lnk.pgHome);
-          return;
-        }
-      })
-
+      dbAuth.isUser(user.user.uid)
+        .then(isProf => {
+          if (isProf) {
+            window.location.replace(lnk.pgHome);
+            return;
+          }
+        })
     })
   }
+
+  // function _facebookLogin() {
+  //   firebaseAuth.facebookSignin((error, user) => {
+  //     if (error == "auth/account-exists-with-different-credential") {
+  //       $errorForGoogleAndFb.html("L'Account è già registrato con email o google. Riprova");
+  //       return;
+  //     }
+  //     dbAuth.isRegistered(user.uid)
+  //       .then(isRegistered => {
+  //         if (!isRegistered) {
+  //           user.delete()
+  //             .then(() => {
+  //               window.location.replace(lnk.pgRegistration);
+  //               return;
+  //             })
+  //         }
+  //       })
+
+  //     dbAuth.isProfessional(uid).
+  //     then(isProf => {
+  //       if (isProf) {
+  //         window.location.replace(lnk.pgAnnounce);
+  //         return;
+  //       }
+  //     })
+
+
+  //     dbAuth.isUser(uid).
+  //     then(isUser => {
+  //       if (isUser) {
+  //         window.location.replace(lnk.pgHome);
+  //         return;
+  //       }
+  //     })
+
+  //   })
+  // }
 
   function _loginWithEmailEnter(e) {
     if (e.keyCode == 13) {

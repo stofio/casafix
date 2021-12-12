@@ -141,80 +141,120 @@
   /**********
    * Facebook registration
    ***********/
+  // function _registerWithFacebook() {
+  //   firebaseAuth.facebookSignin((error, user) => {
+  //     var getUserIfRegistered = firebase.functions().httpsCallable('getUserIfRegistered');
+  //     if (error == "auth/account-exists-with-different-credential") {
+  //       $errorForGoogleAndFb.html("L'Account è già registrato con email o google. Riprova");
+  //       return;
+  //     }
+  //     if ($userRole.val() === 'professionals') {
+  //       //IF IS PROFESSIONAL
+  //       dbAuth.isUserExistent(user.uid, (exist) => {
+  //         //IF PROFILE ALREADY CREATED
+  //         if (exist) {
+  //           //check if is a professional
+  //           dbAuth.isProfessional(uid).
+  //           then(isProf => {
+  //             if (isProf) {
+  //               window.location.replace(lnk.pgSettProf);
+  //             } else {
+  //               //error
+  //               $errorForGoogleAndFb.html("L'Account Facebook gia registrato come utente, scegli un'altro account.");
+  //               firebase.auth().signOut();
+  //               return;
+  //             }
+  //           });
+  //         } else {
+  //           //CREATE PROFILE
+  //           var photo;
+  //           if (user.photoURL !== '' || user.photoURL !== null) {
+  //             //get better resolution of image
+  //             photo = `${user.photoURL}?type=large`;
+  //           } else {
+  //             photo = '';
+  //           }
+  //           dbAuth.createNewProfe(user, 'facebook')
+  //             .then(() => {
+  //               firebaseAuth.sendVerificationEmail(() => {
+  //                 window.location.replace(lnk.pgSettProf);
+  //               });
+  //             });
+  //         }
+  //       })
+  //     } else if ($userRole.val() === 'users') {
+  //       //IF IS USER
+  //       dbAuth.isUserExistent(user.uid, (exist) => {
+  //         //IF PROFILE ALREADY CREATED
+  //         if (exist) {
+  //           //check if is a user
+
+  //           dbAuth.isUser(uid).
+  //           then(isUser => {
+  //             if (isUser) {
+  //               window.location.replace(lnk.pgSettUser);
+  //             } else {
+  //               //error
+  //               $errorForGoogleAndFb.html("L'Account Facebook gia registrato come professionista, scegli un'altro account.");
+  //               firebase.auth().signOut();
+  //               return;
+  //             }
+  //           })
+  //         } else {
+  //           //CREATE PROFILE
+  //           var photo;
+  //           if (user.photoURL !== '' || user.photoURL !== null) {
+  //             //get better resolution of image
+  //             photo = `${user.photoURL}?type=large`;
+  //           } else {
+  //             photo = '';
+  //           }
+  //           dbAuth.createNewUser(user.uid, user.email, 'facebook', photo, () => {
+  //             firebaseAuth.sendVerificationEmail(() => {
+  //               window.location.replace(lnk.pgSettUser);
+  //             });
+  //           });
+  //         }
+  //       })
+  //     }
+  //   });
+  // }
+
   function _registerWithFacebook() {
     firebaseAuth.facebookSignin((error, user) => {
-      if (error == "auth/account-exists-with-different-credential") {
-        $errorForGoogleAndFb.html("L'Account è già registrato con email o google. Riprova");
-        return;
-      }
-      if ($userRole.val() === 'professionals') {
-        //IF IS PROFESSIONAL
-        dbAuth.isUserExistent(user.uid, (exist) => {
-          //IF PROFILE ALREADY CREATED
-          if (exist) {
-            //check if is a professional
-            dbAuth.isProfessional(uid).
-            then(isProf => {
-              if (isProf) {
-                window.location.replace(lnk.pgSettProf);
-              } else {
-                //error
-                $errorForGoogleAndFb.html("L'Account Facebook gia registrato come utente, scegli un'altro account.");
-                firebase.auth().signOut();
-                return;
-              }
-            });
-          } else {
-            //CREATE PROFILE
-            var photo;
-            if (user.photoURL !== '' || user.photoURL !== null) {
-              //get better resolution of image
-              photo = `${user.photoURL}?type=large`;
-            } else {
-              photo = '';
-            }
-            dbAuth.createNewProfe(user, 'facebook')
-              .then(() => {
-                firebaseAuth.sendVerificationEmail(() => {
-                  window.location.replace(lnk.pgSettProf);
-                });
-              });
-          }
-        })
-      } else if ($userRole.val() === 'users') {
-        //IF IS USER
-        dbAuth.isUserExistent(user.uid, (exist) => {
-          //IF PROFILE ALREADY CREATED
-          if (exist) {
-            //check if is a user
+      var getUserIfRegistered = firebase.functions().httpsCallable('getUserIfRegistered');
+      _removeErrors();
+      $section.css('pointer-events', 'none');
+      $regBox.prepend(_getLoadingCircle());
 
-            dbAuth.isUser(uid).
-            then(isUser => {
-              if (isUser) {
-                window.location.replace(lnk.pgSettUser);
-              } else {
-                //error
-                $errorForGoogleAndFb.html("L'Account Facebook gia registrato come professionista, scegli un'altro account.");
-                firebase.auth().signOut();
-                return;
-              }
-            })
-          } else {
-            //CREATE PROFILE
-            var photo;
-            if (user.photoURL !== '' || user.photoURL !== null) {
-              //get better resolution of image
-              photo = `${user.photoURL}?type=large`;
-            } else {
-              photo = '';
-            }
-            dbAuth.createNewUser(user.uid, user.email, 'facebook', photo, () => {
-              firebaseAuth.sendVerificationEmail(() => {
-                window.location.replace(lnk.pgSettUser);
-              });
-            });
-          }
-        })
+      if ($userRole.val() === 'professionals') {
+        /**
+         * register professional
+         */
+        getUserIfRegistered({ uid: user.user.uid })
+          .then(response => {
+            _removeLoadingCircle();
+            $section.css('pointer-events', 'auto');
+
+            var savedUser = response;
+            var loggedUser = user;
+            _createProfessionalOrError(savedUser, loggedUser, 'facebook');
+
+          })
+      } else if ($userRole.val() === 'users') {
+        /**
+         * register user
+         */
+        getUserIfRegistered({ uid: user.user.uid })
+          .then(response => {
+            _removeLoadingCircle();
+            $section.css('pointer-events', 'auto');
+
+            var savedUser = response;
+            var loggedUser = user;
+            _createUserOrError(savedUser, loggedUser, 'facebook');
+
+          })
       }
     });
   }
@@ -224,12 +264,20 @@
 
 
   function _createProfessionalOrError(savedUser, loggedUser, provider) {
+    var setUserEmailVerified = firebase.functions().httpsCallable('setUserEmailVerified');
     if (savedUser.data == null) { //if user not registered
       //create account
-      console.log(loggedUser)
       dbAuth.createNewProfe(loggedUser, provider)
         .then(() => {
-          window.location.replace(lnk.pgSettProf);
+          if (provider == 'facebook') {
+            //verify first
+            setUserEmailVerified({ uid: loggedUser.user.uid })
+              .then(response => {
+                window.location.replace(lnk.pgSettProf);
+              })
+          } else {
+            window.location.replace(lnk.pgSettProf);
+          }
         });
       return;
 
@@ -250,11 +298,22 @@
 
 
   function _createUserOrError(savedUser, loggedUser, provider) {
+    var setUserEmailVerified = firebase.functions().httpsCallable('setUserEmailVerified');
     if (savedUser.data == null) { //if user not registered
       //create account
       dbAuth.createNewUser(loggedUser, provider)
         .then(() => {
-          window.location.replace(lnk.pgSettUser);
+          console.log(provider + ' user created: ' + loggedUser)
+          if (provider == 'facebook') {
+            //verify first
+            setUserEmailVerified({ uid: loggedUser.user.uid })
+              .then(response => {
+                console.log(response)
+                window.location.replace(lnk.pgSettUser);
+              })
+          } else {
+            window.location.replace(lnk.pgSettUser);
+          }
         });
       return;
 

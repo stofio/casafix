@@ -20,7 +20,6 @@ var loadPage = (function() {
         return;
       }
     }
-    console.log(uid)
     if (uid == false) {
       //not logged in
       if (notLoggedLinkRed == false) {
@@ -73,7 +72,6 @@ var loadPage = (function() {
     }
 
   }
-
 
   return {
     loadPageOnAuth: loadPageOnAuth

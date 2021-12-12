@@ -2786,3 +2786,99 @@ mark a {
 .two-btn-row a {
   width: 49%;
 }
+
+#what-is-it .row {
+  max-width: 800px;
+  margin: 0 auto;
+}
+
+#what-is-it .page-hero p {
+  font-size: 20px;
+}
+
+#what-is-it .page-hero img {
+  width: 250px;
+  padding: 0 25px;
+}
+
+#what-is-it .page-hero h1 {
+  font-size: 40px;
+  font-weight: 600;
+}
+
+#what-is-it .page-hero {
+  display: flex;
+}
+
+#what-is-it .hero-left {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding-left: 30px;
+}
+
+#what-is-it .text-with-image img {
+  width: 100%;
+  border-radius: 200px;
+}
+
+#what-is-it .text-with-image h2 {
+  font-size: 28px;
+  font-weight: 600;
+}
+
+#what-is-it .text-with-image {
+  align-items: center;
+}
+
+@media(min-width: 768px) {
+  #what-is-it .text-with-image {
+    min-height: 288px;
+  }
+}
+
+#what-is-it a {
+  color: #fb743e;
+}
+
+#what-is-it .subtitle {
+  text-align: center;
+  font-weight: 600;
+  font-size: 40px;
+}
+
+#come-funz .come-funz-content {
+  max-width: 800px;
+  margin: 0 auto;
+}
+
+#come-funz .come-funz-content h1 {
+  font-size: 40px;
+  font-weight: 600;
+}
+
+#come-funz .come-funz-content h3 {
+  font-size: 30px;
+  font-weight: 600;
+}
+
+#come-funz .step-sec img {
+  width: 100%;
+  border-radius: 50px;
+  border: solid 1px rgba( 0 0 0 / 8%);
+}
+
+#come-funz .step-sec .step-text {
+  display: flex;
+  align-items: center;
+}
+
+@media(max-width: 768px) {
+  #come-funz .step-sec img {
+    max-width: 300px;
+    margin: 0 auto;
+  }
+  #come-funz .step-sec .step-text {
+    padding-left: 15px !important;
+  }
+}

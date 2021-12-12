@@ -103,6 +103,15 @@ var dbProfile = (function() {
 
   function isMyFavourite(uid) {
     return new Promise((resolve, reject) => {
+      console.log(firebase.auth().currentUser)
+      if (firebase.auth().currentUser == null) {
+        //hide hearth
+        $('.save-to-favorite').hide(0);
+        //change contact button
+        $('.sendMessage').prepend('Accedi & ');
+        resolve(false);
+        return;
+      }
       var currentUid = firebase.auth().currentUser.uid;
       var myFavourite = database.collection('favourites').doc(currentUid).collection('my_favourites');
       myFavourite.doc(uid).get()

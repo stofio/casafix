@@ -1,11 +1,13 @@
 // Your web app's Firebase configuration
 var firebaseConfig = {
-  apiKey: "AIzaSyD1D0cv0StEp477eLCvwoSQlT1a4-ZtULA",
-  authDomain: "casafix3-c5f9f.firebaseapp.com",
-  projectId: "casafix3-c5f9f",
-  storageBucket: "casafix3-c5f9f.appspot.com",
-  messagingSenderId: "416695565807",
-  appId: "1:416695565807:web:65b5ad530657a0c6b14a1a"
+  apiKey: "AIzaSyBSUfbIiZ4xD5PTmswXQ12SzF9NKDKxkBY",
+  authDomain: "casafix-d0367.firebaseapp.com",
+  databaseURL: "https://casafix-d0367-default-rtdb.firebaseio.com",
+  projectId: "casafix-d0367",
+  storageBucket: "casafix-d0367.appspot.com",
+  messagingSenderId: "433805847073",
+  appId: "1:433805847073:web:8f885d89cf162420809160",
+  measurementId: "G-KNKNS28147"
 };
 // Initialize Firebase
 firebase.initializeApp(firebaseConfig);

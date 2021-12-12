@@ -35,8 +35,12 @@
       var prog_width = per_inc + Number(document.getElementById("progress_width").value);
       document.getElementById("progress_width").value = prog_width;
       $("#bar1").animate({ width: prog_width + "%" }, 10, function() {
-        if (document.getElementById("bar1").style.width == "100%") {
+        var bar_width = document.getElementById("bar1").style.width
+        bar_num = bar_width.replace('%', '');
+        if (bar_num > 99) {
+          console.log('asdsa')
           $(".progress-page-bar").fadeOut("slow");
+          $('.progress-bar-container').fadeOut();
         }
       });
     } else {

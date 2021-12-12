@@ -38,6 +38,7 @@ var profProfMainInfo = (function() {
     var url = new URL(url_string);
     uid = url.searchParams.get("uid");
 
+
     prof_uid = uid;
 
     $profUid.val(uid);
@@ -62,9 +63,12 @@ var profProfMainInfo = (function() {
   }
 
   function _goToChat() {
-    console.log(firebase.auth().currentUser.uid);
-    var room = firebase.auth().currentUser.uid + '-' + $profUid.val();
-    window.location.replace(lnk.pgMessages + `?room=${room}`);
+    if (firebase.auth().currentUser == null) {
+      window.location.replace(lnk.pgRegistration);
+    } else {
+      var room = firebase.auth().currentUser.uid + '-' + $profUid.val();
+      window.location.replace(lnk.pgMessages + `?room=${room}`);
+    }
   }
 
 
@@ -90,7 +94,6 @@ var profProfMainInfo = (function() {
       $favourites.find('i').addClass('press');
     }
   }
-
 
 
   return {
